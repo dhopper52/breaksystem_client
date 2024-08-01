@@ -1,0 +1,22 @@
+.rdt_TableCol_Sortable {
+  font-size: 16px;
+  color: white;
+  font-weight: 600;
+}
+.rdt_TableCol {
+  background-color: #063335 !important;
+  color: white !important;
+}
+.ReactDataTable {
+  margin-top: 20px !important;
+}
+.sc-aYaIB.fzvXhU.rdt_Table {
+  height: 50vh;
+}
+div#cell-usedBreaks-undefined {
+  display: flex;
+  justify-content: center;
+}
+.sc-feUYzb.kfxOgr {
+  min-height: 70vh !important;
+}

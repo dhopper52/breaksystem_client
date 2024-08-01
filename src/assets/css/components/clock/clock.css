@@ -1,0 +1,50 @@
+.clock-circle {
+  border: 2px solid;
+  width: 133px;
+  height: 133px;
+  border-radius: 75px;
+  border-style: dotted;
+}
+.clock-container {
+  /* border: 1px solid #0000001f; */
+  padding: 16px;
+  border-radius: 20px;
+}
+.clock-outer {
+  /* border: 1px solid; */
+  /* border-radius: 15px; */
+  padding: 19px 0 12px 0;
+  /* background-color: #80808017; */
+
+  /* width: 300px;
+  padding: 20px;
+  margin: 20px; */
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+.clock-outer:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1), 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: 25% 25% 25%;
+  justify-content: center;
+  gap: 36px;
+}
+@media (max-width: 1000px) {
+  .grid-container {
+    grid-template-columns: 260px;
+    justify-content: center;
+    flex: 0 0 auto;
+  }
+}
+
+@media (max-width: 900px) {
+  .grid-container {
+    grid-template-columns: 260px;
+    justify-content: center;
+    flex: 0 0 auto;
+  }
+}

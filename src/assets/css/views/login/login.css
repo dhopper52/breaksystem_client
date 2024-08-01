@@ -1,0 +1,39 @@
+.default-color {
+  color: #70bbfd;
+}
+.submitButton {
+  min-width: 100%;
+  border-radius: 5px !important;
+  background: #70bbfd;
+  text-align: center !important;
+  font-size: 15px !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+  line-height: 24px !important;
+  letter-spacing: -0.264px !important;
+  height: 43px !important;
+  border: none !important;
+}
+.bg-gray {
+  background-color: #f2f4f7;
+}
+.color-gray {
+  color: gray;
+}
+.light-black {
+  color: #635555;
+}
+.form-label {
+  font-weight: 400;
+}
+.border-left {
+  border-left: 5px solid #70bbfd;
+}
+.error-text {
+  color: red;
+  font-size: 12px;
+  margin-left: 2px;
+}
+.error-border {
+  border-color: red;
+}

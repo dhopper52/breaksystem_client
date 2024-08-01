@@ -1,0 +1,54 @@
+.icon-div {
+  font-size: 18px;
+  color: #ff6a00;
+  width: 61px;
+  height: 60px;
+  background-color: #ff6a0017;
+  margin-right: 13px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  border-radius: 10px;
+}
+
+.project-text {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px !important;
+  color: grey;
+}
+.project-quantity {
+  margin-bottom: 0px !important;
+  color: grey;
+  font-size: 18px;
+  font-weight: 600;
+}
+.hero-banner-container {
+  margin-top: 44px;
+}
+.hero-banner {
+  background-color: #f6f7fb;
+  border-radius: 15px;
+}
+.user-color {
+  color: #551fff;
+  background-color: #551fff21;
+}
+.supervisor-color {
+  color: #00b7fe;
+  background-color: #00b7fe2e;
+}
+.dashboard-container input {
+  border-radius: 7px !important;
+}
+ 
+.react-time-picker__wrapper {
+  border: thin solid #80808052 !important;
+}
+.value{
+   background-color: #8080806e;
+  border-radius: 5px;
+}
+.key{
+  font-size: 17px;
+}

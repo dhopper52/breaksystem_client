@@ -1,0 +1,27 @@
+@import "../views/login/login.css";
+@import "../views/dashboard/dashboard.css";
+@import "../components/navBar/navBar.css";
+@import "../components/sidebar/sidebar.css";
+@import "../systemStyle/systemStyle.css";
+@import "~react-toastify/dist/ReactToastify.css";
+@import "../components/clock/clock.css";
+@import "../views//users//users.css";
+@import "react-time-picker/dist/TimePicker.css";
+@import "react-clock/dist/Clock.css";
+@import "../components/table/table.css";
+@import "react-datepicker/dist/react-datepicker.css";
+
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}

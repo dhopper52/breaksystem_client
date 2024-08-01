@@ -1,0 +1,155 @@
+:root {
+  --color-default: #116466;
+  --color-second: #0067ac;
+  --color-white: #fff;
+  --color-body: #e4e9f7;
+  --color-light: #e0e0e0;
+}
+
+* {
+  padding: 0%;
+  margin: 0%;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  text-decoration: none !important;
+}
+
+body {
+  min-height: 100vh;
+}
+
+.sidebar {
+  min-height: 100vh;
+  width: 78px;
+  padding: 6px 14px;
+  z-index: 99;
+  background-color: #212529;
+  transition: all 0.5s ease;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.sidebar li {
+  position: relative;
+  margin: 8px 0;
+  list-style: none;
+}
+
+img,
+svg {
+  vertical-align: middle;
+  color: white;
+}
+ 
+.LogoutText {
+  margin-top: 5px;
+  font-weight: 600;
+  color: white;
+  margin-left: -5px;
+}
+.zIndex1 {
+  z-index: 1;
+}
+.zIndex2 {
+  z-index: 2;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+}
+
+main {
+  width: 100%;
+  padding: 20px;
+  overflow-x: auto;
+  transition: all 0.5s ease;
+}
+
+.top_section {
+  margin-top: -10px;
+
+  display: flex;
+  align-items: center;
+  padding-top: 20px;
+}
+.logo {
+  font-size: 30px;
+  color: white;
+}
+
+.bars {
+  display: flex;
+  font-size: 20px;
+  margin-left: 50px;
+  position: absolute;
+  z-index: 50;
+}
+
+.linknav {
+  display: flex;
+  color: #fff;
+  padding: 10px 15px;
+  gap: 15px;
+  transition: all 0.5s;
+}
+.linknav:hover {
+  background: #063335;
+  color: #000;
+  transition: all 0.5s;
+  border-radius: 5px;
+}
+.active {
+  background: #063335;
+  color: #000;
+  border-radius: 5px;
+}
+.icon,
+.link_text {
+  font-size: 14px;
+}
+ul {
+  padding-left: 0rem !important;
+}
+.link_text {
+  color: white;
+}
+.logo-text {
+  font-size: 19px;
+  font-weight: 500;
+}
+.linknav .icon svg {
+  font-size: 20px;
+}
+.fixed-bottom {
+  width: 200px;
+  position: fixed !important;
+  bottom: 0px !important;
+  left: 13px;
+}
+.bottom-close-width {
+  width: 50px !important;
+}
+.bottom-open-width {
+  width: 200px !important;
+}
+.display-none {
+  display: none;
+}
+.display-block {
+  display: block;
+}
+.dropdown-toggle::after {
+  border-right: 0 solid transparent !important;
+  border-bottom: 0 !important;
+  border-left: 0 solid transparent !important;
+}
+
+.color-black {
+  color: #000;
+}
+.linknav .fa-right-from-bracket{
+  color: white;
+}

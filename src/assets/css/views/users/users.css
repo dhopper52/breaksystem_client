@@ -1,0 +1,99 @@
+.fieldSignup .Form-labels {
+  color: black !important;
+}
+.react-datepicker__input-container input {
+  height: 41px !important;
+  padding: 10px;
+  border-color: #80808024;
+  /* margin-left: 12px; */
+}
+.react-datepicker-popper {
+  z-index: 2 !important;
+  line-height: 0;
+}
+.filter-container {
+  background-color: #80808021;
+  margin-top: 26px;
+  padding: 20px 40px;
+  border-radius: 10px;
+  margin-bottom: 26px;
+}
+.search .form-label {
+  color: black !important;
+}
+.search .row .col {
+  padding-left: 13px;
+}
+
+/* @media (min-width: 768px) {
+  .search .col .row .col {
+    display: flex;
+    flex: 0 0 auto;
+    width: 100%;
+  }
+
+  .search .react-datepicker-wrapper,
+  .search .react-datepicker-wrapper input {
+    width: 100%;
+  }
+} */
+@media (min-width: 768px) {
+  .search .col .row .col {
+    display: flex;
+    flex: 0 0 auto;
+    width: 100%;
+  }
+
+  .search .react-datepicker-wrapper,
+  .search .react-datepicker-wrapper input {
+    width: 100%;
+  }
+}
+/* @media (max-width: 768px) {
+  .search-two .col .row .col {
+    display: block;
+    flex: 0 0 auto;
+    width: 100%;
+  }
+
+  .search-two .react-datepicker-wrapper,
+  .search-two .react-datepicker-wrapper input {
+    width: 100%;
+  }
+} */
+@media (max-width: 767.98px) {
+  .search .col {
+    display: block;
+    flex: 0 0 auto;
+    width: 100%;
+  }
+
+  .search .react-datepicker-wrapper,
+  .search .react-datepicker-wrapper input {
+    width: 100%;
+  }
+}
+
+/* @media (min-width: 992px) {
+  .react-datepicker-wrapper {
+    display: flex !important;
+    flex: 0 0 auto !important;
+    width: 50% !important;
+  }
+  .react-datepicker-wrapper input {
+    display: flex !important;
+    flex: 0 0 auto !important;
+    width: 50% !important;
+  }
+  .responsive-4 {
+    flex: 0 0 auto;
+    width: 50%;
+  }
+} */
+/* 
+@media (min-width: 768px) {
+  .responsive-6 {
+    flex: 0 0 auto;
+    width: 50%;
+  }
+} */
