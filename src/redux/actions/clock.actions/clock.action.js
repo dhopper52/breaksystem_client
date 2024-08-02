@@ -30,7 +30,7 @@ export const stopClock = (data) => {
   return async (dispatch) => {
     try {
       const response =
-        data.usedbreaks.length >= 1
+        data.usedbreaks.length >=1
           ? await breakServices.updateBreak(data)
           : await breakServices.createBreak(data);
 
