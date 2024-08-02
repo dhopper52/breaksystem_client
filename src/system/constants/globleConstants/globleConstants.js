@@ -20,11 +20,11 @@ export const sidebarMenuItem = [
     name: "Monthly Report",
     icon: <FaPoll />,
   },
-  {
-    path: "/test",
-    name: "Test",
-    icon: <FaPoll />,
-  },
+  // {
+  //   path: "/test",
+  //   name: "Test",
+  //   icon: <FaPoll />,
+  // },
 ];
 export const localStorageConstants = {
   CURRENT_USER: "currentUser",
