@@ -1,11 +1,11 @@
 import axios from "axios";
 import { Url } from "../../system/constants/globleConstants/globleConstants";
 
-const { BASE_URL, LOGIN, SIGNUP, GET_FLOOR } = Url;
+const { BASE_URL, LOGIN, SIGNUP, GET_FLOOR,AUTH } = Url;
 
 function login(data) {
   return axios
-    .post(`${BASE_URL}/${LOGIN}`, data)
+    .post(`${BASE_URL}/${AUTH}/${LOGIN}`, data)
     .then((response) => response.data)
     .catch((error) => {
       console.log("Login error:", error);
@@ -15,7 +15,7 @@ function login(data) {
 
 function signUp(data) {
   return axios
-    .post(`${BASE_URL}/${SIGNUP}`, data)
+    .post(`${BASE_URL}/${AUTH}/${SIGNUP}`, data)
     .then((response) => response.data)
     .catch((error) => {
       console.log("Sign-up error:", error);
@@ -24,7 +24,7 @@ function signUp(data) {
 }
 function getFloor() {
   return axios
-    .get(`${BASE_URL}/${GET_FLOOR}`)
+    .get(`${BASE_URL}/${AUTH}/${GET_FLOOR}`)
     .then((response) => response.data)
     .catch((error) => {
       console.log(error);

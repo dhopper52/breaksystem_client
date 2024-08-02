@@ -146,6 +146,9 @@ export const Url = {
   GET_MONTHLY_BREAKS: "getBreaksMonthly",
   LOGIN: "login",
   SIGNUP: "signup",
+  AUTH: "auth",
+  USER: "user",
+  BREAK: "break",
 };
 export const authConstants = {
   Failed: "failed",

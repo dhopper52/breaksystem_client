@@ -10,11 +10,12 @@ const {
   GET_MONTHLY_BREAKS,
   CREATE_BREAK,
   UPDATE_BREAK,
+  BREAK,
 } = Url;
 
 export function getCurrentBreak(data) {
   return axios
-    .post(`${BASE_URL}/${GET_CURRENT_BREAK}`, data)
+    .post(`${BASE_URL}/${BREAK}/${GET_CURRENT_BREAK}`, data)
     .then((response) => response.data)
     .catch((error) => {
       console.log(error);
@@ -24,7 +25,7 @@ export function getCurrentBreak(data) {
 
 function createBreak(data) {
   return axios
-    .post(`${BASE_URL}/${CREATE_BREAK}`, data, {
+    .post(`${BASE_URL}/${BREAK}/${CREATE_BREAK}`, data, {
       headers: {
         "auth-token": localUser.authToken,
       },
@@ -38,7 +39,7 @@ function createBreak(data) {
 
 function updateBreak(data) {
   return axios
-    .put(`${BASE_URL}/${UPDATE_BREAK}`, data, {
+    .put(`${BASE_URL}/${BREAK}/${UPDATE_BREAK}`, data, {
       headers: {
         "auth-token": localUser.authToken,
       },
@@ -52,7 +53,7 @@ function updateBreak(data) {
 
 export function getDailyReport(data) {
   return axios
-    .post(`${BASE_URL}/${GET_DAILY_BREAKS}`, data)
+    .post(`${BASE_URL}/${BREAK}/${GET_DAILY_BREAKS}`, data)
     .then((response) => response.data)
     .catch((error) => {
       console.log(error);
@@ -66,7 +67,7 @@ function getMonthlyReport(data) {
   console.log(localUser);
   return axios
     .post(
-      `${BASE_URL}/${GET_MONTHLY_BREAKS}`,
+      `${BASE_URL}/${BREAK}/${GET_MONTHLY_BREAKS}`,
       data
       //      {
       //   headers: {

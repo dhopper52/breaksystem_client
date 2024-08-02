@@ -3,12 +3,12 @@ import axios from "axios";
 import { Url } from "../../system/constants/globleConstants/globleConstants";
 import { getCurrentUserLocalStorage } from "../../system/storageUtilites/storageUtilities";
 import { getDailyReport } from "../break.services/break.services";
-const { BASE_URL, GET_USER, CREATE_USER, GET_USERS } = Url;
+const { BASE_URL, GET_USER, CREATE_USER, GET_USERS, USER } = Url;
 const localUser = getCurrentUserLocalStorage();
 
 function getUser(data) {
   return axios
-    .post(`${BASE_URL}/${GET_USER}`, data)
+    .post(`${BASE_URL}/${USER}/${GET_USER}`, data)
     .then((response) => response)
     .catch((error) => {
       console.log(error);
@@ -18,7 +18,7 @@ function getUser(data) {
 
 function getUsers(data) {
   return axios
-    .post(`${BASE_URL}/${GET_USERS}`, data)
+    .post(`${BASE_URL}/${USER}/${GET_USERS}`, data)
     .then((response) => response)
     .catch((error) => {
       console.log(error);
@@ -29,7 +29,7 @@ function getUsers(data) {
 function createUser(data) {
   console.log(localUser);
   return axios
-    .post(`${BASE_URL}/${CREATE_USER}`, data, {
+    .post(`${BASE_URL}/${USER}/${CREATE_USER}`, data, {
       headers: {
         "auth-token": localUser.authToken,
       },
