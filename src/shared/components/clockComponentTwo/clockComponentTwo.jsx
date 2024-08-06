@@ -21,6 +21,7 @@ const ClockComponentTwo = (data) => {
     breakTimeValue,
     breakType,
     breakKey,
+    count,
   } = data?.data;
 
   console.log(id, "id");
@@ -68,50 +69,20 @@ const ClockComponentTwo = (data) => {
     );
     if (breakInfo) {
       dispatch(
-        // stopClock({
-        //   userId: id,
-        //   _id: breakInfo?._id,
-        //   name: user?.name,
-        //   id: id,
-        //   shiftHours: user?.shiftHours,
-        //   floorId: user?.floorId,
-        //   //   totalBreakTime: totalBreakTime,
-        //   emergencyShortBreak:
-        //     breakType === breakTypeCheck?.EMERGENCY_BREAK
-        //       ? Math.floor(actualUsedTimeMinutes)
-        //       : 0,
-        //   date: breakInfo?.date,
-        //   fine:
-        //     breakType === breakTypeCheck?.EMERGENCY_BREAK
-        //       ? breakInfo?.fine + 0
-        //       : relaxUsedTime <= newBreakTime
-        //       ? breakInfo?.fine + 0
-        //       : breakInfo?.fine + 500,
-        //   breakTime: [
-        //     ...breakInfo?.breakTime,
-        //     breakType === breakTypeCheck?.EMERGENCY_BREAK
-        //       ? null
-        //       : breakTimingList,
-        //   ],
-        //   usedbreaks: [
-        //     ...breakInfo?.usedbreaks,
-        //     breakType === breakTypeCheck?.EMERGENCY_BREAK
-        //       ? null
-        //       : usedBreaksList,
-        //   ],
-        // })
-
+  
         stopClock({
           userId: id,
           id: id,
           _id: breakInfo?._id,
           name: user?.name,
+          count: count + 1,
           shiftHours: user?.shiftHours,
           floorId: user?.floorId,
           emergencyShortBreak:
             breakType === breakTypeCheck?.EMERGENCY_BREAK
-              ? Math.floor(actualUsedTimeMinutes)
-              : 0,
+              ? (breakInfo?.emergencyShortBreak || 0) +
+                Math.floor(actualUsedTimeMinutes)
+              : breakInfo?.emergencyShortBreak,
           date: breakInfo?.date,
           fine:
             breakType === breakTypeCheck?.EMERGENCY_BREAK
@@ -142,9 +113,11 @@ const ClockComponentTwo = (data) => {
           shiftHours: user?.shiftHours,
           floorId: user?.floorId,
           user: user,
+          count: 1,
           emergencyShortBreak:
             breakType === breakTypeCheck?.EMERGENCY_BREAK
-              ? Math.floor(actualUsedTimeMinutes)
+              ? (breakInfo?.emergencyShortBreak || 0) +
+                Math.floor(actualUsedTimeMinutes)
               : 0,
           fine:
             breakType === breakTypeCheck?.EMERGENCY_BREAK
