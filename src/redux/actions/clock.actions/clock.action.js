@@ -19,6 +19,8 @@ export const startClock = (data) => ({
     breakTimeValue: data?.breakTimeValue,
     breakType: data?.breakType,
     breakKey: data?.breakKey,
+    count: data?.count,
+
   },
 });
 export const stopClock = (data) => {
@@ -30,7 +32,7 @@ export const stopClock = (data) => {
   return async (dispatch) => {
     try {
       const response =
-        data.usedbreaks.length >=1
+        data.count > 1
           ? await breakServices.updateBreak(data)
           : await breakServices.createBreak(data);
 
