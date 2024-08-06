@@ -77,6 +77,7 @@ const SearchModal = (props) => {
         user: props?.userData?.user[0],
         breakInfo: props?.userData?.break[0],
         breakType: data?.breakType,
+        count: props?.userData?.break[0]?.count,
         breakKey:
           data?.breakType === breakTypeCheck?.EMERGENCY_BREAK
             ? "120"
