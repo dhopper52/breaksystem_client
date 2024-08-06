@@ -8,7 +8,7 @@ import {
 const initialState = {};
 
 const clockReducer = (state = initialState, action) => {
-  const { id, user, breakInfo, breakTimeValue, breakType, breakKey } =
+  const { id, user, breakInfo, breakTimeValue, breakType, breakKey, count  } =
     action.payload || {};
   switch (action.type) {
     case START_CLOCK:
@@ -26,6 +26,8 @@ const clockReducer = (state = initialState, action) => {
             breakTimeValue: Number(breakTimeValue),
             breakType: breakType,
             breakKey: breakKey,
+            count: count,
+
           },
         };
       } else {
