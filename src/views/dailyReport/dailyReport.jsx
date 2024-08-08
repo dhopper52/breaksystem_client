@@ -74,7 +74,7 @@ const DailyReport = (props) => {
                   style={{ width: "36px", height: "32px" }}
                   key={index}
                 >
-                  {item.breakKey}
+                  {item.breakKey === 21 ? 20 : item.breakKey}
                 </div>
                 <div className="align-content-center">=</div>
                 <div
