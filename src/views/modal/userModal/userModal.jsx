@@ -74,8 +74,8 @@ const UserrModal = (props) => {
       setValue("name", props.row.name);
       setValue("shiftEnds", props.row.shiftEnds);
       setValue("shiftStarts", props.row.shiftStarts);
-      setValue("gender", props.row.gender);
-      setValue("phoneNumber", props.row.phoneNumber);
+      // setValue("gender", props.row.gender);
+      // setValue("phoneNumber", props.row.phoneNumber);
       setValue("shiftHours", props.row.shiftHours);
     }
   }, []);
@@ -149,7 +149,7 @@ const UserrModal = (props) => {
             </div>
           </div>
         </div>
-        <div className="row">
+{/*         <div className="row">
           {" "}
           <div className="col-lg-6 col-md-12">
             {" "}
@@ -206,7 +206,7 @@ const UserrModal = (props) => {
               )}
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="row">
           <div className="col-lg-6 col-md-12">
             {" "}
