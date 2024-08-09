@@ -138,7 +138,7 @@ const ClockComponentTwo = (data) => {
             breakType === breakTypeCheck?.EMERGENCY_BREAK
               ? 0
               // : relaxUsedTime <= newBreakTime
-              newBreakTime <= relaxUsedTime
+            :  newBreakTime <= relaxUsedTime
               ? 0
               : 500,
           breakTime: [
