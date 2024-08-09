@@ -106,7 +106,7 @@ const getSearchUser = (data) => {
 const getUsersLength = (data) => {
   return async (dispatch) => {
     try {
-      const response = await userServices.getUsers(data);
+      const response = await userServices.getUser(data);
       console.log(response?.data);
 
       if (response?.data?.status === authConstants.Success) {
