@@ -57,17 +57,11 @@ const User = (props) => {
           ? Number(data.floorId)
           : localUser?._id,
 
-      // localUser._id,
-    };
-    props.getSearchUser(dataObj);
-    // setactionType({
-    //   rowData: {
-    //     action: action.Search,
-    //     heading: "Search",
-    //     size: "md",
-    //   },
-    // });
-    // props.handleModal();
+     };
+
+     props.getUserList(dataObj)
+    // props.getSearchUser(dataObj);
+ 
   };
   const headers = [
     {
@@ -170,27 +164,32 @@ const User = (props) => {
   ];
   console.log(props.userData);
 
-  useEffect(() => {
-    if (props?.userData?.userData?.length >= 1) {
-      setUserListData(props?.userData?.userData);
-      console.log(
-        props?.userData?.userData,
-        "    console.log(props.userData   "
-      );
-    }
-  }, [props?.userData]);
+  // useEffect(() => {
+  //   if (props?.userData?.userData?.length >= 1) {
+  //     setUserListData(props?.userData?.userData);
+  //     console.log(
+  //       props?.userData?.userData,
+  //       "    console.log(props.userData   "
+  //     );
+  //   }
+  // }, [props?.userData]);
 
   useEffect(() => {
     setUserListData(props?.userListcount?.data);
   }, [props?.userListcount?.data]);
 
+  // useEffect(() => {
+  //   props.getUserList(
+  //     localUser?.role === roleType.SUPER_ADMIN ? "" : { floorId: localUser._id }
+  //   );
+  //   props.getFloor();
+  // }, [props?.modalOpen === false, props?.clockData, dispatch]);
   useEffect(() => {
     props.getUserList(
       localUser?.role === roleType.SUPER_ADMIN ? "" : { floorId: localUser._id }
     );
-    props.getFloor();
-  }, [props?.modalOpen === false, props?.clockData, dispatch]);
-
+    // props.getFloor();
+  }, []);
   return (
     <div className="dashboard-container">
       <h3>Users</h3>
