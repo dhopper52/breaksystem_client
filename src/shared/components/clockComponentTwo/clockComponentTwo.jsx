@@ -47,12 +47,23 @@ const ClockComponentTwo = (data) => {
     const startTimeInMilliseconds = new Date(startTime).getTime();
     const stopTimeInMilliseconds = new Date().getTime();
     const actualUsedTime = stopTimeInMilliseconds - startTimeInMilliseconds;
-    const seconds = actualUsedTime / 1000;
-    const actualUsedTimeMinutes = seconds / 60;
-    console.log(Math.floor(actualUsedTimeMinutes));
-    const newBreakTime = breakTimeValue * 60 * 1000;
-    const relaxUsedTime =
-      new Date().getTime() - new Date(startTime).getTime() + 30 * 1000;
+    const newSeconds = Math.floor((actualUsedTime / 1000) % 60);
+    const minutes = Math.floor(actualUsedTime / 1000 / 60);
+    const actualUsedTimeMinutes = `${minutes}.${newSeconds
+      .toString()
+      .padStart(2, "0")}`;
+    console.log(actualUsedTimeMinutes, "actualUsedTimeMinutes");
+
+    // const seconds = actualUsedTime / 1000;
+    // const actualUsedTimeMinutes = seconds / 60;
+    // console.log(Math.floor(actualUsedTimeMinutes));
+    // const newBreakTime = breakTimeValue * 60 * 1000;
+    const newBreakTime = new Date().getTime() - new Date(startTime).getTime();
+
+    const relaxUsedTime = breakTimeValue * 60 * 1000 + 30 * 1000;
+
+    // const relaxUsedTime =
+    //   new Date().getTime() - new Date(startTime).getTime() + 30 * 1000;
 
     const breakTimingList = {
       startTime: startPstTime,
@@ -61,7 +72,9 @@ const ClockComponentTwo = (data) => {
 
     const usedBreaksList = {
       breakKey: breakTimeValue,
-      breakValue: Math.floor(actualUsedTimeMinutes),
+      // breakValue: Math.floor(actualUsedTimeMinutes),
+      breakValue: actualUsedTimeMinutes,
+
     };
     console.log(
       Math.floor(actualUsedTimeMinutes),
@@ -69,7 +82,6 @@ const ClockComponentTwo = (data) => {
     );
     if (breakInfo) {
       dispatch(
-  
         stopClock({
           userId: id,
           id: id,
@@ -81,13 +93,15 @@ const ClockComponentTwo = (data) => {
           emergencyShortBreak:
             breakType === breakTypeCheck?.EMERGENCY_BREAK
               ? (breakInfo?.emergencyShortBreak || 0) +
-                Math.floor(actualUsedTimeMinutes)
+                // Math.floor(actualUsedTimeMinutes)
+                actualUsedTimeMinutes
               : breakInfo?.emergencyShortBreak,
           date: breakInfo?.date,
           fine:
             breakType === breakTypeCheck?.EMERGENCY_BREAK
               ? breakInfo?.fine + 0
-              : relaxUsedTime <= newBreakTime
+              // : relaxUsedTime <= newBreakTime
+              : newBreakTime <= relaxUsedTime
               ? breakInfo?.fine + 0
               : breakInfo?.fine + 500,
           breakTime: [
@@ -117,12 +131,14 @@ const ClockComponentTwo = (data) => {
           emergencyShortBreak:
             breakType === breakTypeCheck?.EMERGENCY_BREAK
               ? (breakInfo?.emergencyShortBreak || 0) +
-                Math.floor(actualUsedTimeMinutes)
+                // Math.floor(actualUsedTimeMinutes)
+                actualUsedTimeMinutes
               : 0,
           fine:
             breakType === breakTypeCheck?.EMERGENCY_BREAK
               ? 0
-              : relaxUsedTime <= newBreakTime
+              // : relaxUsedTime <= newBreakTime
+              newBreakTime <= relaxUsedTime
               ? 0
               : 500,
           breakTime: [
