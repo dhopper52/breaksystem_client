@@ -191,7 +191,7 @@ const MonthlyReport = (props) => {
                 <div className="align-content-center">=</div>
                 <div
                   className={`m-1 ${
-                    item.breakKey < item.breakValue ? "bg-danger" : "bg-success"
+                    item.breakKey + 0.3 < item.breakValue ? "bg-danger" : "bg-success"
                   } p-2 text-bg-danger text-center`}
                   style={{ width: "36px", height: "32px" }}
                   key={index}
