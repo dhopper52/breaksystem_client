@@ -93,9 +93,8 @@ const ClockComponentTwo = (data) => {
           emergencyShortBreak:
             breakType === breakTypeCheck?.EMERGENCY_BREAK
               ? (breakInfo?.emergencyShortBreak || 0) +
-                // Math.floor(actualUsedTimeMinutes)
-                actualUsedTimeMinutes
-              : breakInfo?.emergencyShortBreak,
+                Math.floor(actualUsedTimeMinutes)
+               : breakInfo?.emergencyShortBreak,
           date: breakInfo?.date,
           fine:
             breakType === breakTypeCheck?.EMERGENCY_BREAK
@@ -131,9 +130,8 @@ const ClockComponentTwo = (data) => {
           emergencyShortBreak:
             breakType === breakTypeCheck?.EMERGENCY_BREAK
               ? (breakInfo?.emergencyShortBreak || 0) +
-                // Math.floor(actualUsedTimeMinutes)
-                actualUsedTimeMinutes
-              : 0,
+                Math.floor(actualUsedTimeMinutes)
+               : 0,
           fine:
             breakType === breakTypeCheck?.EMERGENCY_BREAK
               ? 0
