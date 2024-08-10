@@ -145,7 +145,7 @@ const User = (props) => {
           ></i>
           <i
             className="fa-solid fa-trash pointer me-2 colorText ps-2  fs-12"
-{/*             onClick={() => {
+            onClick={() => {
               onSetShow();
               setactionType({
                 rowData: {
@@ -156,7 +156,7 @@ const User = (props) => {
                   size: "md",
                 },
               });
-            }} */}
+            }}
           ></i>
          
         </div>
