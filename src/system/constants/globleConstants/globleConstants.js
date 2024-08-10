@@ -65,18 +65,21 @@ export const floorList = [
 ];
 export const breakListEight = [
   { id: 30, label: "30 Minutes", value: "30 Minutes" },
-  { id: 15, label: "15 Minutes", value: "15 Minutes" },
-  { id: 5, label: "5 Minutes", value: "5 Minutes" },
+   { id: 20, label: "20 Minutes", value: "20 Minutes" },
 ];
 export const breakListsEight = [
   { id: 30, label: "30 Minutes", value: "30 Minutes" },
-  { id: 15, label: "15 Minutes", value: "15 Minutes" },
-  { id: 5, label: "5 Minutes", value: "5 Minutes" },
+   { id: 20, label: "20 Minutes", value: "20 Minutes" },
 ];
 export const breakListTwelve = [
   { id: 30, label: "30 Minutes", value: "30 Minutes" },
   { id: 20, label: "20 Minutes", value: "20 Minutes" },
   { id: 21, label: "20 Minutes", value: "20 Minutes" },
+];
+export const breakListTen = [
+  { id: 30, label: "30 Minutes", value: "30 Minutes" },
+  { id: 20, label: "20 Minutes", value: "20 Minutes" },
+  { id: 10, label: "10 Minutes", value: "10 Minutes" },
 ];
 export const supervisorList = [
   { id: 1, label: "user1", value: "user1" },
