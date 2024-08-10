@@ -169,8 +169,65 @@ const SearchModal = (props) => {
                     //   disabled={isEdit}
                     onChange={breakKeyFn}
                   >
-                    {userState?.user?.shiftHours === shiftHours.Twelve ||
+{/*                     {userState?.user?.shiftHours === shiftHours.Twelve ||
                     userState?.user?.shiftHours === shiftHours.Ten ? (
+                      <>
+                        <option value="">Select Time</option>
+                        {breakListTwelve?.map((item) => {
+                          const isUsedBreak =
+                            breakState?.break?.usedbreaks.some(
+                              (breaks) => breaks?.breakKey === item?.id
+                            );
+                          if (!isUsedBreak) {
+                            return (
+                              <option key={item?.id} value={item?.id}>
+                                {item?.label}
+                              </option>
+                            );
+                          }
+                          return null;
+                        })}
+                      </>
+                    ) : (
+                      <>
+                        <option value="">Select Time</option>
+                        {breakListEight?.map((item) => {
+                          const isUsedBreak =
+                            breakState?.break?.usedbreaks.some(
+                              (breaks) => breaks?.breakKey === item?.id
+                            );
+                          console.log(isUsedBreak);
+                          if (!isUsedBreak) {
+                            return (
+                              <option key={item?.id} value={item?.id}>
+                                {item?.label}
+                              </option>
+                            );
+                          }
+                          return null;
+                        })}
+                      </>
+                    )} */}
+
+                      {userState?.user?.shiftHours === shiftHours.Ten ? (
+                      <>
+                        <option value="">Select Time</option>
+                        {breakListTen?.map((item) => {
+                          const isUsedBreak =
+                            breakState?.break?.usedbreaks.some(
+                              (breaks) => breaks?.breakKey === item?.id
+                            );
+                          if (!isUsedBreak) {
+                            return (
+                              <option key={item?.id} value={item?.id}>
+                                {item?.label}
+                              </option>
+                            );
+                          }
+                          return null;
+                        })}
+                      </>
+                    ) : userState?.user?.shiftHours === shiftHours.Twelve ? (
                       <>
                         <option value="">Select Time</option>
                         {breakListTwelve?.map((item) => {
