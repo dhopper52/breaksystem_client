@@ -144,7 +144,7 @@ const User = (props) => {
             }}
           ></i>
           <i
-            className="fa-solid fa-trash pointer me-2 colorText ps-2  fs-12"
+            className="fa-solid fa-trash pointer me-2 colorText ps-3  fs-12"
             onClick={() => {
               onSetShow();
               setactionType({
