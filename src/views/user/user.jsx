@@ -113,7 +113,7 @@ const User = (props) => {
       name: "Actions",
       cell: (row) => (
         <div>
-          {/* <i
+{/*           <i
             class="fa-solid fa-eye pointer me-2 fs-12"
             onClick={() => {
               onSetShow();
@@ -127,23 +127,8 @@ const User = (props) => {
                 },
               });
             }}
-          />{" "}
-          <i
-            className="fa-solid fa-trash pointer me-2 colorText  fs-12"
-            onClick={() => {
-              onSetShow();
-              setactionType({
-                rowData: {
-                  row: row,
-                  for: action.Break,
-                  action: action.Delete,
-                  heading: "Delete Daily Break",
-                  size: "md",
-                },
-              });
-            }}
-          ></i> */}
-          <i
+          />{" "} */}
+           <i
             class="fa-solid fa-pen-to-square pointer fs-12"
             onClick={() => {
               onSetShow();
@@ -158,6 +143,22 @@ const User = (props) => {
               });
             }}
           ></i>
+          <i
+            className="fa-solid fa-trash pointer me-2 colorText ps-2  fs-12"
+{/*             onClick={() => {
+              onSetShow();
+              setactionType({
+                rowData: {
+                  row: row,
+                  for: action.Break,
+                  action: action.Delete,
+                  heading: "Delete Daily Break",
+                  size: "md",
+                },
+              });
+            }} */}
+          ></i>
+         
         </div>
       ),
     },
