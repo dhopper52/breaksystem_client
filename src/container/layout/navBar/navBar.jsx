@@ -43,8 +43,7 @@ const NavBar = () => {
                 type="button"
                 onClick={() => navigate("/profile")}
               >
-                <i class="fa-solid fa-right-from-bracket" />
-                <span> Change Password</span>
+                <i class="fa-solid fa-unlock"></i> <span> Change Password</span>
               </button>
             </li>{" "}
             <li>
