@@ -3,7 +3,7 @@ import axios from "axios";
 import { Url } from "../../system/constants/globleConstants/globleConstants";
 import { getCurrentUserLocalStorage } from "../../system/storageUtilites/storageUtilities";
 import { getDailyReport } from "../break.services/break.services";
-const { BASE_URL, GET_USER, CREATE_USER, GET_USERS, USER } = Url;
+const { BASE_URL, GET_USER, CREATE_USER, GET_USERS, USER, DELETE_USER } = Url;
 const localUser = getCurrentUserLocalStorage();
 
 function getUser(data) {
@@ -41,8 +41,28 @@ function createUser(data) {
     });
 }
 
+function deleteUser(data) {
+  console.log(data, "delete data");
+  return axios
+    .delete(`${BASE_URL}/${USER}/${DELETE_USER}`, {
+      data: data,
+      headers: {
+        "auth-token": localUser.authToken,
+      },
+    })
+    .then((response) => {
+      console.log(response.data);
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+      throw error;
+    });
+}
+
 export const userServices = {
   getUser,
   createUser,
   getUsers,
+  deleteUser,
 };

@@ -37,11 +37,16 @@ const NavBar = () => {
             </span>
           </button>
           <ul class="dropdown-menu dropdown-menu-end ">
-            {/* <li>
-              <button class="dropdown-item" type="button">
-                <i class="fa-solid fa-user me-1"></i> <span>User Profile</span>
+            <li>
+              <button
+                class="dropdown-item"
+                type="button"
+                onClick={() => navigate("/profile")}
+              >
+                <i class="fa-solid fa-right-from-bracket" />
+                <span> Change Password</span>
               </button>
-            </li> */}
+            </li>{" "}
             <li>
               <button
                 class="dropdown-item"

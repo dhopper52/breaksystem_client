@@ -11,6 +11,7 @@ export const startClock = (data) => ({
   type: START_CLOCK,
   payload: {
     id: data?.id,
+    floorId: data?.floorId,
     startTime: Date.now(),
     running: true,
     elapsedTime: 0,

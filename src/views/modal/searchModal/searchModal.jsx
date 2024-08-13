@@ -17,8 +17,8 @@ import {
   action,
   breakListEight,
   breakListsEight,
-  breakType,  breakListTen,
-
+  breakType,
+  breakListTen,
   breakListTwelve,
   shiftHours,
   breakTypeCheck,
@@ -71,6 +71,7 @@ const SearchModal = (props) => {
     dispatch(
       startClock({
         id: userState?.user?._id,
+        floorId: userState?.user?.floorId,
         breakTimeValue:
           data?.breakType === breakTypeCheck?.EMERGENCY_BREAK
             ? "120"
@@ -170,7 +171,7 @@ const SearchModal = (props) => {
                     //   disabled={isEdit}
                     onChange={breakKeyFn}
                   >
-{/*                     {userState?.user?.shiftHours === shiftHours.Twelve ||
+                    {/*                     {userState?.user?.shiftHours === shiftHours.Twelve ||
                     userState?.user?.shiftHours === shiftHours.Ten ? (
                       <>
                         <option value="">Select Time</option>
@@ -210,7 +211,7 @@ const SearchModal = (props) => {
                       </>
                     )} */}
 
-                      {userState?.user?.shiftHours === shiftHours.Ten ? (
+                    {userState?.user?.shiftHours === shiftHours.Ten ? (
                       <>
                         <option value="">Select Time</option>
                         {breakListTen?.map((item) => {

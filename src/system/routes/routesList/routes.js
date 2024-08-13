@@ -4,6 +4,7 @@ import ImportUsersComponent from "../../../views/testView/testViews";
 import DailyReport from "../../../views/dailyReport/dailyReport";
 import MonthlyReport from "../../../views/monthlyReport/monthlyReport";
 import User from "../../../views/user/user";
+import Profile from "../../../views/profile/profile";
 
 const routes = [
   {
@@ -12,9 +13,16 @@ const routes = [
     component: <Dashboard />,
     protected: true,
     hasSideBar: true,
-  }, {
+  },
+  {
     path: "/user",
     component: <User />,
+    hasSideBar: true,
+    protected: true,
+  },
+  {
+    path: "/profile",
+    component: <Profile />,
     hasSideBar: true,
     protected: true,
   },

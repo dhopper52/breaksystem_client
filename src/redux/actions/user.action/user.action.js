@@ -176,10 +176,41 @@ const createUser = (data) => {
   };
 };
 
+const deleteUser = (data) => {
+  return async (dispatch) => {
+    try {
+      const response = await userServices.deleteUser(data);
+      console.log({ response });
+      if (response?.status === authConstants.Success) {
+        ToastifyUtilities.showSuccess("User Deleted Successfully");
+        dispatch({
+          type: modalConstants.ModalOpen,
+          payload: false,
+        });
+      } else {
+        ToastifyUtilities.showError(response?.message);
+        dispatch({
+          type: modalConstants.ModalOpen,
+          payload: false,
+        });
+      }
+    } catch (error) {
+      ToastifyUtilities.showError("Failed to delete user. Please try again.");
+
+      dispatch({
+        type: modalConstants.ModalOpen,
+        payload: false,
+      });
+      console.log({ error });
+    }
+  };
+};
+
 export const userActions = {
   createUser,
   getUser,
   getUsersLength,
   getSearchUser,
   getUsersList,
+  deleteUser,
 };

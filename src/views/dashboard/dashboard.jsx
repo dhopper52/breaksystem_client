@@ -20,6 +20,7 @@ import { userActions } from "../../redux/actions/user.action/user.action";
 import { ToastifyUtilities } from "../../system/Toastify/toastifyUtilities";
 import ClockComponentTwo from "../../shared/components/clockComponentTwo/clockComponentTwo";
 import { authActions } from "../../redux/actions/auth.action/auth.actions";
+import { formateTime } from "../../shared/utilities/utilities";
 
 const Dashboard = (props) => {
   const localUser = getCurrentUserLocalStorage();
@@ -75,21 +76,38 @@ const Dashboard = (props) => {
       <div className="d-flex d-sm-flex flex-column flex-sm-row justify-content-end mt-5">
         <div className="d-flex justify-content-end">
           {localUser.role === roleType.SUPERVISOR ? (
-            <Button
-              className="supervisor-btn border-0 btn btn-primary color-theme mt-3 mt-sm-0"
-              onClick={() => {
-                setactionType({
-                  rowData: {
-                    action: action.User,
-                    heading: "Create User",
-                    size: "md",
-                  },
-                });
-                props.handleModal();
-              }}
-            >
-              <i class="fa-solid fa-plus" /> Create User
-            </Button>
+            <ButtonGroup aria-label="Basic example" className="mt-3 mt-sm-0">
+              <Button
+                className="supervisor-btn border-0 btn btn-primary color-theme mt-3 mt-sm-0"
+                onClick={() => {
+                  setactionType({
+                    rowData: {
+                      action: action.User,
+                      heading: "Create User",
+                      size: "md",
+                    },
+                  });
+                  props.handleModal();
+                }}
+              >
+                <i class="fa-solid fa-plus" /> Create User
+              </Button>{" "}
+              {/* <Button
+                className="supervisor-btn border-0 btn btn-primary color-theme mt-3 mt-sm-0"
+                onClick={() => {
+                  setactionType({
+                    rowData: {
+                      action: action.User,
+                      heading: "Create User",
+                      size: "md",
+                    },
+                  });
+                  props.handleModal();
+                }}
+              >
+                <i class="fa-solid fa-pen-to-square" /> Update Supervisor
+              </Button>{" "} */}
+            </ButtonGroup>
           ) : (
             <ButtonGroup aria-label="Basic example" className="mt-3 mt-sm-0">
               <Button
@@ -174,14 +192,15 @@ const Dashboard = (props) => {
       ) : (
         <div className=" mt-3">
           <h3 className="mb-4">Active Breaks</h3>
-          {/* <div className="row grid-container"> */}
           <div className=" grid-container">
-            {breakList?.map((breakItem) => {
+            {breakList?.map((breakItem, index) => {
               return (
-                // <div className="col-md-4 col-sm-6 g-2 clock-outer">
-                <div className=" clock-outer">
+                <div className=" clock-outer" key={index}>
                   <div className="clock-container">
-                    <ClockComponentTwo data={breakItem} />
+                    <ClockComponentTwo
+                      data={breakItem}
+                      strtTime={formateTime(breakItem?.startTime)}
+                    />
                   </div>
                 </div>
               );

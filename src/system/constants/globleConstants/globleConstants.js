@@ -65,11 +65,11 @@ export const floorList = [
 ];
 export const breakListEight = [
   { id: 30, label: "30 Minutes", value: "30 Minutes" },
-   { id: 20, label: "20 Minutes", value: "20 Minutes" },
+  { id: 20, label: "20 Minutes", value: "20 Minutes" },
 ];
 export const breakListsEight = [
   { id: 30, label: "30 Minutes", value: "30 Minutes" },
-   { id: 20, label: "20 Minutes", value: "20 Minutes" },
+  { id: 20, label: "20 Minutes", value: "20 Minutes" },
 ];
 export const breakListTwelve = [
   { id: 30, label: "30 Minutes", value: "30 Minutes" },
@@ -139,6 +139,7 @@ export const usersList = [
 export const Url = {
   BASE_URL: process.env.REACT_APP_BASE_API_URL,
   CREATE_USER: "createUser",
+  DELETE_USER: "deleteUser",
   GET_USER: "getUser",
   GET_USERS: "getUsers",
   GET_FLOOR: "getFloor",
@@ -152,6 +153,7 @@ export const Url = {
   AUTH: "auth",
   USER: "user",
   BREAK: "break",
+  UPDATE_FLOOR: "updateFloor",
 };
 export const authConstants = {
   Failed: "failed",

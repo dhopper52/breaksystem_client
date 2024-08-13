@@ -4,7 +4,6 @@ import { Button } from "react-bootstrap";
 import { connect, useDispatch } from "react-redux";
 import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
 
 import CustomModal from "../../shared/components/Modal/Modal";
 import {
@@ -12,15 +11,12 @@ import {
   roleType,
 } from "../../system/constants/globleConstants/globleConstants";
 import { modalActions } from "../../redux/actions/modal.actions/modal.actions";
-import SearchModal from "../modal/searchModal/searchModal";
 import UserModal from "../modal/userModal/userModal";
-import FloorModal from "../modal/floorModal/floorModal";
 import { getCurrentUserLocalStorage } from "../../system/storageUtilites/storageUtilities";
 import { userActions } from "../../redux/actions/user.action/user.action";
-import { ToastifyUtilities } from "../../system/Toastify/toastifyUtilities";
-import ClockComponentTwo from "../../shared/components/clockComponentTwo/clockComponentTwo";
 import { authActions } from "../../redux/actions/auth.action/auth.actions";
 import ReactTable from "../../shared/components/reactTable/reactTable";
+import DeleteModal from "../modal/deleteModal/deleteModal";
 
 const User = (props) => {
   const dispatch = useDispatch();
@@ -39,10 +35,6 @@ const User = (props) => {
     props.handleModal();
   };
 
-  const onSetSearchShow = () => {
-    props.handleSearchModal();
-  };
-
   const {
     register,
     handleSubmit,
@@ -56,12 +48,9 @@ const User = (props) => {
         localUser?.role === roleType.SUPER_ADMIN
           ? Number(data.floorId)
           : localUser?._id,
+    };
 
-     };
-
-     props.getUserList(dataObj)
-    // props.getSearchUser(dataObj);
- 
+    props.getUserList(dataObj);
   };
   const headers = [
     {
@@ -113,7 +102,7 @@ const User = (props) => {
       name: "Actions",
       cell: (row) => (
         <div>
-{/*           <i
+          {/*           <i
             class="fa-solid fa-eye pointer me-2 fs-12"
             onClick={() => {
               onSetShow();
@@ -128,7 +117,7 @@ const User = (props) => {
               });
             }}
           />{" "} */}
-           <i
+          <i
             class="fa-solid fa-pen-to-square pointer fs-12"
             onClick={() => {
               onSetShow();
@@ -152,28 +141,17 @@ const User = (props) => {
                   row: row,
                   for: action.Break,
                   action: action.Delete,
-                  heading: "Delete Daily Break",
+                  heading: " Confirm to Delete User",
                   size: "md",
                 },
               });
             }}
           ></i>
-         
         </div>
       ),
     },
   ];
   console.log(props.userData);
-
-  // useEffect(() => {
-  //   if (props?.userData?.userData?.length >= 1) {
-  //     setUserListData(props?.userData?.userData);
-  //     console.log(
-  //       props?.userData?.userData,
-  //       "    console.log(props.userData   "
-  //     );
-  //   }
-  // }, [props?.userData]);
 
   useEffect(() => {
     setUserListData(props?.userListcount?.data);
@@ -183,14 +161,15 @@ const User = (props) => {
   //   props.getUserList(
   //     localUser?.role === roleType.SUPER_ADMIN ? "" : { floorId: localUser._id }
   //   );
-  //   props.getFloor();
+  //   props.getFloor();X
   // }, [props?.modalOpen === false, props?.clockData, dispatch]);
   useEffect(() => {
     props.getUserList(
       localUser?.role === roleType.SUPER_ADMIN ? "" : { floorId: localUser._id }
     );
     // props.getFloor();
-  }, []);
+  }, [dispatch, props?.modalOpen === false]);
+
   return (
     <div className="dashboard-container">
       <h3>Users</h3>
@@ -201,7 +180,7 @@ const User = (props) => {
             onClick={() => {
               setactionType({
                 rowData: {
-                  action: action.User,
+                  action: action.Create,
                   heading: "Create User",
                   size: "md",
                   for: "create",
@@ -249,28 +228,17 @@ const User = (props) => {
         show={props.modalOpen}
         heading={actionType.rowData.heading}
       >
-        {/* {actionType.rowData.action === action.Create ? (
-          <FloorModal onHide={onSetShow} />
-        ) : actionType.rowData.action === action.User ? ( */}
-        <UserModal
-          for={actionType?.rowData?.for}
-          row={actionType.rowData.row}
-          onHide={onSetShow}
-        />
-        {/* // ) : (
-        //   <SearchModal onHide={onSetShow} />
-        // )} */}
+        {actionType.rowData.action === action.Update ||
+        actionType.rowData.action === action.Create ? (
+          <UserModal
+            for={actionType?.rowData?.for}
+            row={actionType.rowData.row}
+            onHide={onSetShow}
+          />
+        ) : (
+          <DeleteModal row={actionType.rowData.row} onHide={onSetShow} />
+        )}
       </CustomModal>
-      {/* 
-      <CustomModal
-        centered={true}
-        scrollable={true}
-        setShow={onSetSearchShow}
-        show={props.searchModal}
-        heading="Search User"
-      >
-        <SearchModal onHide={onSetSearchShow} />
-      </CustomModal> */}
     </div>
   );
 };

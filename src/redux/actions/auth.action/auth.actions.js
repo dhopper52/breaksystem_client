@@ -91,9 +91,36 @@ const getFloor = () => {
     }
   };
 };
+const updateFloorAction = (data) => {
+  return async (dispatch) => {
+    try {
+      const response = await authServices.updateFloor(data);
+      console.log(response);
+
+      if (response?.status === authConstants.Success) {
+        // dispatch({
+        //   type: LoginConstants.SignUp,
+        //   payload: response?.data,
+        // });
+
+        ToastifyUtilities.showSuccess("Floor Updated Successfully");
+        // dispatch({
+        //   type: modalConstants.ModalOpen,
+        //   payload: false,
+        // });
+      } else {
+        ToastifyUtilities.showError(response?.data?.message);
+      }
+    } catch (error) {
+      console.log(error);
+      ToastifyUtilities.showError(error?.response?.data?.error);
+    }
+  };
+};
 
 export const authActions = {
   login,
   signUp,
   getFloor,
+  updateFloorAction,
 };

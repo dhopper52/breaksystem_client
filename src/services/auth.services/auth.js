@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Url } from "../../system/constants/globleConstants/globleConstants";
 
-const { BASE_URL, LOGIN, SIGNUP, GET_FLOOR,AUTH } = Url;
+const { BASE_URL, LOGIN, SIGNUP, GET_FLOOR, AUTH, UPDATE_FLOOR } = Url;
 
 function login(data) {
   return axios
@@ -22,6 +22,18 @@ function signUp(data) {
       throw error;
     });
 }
+
+function updateFloor(data) {
+  console.log({data},"auth upfate floor service")
+  return axios
+    .put(`${BASE_URL}/${AUTH}/${UPDATE_FLOOR}`, data)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.log("Update Floor error:", error);
+      throw error;
+    });
+}
+
 function getFloor() {
   return axios
     .get(`${BASE_URL}/${AUTH}/${GET_FLOOR}`)
@@ -36,4 +48,5 @@ export const authServices = {
   login,
   signUp,
   getFloor,
+  updateFloor,
 };

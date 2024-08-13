@@ -10,6 +10,7 @@ import moment from "moment-timezone";
 import { breakTypeCheck } from "../../../system/constants/globleConstants/globleConstants";
 
 const ClockComponentTwo = (data) => {
+  console.log(data);
   const dispatch = useDispatch();
   const [startTimes, setStartTimes] = useState();
   const {
@@ -29,7 +30,8 @@ const ClockComponentTwo = (data) => {
   console.log(user, "user");
   console.log(breakTimeValue, "breakTimeValue");
   console.log(breakKey, "breakKey");
-
+  console.log(data?.strtTime, "strtTime");
+  
   const handleStop = () => {
     let startPstTime = moment.utc(startTime).tz("Asia/Karachi").toISOString();
     console.log({ startPstTime });
@@ -74,7 +76,6 @@ const ClockComponentTwo = (data) => {
       breakKey: breakTimeValue,
       // breakValue: Math.floor(actualUsedTimeMinutes),
       breakValue: actualUsedTimeMinutes,
-
     };
     console.log(
       Math.floor(actualUsedTimeMinutes),
@@ -94,13 +95,13 @@ const ClockComponentTwo = (data) => {
             breakType === breakTypeCheck?.EMERGENCY_BREAK
               ? (breakInfo?.emergencyShortBreak || 0) +
                 Math.floor(actualUsedTimeMinutes)
-               : breakInfo?.emergencyShortBreak,
+              : breakInfo?.emergencyShortBreak,
           date: breakInfo?.date,
           fine:
             breakType === breakTypeCheck?.EMERGENCY_BREAK
               ? breakInfo?.fine + 0
-              // : relaxUsedTime <= newBreakTime
-              : newBreakTime <= relaxUsedTime
+              : // : relaxUsedTime <= newBreakTime
+              newBreakTime <= relaxUsedTime
               ? breakInfo?.fine + 0
               : breakInfo?.fine + 500,
           breakTime: [
@@ -131,12 +132,12 @@ const ClockComponentTwo = (data) => {
             breakType === breakTypeCheck?.EMERGENCY_BREAK
               ? (breakInfo?.emergencyShortBreak || 0) +
                 Math.floor(actualUsedTimeMinutes)
-               : 0,
+              : 0,
           fine:
             breakType === breakTypeCheck?.EMERGENCY_BREAK
               ? 0
-              // : relaxUsedTime <= newBreakTime
-            :  newBreakTime <= relaxUsedTime
+              : // : relaxUsedTime <= newBreakTime
+              newBreakTime <= relaxUsedTime
               ? 0
               : 500,
           breakTime: [
@@ -155,24 +156,17 @@ const ClockComponentTwo = (data) => {
     }
   };
 
-  //   const formatTime = (totalSeconds) => {
-  //     const minutes = Math.floor(totalSeconds / 60);
-  //     const seconds = totalSeconds % 60;
-  //     return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
-  //       2,
-  //       "0"
-  //     )}`;
-  //   };
   useEffect(() => {
     setStartTimes(formateTime(startTime));
     console.log(startTime);
-  }, []);
+  }, [id]);
 
   return (
     <div>
       <div className="d-flex flex-column align-items-center">
         <div className="clock-circle fw-semibold d-flex justify-content-center align-items-center mb-2">
-          {startTimes}
+          {/* {startTimes} */}
+          {data?.strtTime}
         </div>
         {runing && (
           <button type="button" className="btn btn-danger" onClick={handleStop}>

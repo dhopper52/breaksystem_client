@@ -83,9 +83,11 @@ const UserrModal = (props) => {
   useEffect(() => {
     props.getFloor();
   }, []);
+  
   useEffect(() => {
     setfloorList(props?.floorList);
   }, [props?.floorList]);
+
   return (
     <section>
       <Form

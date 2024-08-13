@@ -8,13 +8,25 @@ import {
 const initialState = {};
 
 const clockReducer = (state = initialState, action) => {
-  const { id, user, breakInfo, breakTimeValue, breakType, breakKey, count  } =
-    action.payload || {};
+  const {
+    id,
+    user,
+    breakInfo,
+    breakTimeValue,
+    breakType,
+    breakKey,
+    count,
+    floorId,
+  } = action.payload || {};
   switch (action.type) {
     case START_CLOCK:
+      console.log({ state }, { floorId });
       const newBreakList = Object.values(state);
       console.log(newBreakList);
-      if (newBreakList.length < 3) {
+      // console.log(newBreakList[0]?.floorId);
+      let maxAllowedBreaks = floorId === 103 ? 4 : 3;
+
+      if (newBreakList.length < maxAllowedBreaks) {
         return {
           ...state,
           [id]: {
@@ -27,7 +39,7 @@ const clockReducer = (state = initialState, action) => {
             breakType: breakType,
             breakKey: breakKey,
             count: count,
-
+            floorId: floorId,
           },
         };
       } else {
