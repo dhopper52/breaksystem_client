@@ -101,7 +101,7 @@ const Profile = (props) => {
             )}
             <div className="field fieldSignup d-flex flex-column  align-items-center ">
               <div className="field fieldSignup mt-4">
-                <Form.Label>Change Password</Form.Label>
+                <Form.Label>New Password</Form.Label>
                 <Form.Control
                   type="number"
                   className={`rounded-0 light-black ${
@@ -119,7 +119,7 @@ const Profile = (props) => {
               <div>
                 {" "}
                 <button type="submit" class="btn btn-dark color-theme mt-3">
-                  Change Password
+                  Submit
                 </button>
               </div>
             </div>
