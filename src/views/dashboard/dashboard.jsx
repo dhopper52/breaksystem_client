@@ -18,13 +18,12 @@ import UserModal from "../modal/userModal/userModal";
 import FloorModal from "../modal/floorModal/floorModal";
 import { getCurrentUserLocalStorage } from "../../system/storageUtilites/storageUtilities";
 import { userActions } from "../../redux/actions/user.action/user.action";
-import { ToastifyUtilities } from "../../system/Toastify/toastifyUtilities";
 import ClockComponentTwo from "../../shared/components/clockComponentTwo/clockComponentTwo";
 import { authActions } from "../../redux/actions/auth.action/auth.actions";
 import { formateTime } from "../../shared/utilities/utilities";
 import { clockActions } from "../../redux/actions/clock.actions/clock.action";
-import spinner from "../../assets/images/spinner.gif";
 import Spinner from "react-bootstrap/Spinner";
+import { HashLoader, ClimbingBoxLoader } from "react-spinners";
 
 const Dashboard = (props) => {
   const dispatch = useDispatch();
@@ -241,7 +240,7 @@ const Dashboard = (props) => {
         </>
       ) : (
         <div className="align-content-center align-items-center d-flex justify-content-center spinner-conteiner">
-          <Spinner animation="border" />
+          <HashLoader size={42} speedMultiplier={2} />
         </div>
       )}
     </div>
