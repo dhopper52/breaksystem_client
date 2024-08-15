@@ -24,11 +24,13 @@ import {
   breakTypeCheck,
 } from "../../../system/constants/globleConstants/globleConstants";
 import {
+  clockActions,
   startClock,
   stopClock,
   updateElapsedTime,
 } from "../../../redux/actions/clock.actions/clock.action";
 import { modalActions } from "../../../redux/actions/modal.actions/modal.actions";
+import { clockServices } from "../../../services/clock.services/clock.services";
 
 const SearchModal = (props) => {
   const dispatch = useDispatch();
@@ -66,33 +68,57 @@ const SearchModal = (props) => {
     setBreakKeyValue(e.target.value);
   };
   const onSubmit = (data) => {
-    console.log(data);
+    const dataObj = {
+      id: userState?.user?._id,
+      floorId: userState?.user?.floorId,
+      breakTimeValue:
+        data?.breakType === breakTypeCheck?.EMERGENCY_BREAK
+          ? "120"
+          : data?.breakTime,
+      user: props?.userData?.user[0],
+      breakInfo: props?.userData?.break[0],
+      breakType: data?.breakType,
+      count: props?.userData?.break[0]?.count,
+      startTime: Date.now(),
 
-    dispatch(
-      startClock({
-        id: userState?.user?._id,
-        floorId: userState?.user?.floorId,
-        breakTimeValue:
-          data?.breakType === breakTypeCheck?.EMERGENCY_BREAK
-            ? "120"
-            : data?.breakTime,
-        user: props?.userData?.user[0],
-        breakInfo: props?.userData?.break[0],
-        breakType: data?.breakType,
-        count: props?.userData?.break[0]?.count,
-        breakKey:
-          data?.breakType === breakTypeCheck?.EMERGENCY_BREAK
-            ? "120"
-            : breakKeyValue,
-      })
-    );
+      breakKey:
+        data?.breakType === breakTypeCheck?.EMERGENCY_BREAK
+          ? "120"
+          : breakKeyValue,
+    };
+    console.log(data);
+    props.startclockFn(dataObj);
+    // dispatch(
+    //   startClock({
+    //     id: userState?.user?._id,
+    //     floorId: userState?.user?.floorId,
+    //     breakTimeValue:
+    //       data?.breakType === breakTypeCheck?.EMERGENCY_BREAK
+    //         ? "120"
+    //         : data?.breakTime,
+    //     user: props?.userData?.user[0],
+    //     breakInfo: props.userData?.break[0],
+    //     startTime: Date.now(),
+    //     breakType: data?.breakType,
+    //     count: props?.userData?.break[0]?.count,
+    //     breakKey:
+    //       data?.breakType === breakTypeCheck?.EMERGENCY_BREAK
+    //         ? "120"
+    //         : breakKeyValue,
+    //   })
+    // );
     props.handleSearchModal();
   };
-
+  const breakss = props?.userData?.break[0];
+  const user = props?.userData?.user[0];
+  console.log(breakss, "breakss");
+  console.log(user, "userrr");
   useEffect(() => {
     console.log(props.userData);
-    if (props.userData?.break) {
+    console.log(props.userData?.break);
+    if (props.userData?.break.length > 0) {
       setBreakState({ break: props.userData?.break[0] });
+      console.log("break is settttt");
     }
     setUserState({ user: props.userData?.user[0] });
     console.log(props.userData?.user[0]);
@@ -168,49 +194,8 @@ const SearchModal = (props) => {
                       required: "Break Time is Required",
                     })}
                     aria-label="Default select example"
-                    //   disabled={isEdit}
                     onChange={breakKeyFn}
                   >
-                    {/*                     {userState?.user?.shiftHours === shiftHours.Twelve ||
-                    userState?.user?.shiftHours === shiftHours.Ten ? (
-                      <>
-                        <option value="">Select Time</option>
-                        {breakListTwelve?.map((item) => {
-                          const isUsedBreak =
-                            breakState?.break?.usedbreaks.some(
-                              (breaks) => breaks?.breakKey === item?.id
-                            );
-                          if (!isUsedBreak) {
-                            return (
-                              <option key={item?.id} value={item?.id}>
-                                {item?.label}
-                              </option>
-                            );
-                          }
-                          return null;
-                        })}
-                      </>
-                    ) : (
-                      <>
-                        <option value="">Select Time</option>
-                        {breakListEight?.map((item) => {
-                          const isUsedBreak =
-                            breakState?.break?.usedbreaks.some(
-                              (breaks) => breaks?.breakKey === item?.id
-                            );
-                          console.log(isUsedBreak);
-                          if (!isUsedBreak) {
-                            return (
-                              <option key={item?.id} value={item?.id}>
-                                {item?.label}
-                              </option>
-                            );
-                          }
-                          return null;
-                        })}
-                      </>
-                    )} */}
-
                     {userState?.user?.shiftHours === shiftHours.Ten ? (
                       <>
                         <option value="">Select Time</option>
@@ -269,43 +254,7 @@ const SearchModal = (props) => {
                     )}
                   </Form.Select>
                 </InputGroup>
-                {/* 
-              <InputGroup>
-                <InputGrouptext>
-                  <i class="fa-solid fa-clock"></i>{" "}
-                </InputGrouptext>
-                <Form.Select
-                  className={`rounded-0 light-black ${
-                    errors.breakTime ? "error-border" : ""
-                  }`}
-                  {...register("breakTime", {
-                    required: "Break Time is Required",
-                  })}
-                  aria-label="Default select example"
-                >
-                  <option value="">Select Time</option>
-                  {(userState?.user?.shiftHours === shiftHours.Eight
-                    ? breakListEight
-                    : breakListTwelve
-                  ).map((breakTimeOption) => {
-                    if (
-                      !breakState?.break?.usedbreaks.some(
-                        (breaks) => breaks.breakKey === breakTimeOption.id
-                      )
-                    ) {
-                      return (
-                        <option
-                          key={breakTimeOption.id}
-                          value={breakTimeOption.value}
-                        >
-                          {breakTimeOption.label}
-                        </option>
-                      );
-                    }
-                    return null;
-                  })}
-                </Form.Select>
-              </InputGroup> */}
+
                 {errors.breakTime && (
                   <p className="error-text ">{errors.breakTime.message}</p>
                 )}
@@ -330,7 +279,7 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = (dispatch) => ({
   handleModal: () => dispatch(modalActions.handleModal()),
-
+  startclockFn: (data) => dispatch(clockActions.startClock(data)),
   handleSearchModal: () => dispatch(modalActions.handleSearchModal()),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(SearchModal);

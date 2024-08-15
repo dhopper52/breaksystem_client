@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, connect } from "react-redux";
 import {
+  clockActions,
   startClock,
   stopClock,
   updateElapsedTime,
 } from "../../../redux/actions/clock.actions/clock.action";
+
 import { formateTime } from "../../utilities/utilities";
 import moment from "moment-timezone";
 import { breakTypeCheck } from "../../../system/constants/globleConstants/globleConstants";
 
-const ClockComponentTwo = (data) => {
-  console.log(data);
+const ClockComponentTwo = (props) => {
+  console.log(props);
   const dispatch = useDispatch();
   const [startTimes, setStartTimes] = useState();
   const {
@@ -23,15 +25,15 @@ const ClockComponentTwo = (data) => {
     breakType,
     breakKey,
     count,
-  } = data?.data;
-
+  } = props?.data;
+  console.log({ props }, "ClockComponentTwo");
   console.log(id, "id");
   console.log(breakInfo, "breakInfo");
   console.log(user, "user");
   console.log(breakTimeValue, "breakTimeValue");
   console.log(breakKey, "breakKey");
-  console.log(data?.strtTime, "strtTime");
-  
+  console.log(props?.strtTime, "strtTime");
+
   const handleStop = () => {
     let startPstTime = moment.utc(startTime).tz("Asia/Karachi").toISOString();
     console.log({ startPstTime });
@@ -82,77 +84,75 @@ const ClockComponentTwo = (data) => {
       " Math.floor(actualUsedTimeMinutes) Math.floor(actualUsedTimeMinutes)"
     );
     if (breakInfo) {
-      dispatch(
-        stopClock({
-          userId: id,
-          id: id,
-          _id: breakInfo?._id,
-          name: user?.name,
-          count: count + 1,
-          shiftHours: user?.shiftHours,
-          floorId: user?.floorId,
-          emergencyShortBreak:
-            breakType === breakTypeCheck?.EMERGENCY_BREAK
-              ? (breakInfo?.emergencyShortBreak || 0) +
-                Math.floor(actualUsedTimeMinutes)
-              : breakInfo?.emergencyShortBreak,
-          date: breakInfo?.date,
-          fine:
-            breakType === breakTypeCheck?.EMERGENCY_BREAK
-              ? breakInfo?.fine + 0
-              : // : relaxUsedTime <= newBreakTime
-              newBreakTime <= relaxUsedTime
-              ? breakInfo?.fine + 0
-              : breakInfo?.fine + 500,
-          breakTime: [
-            ...breakInfo?.breakTime,
-            ...(breakType !== breakTypeCheck?.EMERGENCY_BREAK
-              ? [breakTimingList]
-              : []),
-          ],
-          usedbreaks: [
-            ...breakInfo?.usedbreaks,
-            ...(breakType !== breakTypeCheck?.EMERGENCY_BREAK
-              ? [usedBreaksList]
-              : []),
-          ],
-        })
-      );
+      // dispatch(
+      props.stopClockFn({
+        userId: id,
+        id: id,
+        _id: breakInfo?._id,
+        name: user?.name,
+        count: count + 1,
+        shiftHours: user?.shiftHours,
+        floorId: user?.floorId,
+        emergencyShortBreak:
+          breakType === breakTypeCheck?.EMERGENCY_BREAK
+            ? (breakInfo?.emergencyShortBreak || 0) +
+              Math.floor(actualUsedTimeMinutes)
+            : breakInfo?.emergencyShortBreak,
+        date: breakInfo?.date,
+        fine:
+          breakType === breakTypeCheck?.EMERGENCY_BREAK
+            ? breakInfo?.fine + 0
+            : // : relaxUsedTime <= newBreakTime
+            newBreakTime <= relaxUsedTime
+            ? breakInfo?.fine + 0
+            : breakInfo?.fine + 500,
+        breakTime: [
+          ...breakInfo?.breakTime,
+          ...(breakType !== breakTypeCheck?.EMERGENCY_BREAK
+            ? [breakTimingList]
+            : []),
+        ],
+        usedbreaks: [
+          ...breakInfo?.usedbreaks,
+          ...(breakType !== breakTypeCheck?.EMERGENCY_BREAK
+            ? [usedBreaksList]
+            : []),
+        ],
+      });
+      // );
     } else {
-      dispatch(
-        stopClock({
-          userId: id,
-          name: user?.name,
-          id: id,
-          shiftHours: user?.shiftHours,
-          floorId: user?.floorId,
-          user: user,
-          count: 1,
-          emergencyShortBreak:
-            breakType === breakTypeCheck?.EMERGENCY_BREAK
-              ? (breakInfo?.emergencyShortBreak || 0) +
-                Math.floor(actualUsedTimeMinutes)
-              : 0,
-          fine:
-            breakType === breakTypeCheck?.EMERGENCY_BREAK
-              ? 0
-              : // : relaxUsedTime <= newBreakTime
-              newBreakTime <= relaxUsedTime
-              ? 0
-              : 500,
-          breakTime: [
-            breakType !== breakTypeCheck?.EMERGENCY_BREAK
-              ? breakTimingList
-              : [],
-            // breakTimingList
-          ],
-          usedbreaks: [
-            breakType !== breakTypeCheck?.EMERGENCY_BREAK ? usedBreaksList : [],
-          ],
+      // dispatch(
+      props.stopClockFn({
+        userId: id,
+        name: user?.name,
+        id: id,
+        shiftHours: user?.shiftHours,
+        floorId: user?.floorId,
+        user: user,
+        count: 1,
+        emergencyShortBreak:
+          breakType === breakTypeCheck?.EMERGENCY_BREAK
+            ? (breakInfo?.emergencyShortBreak || 0) +
+              Math.floor(actualUsedTimeMinutes)
+            : 0,
+        fine:
+          breakType === breakTypeCheck?.EMERGENCY_BREAK
+            ? 0
+            : // : relaxUsedTime <= newBreakTime
+            newBreakTime <= relaxUsedTime
+            ? 0
+            : 500,
+        breakTime: [
+          breakType !== breakTypeCheck?.EMERGENCY_BREAK ? breakTimingList : [],
+          // breakTimingList
+        ],
+        usedbreaks: [
+          breakType !== breakTypeCheck?.EMERGENCY_BREAK ? usedBreaksList : [],
+        ],
 
-          // [usedBreaksList],
-        })
-      );
+        // [usedBreaksList],
+      });
+      // );
     }
   };
 
@@ -166,13 +166,13 @@ const ClockComponentTwo = (data) => {
       <div className="d-flex flex-column align-items-center">
         <div className="clock-circle fw-semibold d-flex justify-content-center align-items-center mb-2">
           {/* {startTimes} */}
-          {data?.strtTime}
+          {props?.strtTime}
         </div>
-        {runing && (
-          <button type="button" className="btn btn-danger" onClick={handleStop}>
-            Stop Clock
-          </button>
-        )}
+        {/* {runing && ( */}
+        <button type="button" className="btn btn-danger" onClick={handleStop}>
+          Stop Clock
+        </button>
+        {/* // )} */}
         <h6 className="fw-semibold mt-2">User Id:{user._id} </h6>
         <h6 className="fw-semibold ">Name: {user.name}</h6>
         {/* <h6 className="fw-semibold">Extra Time: 20 minutes</h6> */}
@@ -185,4 +185,8 @@ const ClockComponentTwo = (data) => {
   );
 };
 
-export default ClockComponentTwo;
+const mapStateToProps = (state) => {};
+const mapDispatchToProps = (dispatch) => ({
+  stopClockFn: (data) => dispatch(clockActions.stopClock(data)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(ClockComponentTwo);

@@ -153,7 +153,12 @@ export const Url = {
   AUTH: "auth",
   USER: "user",
   BREAK: "break",
+  CLOCK: "clock",
   UPDATE_FLOOR: "updateFloor",
+  START_CLOCK: "startClock",
+  STOP_CLOCK: "stopClock",
+  GET_CLOCK: "getClock",
+  DELETE_CLOCK: "deleteClock",
 };
 export const authConstants = {
   Failed: "failed",

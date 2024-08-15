@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
+import { useDispatch } from "react-redux";
 
 import CustomModal from "../../shared/components/Modal/Modal";
 import {
@@ -21,8 +22,10 @@ import { ToastifyUtilities } from "../../system/Toastify/toastifyUtilities";
 import ClockComponentTwo from "../../shared/components/clockComponentTwo/clockComponentTwo";
 import { authActions } from "../../redux/actions/auth.action/auth.actions";
 import { formateTime } from "../../shared/utilities/utilities";
+import { clockActions } from "../../redux/actions/clock.actions/clock.action";
 
 const Dashboard = (props) => {
+  const dispatch = useDispatch();
   const localUser = getCurrentUserLocalStorage();
   const [breakList, setBreakList] = useState([]);
   const [actionType, setactionType] = useState({
@@ -53,22 +56,28 @@ const Dashboard = (props) => {
       floorId: localUser._id,
     };
     props.getUser(dataObj);
-    // setactionType({
-    //   rowData: {
-    //     action: action.Search,
-    //     heading: "Search",
-    //     size: "md",
-    //   },
-    // });
-    // props.handleModal();
   };
 
   useEffect(() => {
-    const newBreakList = Object.values(props.clockData);
+    props.getClocksFn(localUser);
     props.getUserList();
     props.getFloor();
-    setBreakList(newBreakList);
-  }, [props?.modalOpen === false, props?.clockData]);
+    console.log("getClocksFn runs useffect");
+    setBreakList(props.activeBreaks);
+
+  }, [
+    props.searchModal,
+    props?.modalOpen === false,
+    // props?.clockData
+  ]);
+
+  console.log(props?.modalOpen, "props?.modalOpen");
+
+  useEffect(() => {
+    console.log("activeBreaks runs useffect");
+    console.log(props.activeBreaks);
+    setBreakList(props.activeBreaks);
+  }, [props.activeBreaks]);
 
   return (
     <div className="dashboard-container">
@@ -92,21 +101,6 @@ const Dashboard = (props) => {
               >
                 <i class="fa-solid fa-plus" /> Create User
               </Button>{" "}
-              {/* <Button
-                className="supervisor-btn border-0 btn btn-primary color-theme mt-3 mt-sm-0"
-                onClick={() => {
-                  setactionType({
-                    rowData: {
-                      action: action.User,
-                      heading: "Create User",
-                      size: "md",
-                    },
-                  });
-                  props.handleModal();
-                }}
-              >
-                <i class="fa-solid fa-pen-to-square" /> Update Supervisor
-              </Button>{" "} */}
             </ButtonGroup>
           ) : (
             <ButtonGroup aria-label="Basic example" className="mt-3 mt-sm-0">
@@ -245,13 +239,14 @@ const mapStateToProps = (state) => ({
   clockData: state?.clock,
   floorListcount: state?.authReducer?.floorList?.data?.floorList,
   userListcount: state?.userReducer?.newUserList,
+  activeBreaks: state?.clock?.currentBreaks,
 });
 const mapDispatchToProps = (dispatch) => ({
   handleModal: () => dispatch(modalActions.handleModal()),
   handleSearchModal: () => dispatch(modalActions.handleSearchModal()),
-
   getUserList: () => dispatch(userActions.getUsersLength()),
   getUser: (data) => dispatch(userActions.getUser(data)),
   getFloor: () => dispatch(authActions.getFloor()),
+  getClocksFn: (data) => dispatch(clockActions.getClock(data)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

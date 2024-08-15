@@ -1,65 +1,25 @@
-import { ToastifyUtilities } from "../../../system/Toastify/toastifyUtilities";
 import {
   START_CLOCK,
   STOP_CLOCK,
-  UPDATE_ELAPSED_TIME,
+  GET_CLOCK,
 } from "../../actions/clock.actions/clock.action";
 
-const initialState = {};
+const initialState = {
+  currentBreaks: [],
+};
 
 const clockReducer = (state = initialState, action) => {
-  const {
-    id,
-    user,
-    breakInfo,
-    breakTimeValue,
-    breakType,
-    breakKey,
-    count,
-    floorId,
-  } = action.payload || {};
   switch (action.type) {
-    case START_CLOCK:
-      console.log({ state }, { floorId });
-      const newBreakList = Object.values(state);
-      console.log(newBreakList);
-      // console.log(newBreakList[0]?.floorId);
-      let maxAllowedBreaks = floorId === 103 ? 4 : 3;
-
-      if (newBreakList.length < maxAllowedBreaks) {
-        return {
-          ...state,
-          [id]: {
-            startTime: state[id]?.startTime || Date(),
-            runing: true,
-            id: id,
-            user: user,
-            breakInfo: breakInfo,
-            breakTimeValue: Number(breakTimeValue),
-            breakType: breakType,
-            breakKey: breakKey,
-            count: count,
-            floorId: floorId,
-          },
-        };
-      } else {
-        console.log("another clock is not allowed");
-        ToastifyUtilities.showError("Another clock is not allowed");
-      }
-
-    case STOP_CLOCK:
-      console.log(
-        "STOP_CLOCKSTOP_CLOCKSTOP_CLOCKSTOP_CLOCKSTOP_CLOCKSTOP_CLOCK"
-      );
-      console.log(id);
-      delete state[id];
+    case GET_CLOCK:
+      console.log(action.payload?.data, "clock reducer");
       return {
         ...state,
+        currentBreaks: action.payload?.data, 
       };
-    case UPDATE_ELAPSED_TIME:
+    case STOP_CLOCK:
       return {
         ...state,
-        [id]: { ...state[id], elapsedTime: state[id].elapsedTime + 1 },
+        currentBreaks: action.payload,
       };
     default:
       return state;
@@ -113,3 +73,9 @@ export default clockReducer;
 // };
 
 // export default clockReducer;
+
+// case STOP_CLOCK:
+//   return {
+//     ...state,
+//     currentBreaks: state.currentBreaks.filter(breakItem => breakItem.id !== action.payload.id), // Remove break by ID
+//   };
