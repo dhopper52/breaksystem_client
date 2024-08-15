@@ -3,6 +3,7 @@ import {
   STOP_CLOCK,
   GET_CLOCK,
 } from "../../actions/clock.actions/clock.action";
+import { clockConstants } from "../../../system/constants/globleConstants/globleConstants";
 
 const initialState = {
   currentBreaks: [],
@@ -14,12 +15,17 @@ const clockReducer = (state = initialState, action) => {
       console.log(action.payload?.data, "clock reducer");
       return {
         ...state,
-        currentBreaks: action.payload?.data, 
+        currentBreaks: action.payload?.data,
       };
     case STOP_CLOCK:
       return {
         ...state,
         currentBreaks: action.payload,
+      };
+    case clockConstants.LOADING:
+      return {
+        ...state,
+        loading: action.payload,
       };
     default:
       return state;

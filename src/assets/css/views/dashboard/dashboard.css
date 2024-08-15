@@ -52,3 +52,6 @@
 .key{
   font-size: 17px;
 }
+.spinner-conteiner {
+  height: calc(100vh - 170px) !important;
+}

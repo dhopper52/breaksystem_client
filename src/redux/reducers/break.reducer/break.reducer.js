@@ -20,7 +20,6 @@ const breakReducer = (state = initialState, action) => {
         ...state,
         breakList: action.payload,
       };
-
     case breakConstants.LOADING:
       return {
         ...state,

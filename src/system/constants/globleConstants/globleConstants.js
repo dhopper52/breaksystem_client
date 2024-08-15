@@ -181,6 +181,9 @@ export const breakConstants = {
   BREAK_MONTHLY: "breakMonthly",
   LOADING: "Loading",
 };
+export const clockConstants = {
+  LOADING: "Loading",
+};
 export const LoginConstants = {
   Login: "login",
   GET_FLOOR: "getFloor",
