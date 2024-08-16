@@ -32,7 +32,6 @@ const getUser = (data) => {
         console.log(breakResponse);
         dispatch({
           type: userConstants.GET_USER,
-          // payload: response,
           payload: { user: response?.data?.data, break: breakResponse?.data },
         });
         dispatch({
@@ -106,6 +105,10 @@ const getSearchUser = (data) => {
 const getUsersLength = (data) => {
   return async (dispatch) => {
     try {
+      dispatch({
+        type: userConstants.LOADING,
+        payload: true,
+      });
       const response = await userServices.getUser(data);
       console.log(response?.data);
 
@@ -114,18 +117,34 @@ const getUsersLength = (data) => {
           type: userConstants.GET_USERS,
           payload: response.data,
         });
+        dispatch({
+          type: userConstants.LOADING,
+          payload: false,
+        });
       } else {
         ToastifyUtilities.showError(response?.data?.message);
+        dispatch({
+          type: userConstants.LOADING,
+          payload: false,
+        });
       }
     } catch (error) {
       console.log({ error });
       ToastifyUtilities.showError("Internal Server Error");
+      dispatch({
+        type: userConstants.LOADING,
+        payload: false,
+      });
     }
   };
 };
 const getUsersList = (data) => {
   return async (dispatch) => {
     try {
+      dispatch({
+        type: userConstants.LOADING,
+        payload: true,
+      });
       const response = await userServices.getUser(data);
       console.log(response?.data);
 
@@ -134,18 +153,34 @@ const getUsersList = (data) => {
           type: userConstants.GET_USERSLIST,
           payload: response.data,
         });
+        dispatch({
+          type: userConstants.LOADING,
+          payload: false,
+        });
       } else {
         ToastifyUtilities.showError(response?.data?.message);
+        dispatch({
+          type: userConstants.LOADING,
+          payload: false,
+        });
       }
     } catch (error) {
       console.log({ error });
       ToastifyUtilities.showError("Internal Server Error");
+      dispatch({
+        type: userConstants.LOADING,
+        payload: false,
+      });
     }
   };
 };
 const createUser = (data) => {
   return async (dispatch) => {
     try {
+      dispatch({
+        type: userConstants.LOADING,
+        payload: true,
+      });
       const response = await userServices.createUser(data);
       console.log(response);
       if (response?.status === authConstants.Success) {
@@ -172,6 +207,10 @@ const createUser = (data) => {
       }
     } catch (error) {
       console.log({ error });
+      dispatch({
+        type: userConstants.LOADING,
+        payload: false,
+      });
     }
   };
 };
@@ -179,6 +218,10 @@ const createUser = (data) => {
 const deleteUser = (data) => {
   return async (dispatch) => {
     try {
+      dispatch({
+        type: userConstants.LOADING,
+        payload: true,
+      });
       const response = await userServices.deleteUser(data);
       console.log({ response });
       if (response?.status === authConstants.Success) {
@@ -187,16 +230,27 @@ const deleteUser = (data) => {
           type: modalConstants.ModalOpen,
           payload: false,
         });
+        dispatch({
+          type: userConstants.LOADING,
+          payload: false,
+        });
       } else {
         ToastifyUtilities.showError(response?.message);
         dispatch({
           type: modalConstants.ModalOpen,
           payload: false,
         });
+        dispatch({
+          type: userConstants.LOADING,
+          payload: false,
+        });
       }
     } catch (error) {
       ToastifyUtilities.showError("Failed to delete user. Please try again.");
-
+      dispatch({
+        type: userConstants.LOADING,
+        payload: false,
+      });
       dispatch({
         type: modalConstants.ModalOpen,
         payload: false,

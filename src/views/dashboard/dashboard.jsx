@@ -23,7 +23,7 @@ import { authActions } from "../../redux/actions/auth.action/auth.actions";
 import { formateTime } from "../../shared/utilities/utilities";
 import { clockActions } from "../../redux/actions/clock.actions/clock.action";
 import Spinner from "react-bootstrap/Spinner";
-import { HashLoader, ClimbingBoxLoader } from "react-spinners";
+import { HashLoader } from "react-spinners";
 
 const Dashboard = (props) => {
   const dispatch = useDispatch();
@@ -210,9 +210,8 @@ const Dashboard = (props) => {
                 })}
               </div>
             </div>
-          )}
-
-          <CustomModal
+          )}   
+           <CustomModal
             centered={true}
             scrollable={true}
             setShow={onSetShow}

@@ -29,6 +29,7 @@ import { authActions } from "../../redux/actions/auth.action/auth.actions";
 import { exportToExcel } from "../../shared/utilities/utilities";
 import { exportToExcelDaily } from "../../shared/utilities/utilities";
 import { formattedDate } from "../../shared/utilities/utilities";
+import { HashLoader } from "react-spinners";
 
 const MonthlyReport = (props) => {
   const localUser = getCurrentUserLocalStorage();
@@ -191,7 +192,9 @@ const MonthlyReport = (props) => {
                 <div className="align-content-center">=</div>
                 <div
                   className={`m-1 ${
-                    item.breakKey + 0.3 < item.breakValue ? "bg-danger" : "bg-success"
+                    item.breakKey + 0.3 < item.breakValue
+                      ? "bg-danger"
+                      : "bg-success"
                   } p-2 text-bg-danger text-center`}
                   style={{ width: "45px", height: "32px" }}
                   key={index}
@@ -372,11 +375,13 @@ const MonthlyReport = (props) => {
 
   return (
     <div>
-      <h3>Monthly Report</h3>
-      <div className="d-flex d-sm-flex flex-column flex-sm-row justify-content-end mt-5">
-        <div className="d-flex justify-content-end">
-          {/* {localUser.role === roleType.SUPERVISOR ? ( */}
-          {/* <Button
+      {!props.loading ? (
+        <>
+          <h3>Monthly Report</h3>
+          <div className="d-flex d-sm-flex flex-column flex-sm-row justify-content-end mt-5">
+            <div className="d-flex justify-content-end">
+              {/* {localUser.role === roleType.SUPERVISOR ? ( */}
+              {/* <Button
               className="supervisor-btn border-0 btn btn-primary color-theme mt-3 mt-sm-0"
               onClick={() => {
                 setactionType({
@@ -391,75 +396,109 @@ const MonthlyReport = (props) => {
             >
               <i class="fa-solid fa-plus" /> Create User
               </Button> */}
-          {/* ) : ( */}
-          <ButtonGroup aria-label="Basic example" className="mt-3 mt-sm-0">
-            <Button
-              variant="secondary color-theme"
-              onClick={() => {
-                reportTypeState === reportType?.SINGLE_USER
-                  ? exportToExcelDaily(
-                      breakList,
-                      exportHeader,
-                      `${localUser?.floorName} Daily Break Report`
-                    )
-                  : exportToExcel(
-                      breakList,
-                      exportHeader,
-                      `${localUser?.floorName} Monthly Break Report`
-                    );
-              }}
-            >
-              <i class="fa-solid fa-download"></i> Export CSV
-            </Button>
-          </ButtonGroup>
-          {/* )} */}
-        </div>
-      </div>
-      <div className="filter-container ">
-        <h4 className="mb-4">
-          Filter <i class="fa-solid fa-filter"></i>
-        </h4>
-        <Form
-          noValidate
-          className="ViewUserContent  mt-3"
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <div className="row mb-0 mb-md-2">
-            <div className="col-lg-6 col-md-6">
-              <div class="field fieldSignup ">
-                <FormLabel>Report Type</FormLabel>
-
-                <Form.Select
-                  className={`rounded-0 light-black`}
-                  {...register("reportType")}
-                  onChange={(e) => {
-                    handleSelectChange(e);
+              {/* ) : ( */}
+              <ButtonGroup aria-label="Basic example" className="mt-3 mt-sm-0">
+                <Button
+                  variant="secondary color-theme"
+                  onClick={() => {
+                    reportTypeState === reportType?.SINGLE_USER
+                      ? exportToExcelDaily(
+                          breakList,
+                          exportHeader,
+                          `${localUser?.floorName} Daily Break Report`
+                        )
+                      : exportToExcel(
+                          breakList,
+                          exportHeader,
+                          `${localUser?.floorName} Monthly Break Report`
+                        );
                   }}
                 >
-                  <option value="">Select Type</option>
-                  {reportTypeList?.map((project) => (
-                    <option key={project?.id} value={project?.value}>
-                      {project?.label}
-                    </option>
-                  ))}
-                </Form.Select>
+                  <i class="fa-solid fa-download"></i> Export CSV
+                </Button>
+              </ButtonGroup>
+              {/* )} */}
+            </div>
+          </div>
+          <div className="filter-container ">
+            <h4 className="mb-4">
+              Filter <i class="fa-solid fa-filter"></i>
+            </h4>
+            <Form
+              noValidate
+              className="ViewUserContent  mt-3"
+              onSubmit={handleSubmit(onSubmit)}
+            >
+              <div className="row mb-0 mb-md-2">
+                <div className="col-lg-6 col-md-6">
+                  <div class="field fieldSignup ">
+                    <FormLabel>Report Type</FormLabel>
+
+                    <Form.Select
+                      className={`rounded-0 light-black`}
+                      {...register("reportType")}
+                      onChange={(e) => {
+                        handleSelectChange(e);
+                      }}
+                    >
+                      <option value="">Select Type</option>
+                      {reportTypeList?.map((project) => (
+                        <option key={project?.id} value={project?.value}>
+                          {project?.label}
+                        </option>
+                      ))}
+                    </Form.Select>
+                  </div>
+                </div>{" "}
+                {reportTypeState === reportType?.SINGLE_USER ? (
+                  <div className="col-lg-6 col-md-6 mt-3 mt-md-0">
+                    <div class="field fieldSignup">
+                      <FormLabel>Id</FormLabel>
+                      <Form.Control
+                        className={`rounded-0 light-black  `}
+                        {...register("_id")}
+                        placeholder="Search"
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    {" "}
+                    {localUser.role === roleType.SUPER_ADMIN ? (
+                      <div className="col-lg-6 col-md-6 mt-3 mt-md-0">
+                        {" "}
+                        <div class="field fieldSignup ">
+                          <FormLabel>Floor</FormLabel>
+
+                          <Form.Select
+                            className={`rounded-0 light-black`}
+                            {...register("floorId")}
+                          >
+                            <option value="">Select Floor</option>
+
+                            {floorList?.map((item) => (
+                              <>
+                                {localUser._id === item?._id ? (
+                                  <></>
+                                ) : (
+                                  <option key={item?._id} value={item?._id}>
+                                    {item?.floorName}
+                                  </option>
+                                )}
+                              </>
+                            ))}
+                          </Form.Select>
+                        </div>
+                      </div>
+                    ) : (
+                      <></>
+                    )}
+                  </>
+                )}
               </div>
-            </div>{" "}
-            {reportTypeState === reportType?.SINGLE_USER ? (
-              <div className="col-lg-6 col-md-6 mt-3 mt-md-0">
-                <div class="field fieldSignup">
-                  <FormLabel>Id</FormLabel>
-                  <Form.Control
-                    className={`rounded-0 light-black  `}
-                    {...register("_id")}
-                    placeholder="Search"
-                  />
-                </div>
-              </div>
-            ) : (
-              <>
-                {" "}
-                {localUser.role === roleType.SUPER_ADMIN ? (
+              <div className="row">
+                {reportTypeState === reportType.SINGLE_USER &&
+                localUser.role === roleType.SUPER_ADMIN ? (
                   <div className="col-lg-6 col-md-6 mt-3 mt-md-0">
                     {" "}
                     <div class="field fieldSignup ">
@@ -488,117 +527,89 @@ const MonthlyReport = (props) => {
                 ) : (
                   <></>
                 )}
-              </>
-            )}
-          </div>
-          <div className="row">
-            {reportTypeState === reportType.SINGLE_USER &&
-            localUser.role === roleType.SUPER_ADMIN ? (
-              <div className="col-lg-6 col-md-6 mt-3 mt-md-0">
-                {" "}
-                <div class="field fieldSignup ">
-                  <FormLabel>Floor</FormLabel>
+              </div>
 
-                  <Form.Select
-                    className={`rounded-0 light-black`}
-                    {...register("floorId")}
-                  >
-                    <option value="">Select Floor</option>
-
-                    {floorList?.map((item) => (
-                      <>
-                        {localUser._id === item?._id ? (
-                          <></>
-                        ) : (
-                          <option key={item?._id} value={item?._id}>
-                            {item?.floorName}
-                          </option>
+              <div className="row mt-2 mb-3 search">
+                <div className="col">
+                  <FormLabel>Start Date</FormLabel>
+                  <div className="row">
+                    <div className="col">
+                      {" "}
+                      <Controller
+                        name="startDate"
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => (
+                          <DatePicker
+                            {...field}
+                            dateFormat="dd/MM/yyyy"
+                            onChange={(value) => field.onChange(value)}
+                            value={field.value}
+                            selected={field.value}
+                          />
                         )}
-                      </>
-                    ))}
-                  </Form.Select>
+                      />{" "}
+                    </div>
+                  </div>
+                </div>
+                <div className="col">
+                  <FormLabel>End Date</FormLabel>
+                  <div className="row">
+                    <div className="col">
+                      <Controller
+                        name="endDate"
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => (
+                          <DatePicker
+                            {...field}
+                            dateFormat="dd/MM/yyyy"
+                            onChange={(value) => field.onChange(value)}
+                            value={field.value}
+                            selected={field.value}
+                          />
+                        )}
+                      />{" "}
+                    </div>
+                  </div>
                 </div>
               </div>
+              <button type="submit" class="btn btn-dark color-theme">
+                Search
+              </button>
+            </Form>
+          </div>
+
+          <ReactTable
+            columns={columnsList}
+            items={breakList}
+            // onSort={onSort}
+            // progressPending={userList.length <= 0 ? false : false}
+          />
+          <CustomModal
+            // size={actionType.rowData.size}
+            centered={true}
+            scrollable={true}
+            setShow={onSetShow}
+            show={props.modalOpen}
+            heading={actionType?.rowData?.heading}
+          >
+            {actionType?.rowData?.action === action.Search ? (
+              <SearchModal onHide={onSetShow} />
+            ) : actionType.rowData.action === action.Project ? (
+              <ProjectModal onHide={onSetShow} />
+            ) : actionType.rowData.action === action.User ? (
+              <UserModal />
             ) : (
-              <></>
+              <SupervisorModal onHide={onSetShow} />
             )}
-          </div>
-
-          <div className="row mt-2 mb-3 search">
-            <div className="col">
-              <FormLabel>Start Date</FormLabel>
-              <div className="row">
-                <div className="col">
-                  {" "}
-                  <Controller
-                    name="startDate"
-                    control={control}
-                    defaultValue=""
-                    render={({ field }) => (
-                      <DatePicker
-                        {...field}
-                        dateFormat="dd/MM/yyyy"
-                        onChange={(value) => field.onChange(value)}
-                        value={field.value}
-                        selected={field.value}
-                      />
-                    )}
-                  />{" "}
-                </div>
-              </div>
-            </div>
-            <div className="col">
-              <FormLabel>End Date</FormLabel>
-              <div className="row">
-                <div className="col">
-                  <Controller
-                    name="endDate"
-                    control={control}
-                    defaultValue=""
-                    render={({ field }) => (
-                      <DatePicker
-                        {...field}
-                        dateFormat="dd/MM/yyyy"
-                        onChange={(value) => field.onChange(value)}
-                        value={field.value}
-                        selected={field.value}
-                      />
-                    )}
-                  />{" "}
-                </div>
-              </div>
-            </div>
-          </div>
-          <button type="submit" class="btn btn-dark color-theme">
-            Search
-          </button>
-        </Form>
-      </div>
-
-      <ReactTable
-        columns={columnsList}
-        items={breakList}
-        // onSort={onSort}
-        // progressPending={userList.length <= 0 ? false : false}
-      />
-      <CustomModal
-        // size={actionType.rowData.size}
-        centered={true}
-        scrollable={true}
-        setShow={onSetShow}
-        show={props.modalOpen}
-        heading={actionType?.rowData?.heading}
-      >
-        {actionType?.rowData?.action === action.Search ? (
-          <SearchModal onHide={onSetShow} />
-        ) : actionType.rowData.action === action.Project ? (
-          <ProjectModal onHide={onSetShow} />
-        ) : actionType.rowData.action === action.User ? (
-          <UserModal />
-        ) : (
-          <SupervisorModal onHide={onSetShow} />
-        )}
-      </CustomModal>
+          </CustomModal>
+        </>
+      ) : (
+        <div className="align-content-center align-items-center d-flex justify-content-center spinner-conteiner">
+          <HashLoader size={42} speedMultiplier={2} />
+        </div>
+      )}
     </div>
   );
 };
@@ -607,9 +618,7 @@ const mapStateToProps = (state) => ({
   modalOpen: state?.modalReducer?.modalOpen,
   breakList: state?.breakReducer?.breakList?.data,
   floorList: state?.authReducer?.floorList?.data?.floorList,
-
-  // userGroupNameList: state.userGroupReducer,
-  // userList: state.userReducer,
+  loading: state?.breakReducer?.loading,
 });
 const mapDispatchToProps = (dispatch) => ({
   getFloor: () => dispatch(authActions.getFloor()),

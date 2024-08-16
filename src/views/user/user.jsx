@@ -17,6 +17,7 @@ import { userActions } from "../../redux/actions/user.action/user.action";
 import { authActions } from "../../redux/actions/auth.action/auth.actions";
 import ReactTable from "../../shared/components/reactTable/reactTable";
 import DeleteModal from "../modal/deleteModal/deleteModal";
+import { HashLoader } from "react-spinners";
 
 const User = (props) => {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ const User = (props) => {
       heading: "",
     },
   });
+  
 
   const onSetShow = () => {
     props.handleModal();
@@ -172,73 +174,81 @@ const User = (props) => {
 
   return (
     <div className="dashboard-container">
-      <h3>Users</h3>
-      <div className="d-flex d-sm-flex flex-column flex-sm-row justify-content-end mt-5">
-        <div className="d-flex justify-content-end">
-          <Button
-            className="supervisor-btn border-0 btn btn-primary color-theme mt-3 mt-sm-0"
-            onClick={() => {
-              setactionType({
-                rowData: {
-                  action: action.Create,
-                  heading: "Create User",
-                  size: "md",
-                  for: "create",
-                },
-              });
-              props.handleModal();
-            }}
+      {!props.loading ? (
+        <>
+          <h3>Users</h3>
+          <div className="d-flex d-sm-flex flex-column flex-sm-row justify-content-end mt-5">
+            <div className="d-flex justify-content-end">
+              <Button
+                className="supervisor-btn border-0 btn btn-primary color-theme mt-3 mt-sm-0"
+                onClick={() => {
+                  setactionType({
+                    rowData: {
+                      action: action.Create,
+                      heading: "Create User",
+                      size: "md",
+                      for: "create",
+                    },
+                  });
+                  props.handleModal();
+                }}
+              >
+                <i class="fa-solid fa-plus" /> Create User
+              </Button>
+            </div>
+          </div>
+
+          <Form
+            noValidate
+            className="ViewUserContent  d-flex mt-3 mb-5"
+            onSubmit={handleSubmit(onSubmit)}
           >
-            <i class="fa-solid fa-plus" /> Create User
-          </Button>
+            <div class="field fieldSignup me-3">
+              <Form.Control
+                type="number"
+                className={`rounded-0 light-black ${
+                  errors._id ? "error-border" : ""
+                }`}
+                {...register("_id", {
+                  required: "Please fill search field",
+                })}
+                placeholder="User Id"
+              />
+            </div>{" "}
+            <button type="submit" class="btn btn-dark color-theme">
+              Search
+            </button>
+          </Form>
+
+          <ReactTable
+            columns={headers}
+            items={userListData}
+            // progressPending={userList.length <= 0 ? false : false}
+          />
+          <CustomModal
+            centered={true}
+            scrollable={true}
+            setShow={onSetShow}
+            show={props.modalOpen}
+            heading={actionType.rowData.heading}
+          >
+            {actionType.rowData.action === action.Update ||
+            actionType.rowData.action === action.Create ? (
+              <UserModal
+                for={actionType?.rowData?.for}
+                row={actionType.rowData.row}
+                onHide={onSetShow}
+              />
+            ) : (
+              <DeleteModal row={actionType.rowData.row} onHide={onSetShow} />
+            )}
+          </CustomModal>
+        </>
+      ) : (
+        <div className="align-content-center align-items-center d-flex justify-content-center spinner-conteiner">
+          <HashLoader size={42} speedMultiplier={2} />
         </div>
-      </div>
-
-      <Form
-        noValidate
-        className="ViewUserContent  d-flex mt-3 mb-5"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <div class="field fieldSignup me-3">
-          <Form.Control
-            type="number"
-            className={`rounded-0 light-black ${
-              errors._id ? "error-border" : ""
-            }`}
-            {...register("_id", {
-              required: "Please fill search field",
-            })}
-            placeholder="User Id"
-          />
-        </div>{" "}
-        <button type="submit" class="btn btn-dark color-theme">
-          Search
-        </button>
-      </Form>
-
-      <ReactTable
-        columns={headers}
-        items={userListData}
-        // progressPending={userList.length <= 0 ? false : false}
-      />
-      <CustomModal
-        centered={true}
-        scrollable={true}
-        setShow={onSetShow}
-        show={props.modalOpen}
-        heading={actionType.rowData.heading}
-      >
-        {actionType.rowData.action === action.Update ||
-        actionType.rowData.action === action.Create ? (
-          <UserModal
-            for={actionType?.rowData?.for}
-            row={actionType.rowData.row}
-            onHide={onSetShow}
-          />
-        ) : (
-          <DeleteModal row={actionType.rowData.row} onHide={onSetShow} />
-        )}
-      </CustomModal>
+      )}
     </div>
   );
 };
@@ -250,6 +260,7 @@ const mapStateToProps = (state) => ({
   clockData: state?.clock,
   floorListcount: state?.authReducer?.floorList?.data?.floorList,
   userListcount: state?.userReducer?.newUserListLemgth,
+  loading: state?.userReducer?.loading,
 });
 const mapDispatchToProps = (dispatch) => ({
   handleModal: () => dispatch(modalActions.handleModal()),

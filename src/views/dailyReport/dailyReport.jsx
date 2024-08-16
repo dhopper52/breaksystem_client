@@ -28,6 +28,7 @@ import { authActions } from "../../redux/actions/auth.action/auth.actions";
 import { breakActions } from "../../redux/actions/break,action/break.action";
 import { getCurrentUserLocalStorage } from "../../system/storageUtilites/storageUtilities";
 import { exportToExcelDaily } from "../../shared/utilities/utilities";
+import { HashLoader } from "react-spinners";
 
 const DailyReport = (props) => {
   const localUser = getCurrentUserLocalStorage();
@@ -79,7 +80,9 @@ const DailyReport = (props) => {
                 <div className="align-content-center">=</div>
                 <div
                   className={`m-1 ${
-                    item.breakKey + 0.3 < item.breakValue ? "bg-danger" : "bg-success"
+                    item.breakKey + 0.3 < item.breakValue
+                      ? "bg-danger"
+                      : "bg-success"
                   } p-2 text-bg-danger text-center`}
                   style={{ width: "45px", height: "32px" }}
                   key={index}
@@ -230,11 +233,14 @@ const DailyReport = (props) => {
 
   return (
     <div>
-      <h3>Daily Report</h3>
-      <div className="d-flex d-sm-flex flex-column flex-sm-row justify-content-end mt-5">
-        <div className="d-flex justify-content-end">
-          {/* {localUser.role === roleType.SUPERVISOR ? ( */}
-          {/* <Button
+      {!props.loading ? (
+        <>
+          <h3>Daily Report</h3>
+
+          <div className="d-flex d-sm-flex flex-column flex-sm-row justify-content-end mt-5">
+            <div className="d-flex justify-content-end">
+              {/* {localUser.role === roleType.SUPERVISOR ? ( */}
+              {/* <Button
               className="supervisor-btn border-0 btn btn-primary color-theme mt-3 mt-sm-0"
               onClick={() => {
                 setactionType({
@@ -249,9 +255,9 @@ const DailyReport = (props) => {
             >
               Create User
             </Button> */}
-          {/* // ) : ( */}
-          <ButtonGroup aria-label="Basic example" className="mt-3 mt-sm-0">
-            {/* <Button
+              {/* // ) : ( */}
+              <ButtonGroup aria-label="Basic example" className="mt-3 mt-sm-0">
+                {/* <Button
               variant="secondary color-theme"
               onClick={() => {
                 setactionType({
@@ -266,133 +272,141 @@ const DailyReport = (props) => {
             >
               <i class="fa-solid fa-plus" /> Create User
             </Button> */}
-            <Button
-              variant="secondary color-theme"
-              onClick={() => {
-                exportToExcelDaily(
-                  breakList,
-                  exportHeader,
-                  `${localUser?.floorName} Daily Break Report`
-                );
-              }}
-            >
-              <i class="fa-solid fa-download"></i> Export CSV
-            </Button>
-          </ButtonGroup>
-          {/* // )} */}
-        </div>
-      </div>
-
-      <div className="filter-container ">
-        <h4 className="mb-4">
-          FIlter <i class="fa-solid fa-filter"></i>
-        </h4>
-        <Form
-          noValidate
-          className="ViewUserContent  mt-3"
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <div className="row">
-            <div className="col-lg-6 col-md-6">
-              <div class="field fieldSignup">
-                <FormLabel>User Id</FormLabel>
-                <Form.Control
-                  type="number"
-                  className={`rounded-0 light-black  `}
-                  {...register("_id", {
-                    pattern: {
-                      value: /^[^\s]+(?:$|.*[^\s]+$)/,
-                      message: "Enter a valid number",
-                    },
-                  })}
-                  placeholder="User Id"
-                />
-              </div>
-            </div>{" "}
-            {localUser.role === roleType.SUPER_ADMIN ? (
-              <div className="col-lg-6 col-md-6 mt-3 mt-md-0">
-                {" "}
-                <div class="field fieldSignup ">
-                  <FormLabel>Floor</FormLabel>
-
-                  <Form.Select
-                    className={`rounded-0 light-black`}
-                    {...register("floorId")}
-                  >
-                    <option value="">Select Floor</option>
-
-                    {floorList?.map((item) => (
-                      <>
-                        {localUser._id === item._id ? (
-                          <></>
-                        ) : (
-                          <option key={item?._id} value={item?._id}>
-                            {item?.floorName}
-                          </option>
-                        )}
-                      </>
-                    ))}
-                  </Form.Select>
-                </div>
-              </div>
-            ) : (
-              <></>
-            )}
-          </div>
-
-          <div className="row mt-2 mb-3 search">
-            <div className="col">
-              <FormLabel>Date</FormLabel>
-              <div className="row">
-                <div className="col">
-                  <Controller
-                    name="date"
-                    control={control}
-                    defaultValue=""
-                    render={({ field }) => (
-                      <DatePicker
-                        {...field}
-                        dateFormat="dd/MM/yyyy"
-                        onChange={(value) => field.onChange(value)}
-                        value={field.value}
-                        selected={field.value}
-                      />
-                    )}
-                  />{" "}
-                </div>
-              </div>
+                <Button
+                  variant="secondary color-theme"
+                  onClick={() => {
+                    exportToExcelDaily(
+                      breakList,
+                      exportHeader,
+                      `${localUser?.floorName} Daily Break Report`
+                    );
+                  }}
+                >
+                  <i class="fa-solid fa-download"></i> Export CSV
+                </Button>
+              </ButtonGroup>
+              {/* // )} */}
             </div>
-            <div className="col"></div>
           </div>
-          <button type="submit" class="btn btn-dark color-theme">
-            Search
-          </button>
-        </Form>
-      </div>
-      <h3>Breaks</h3>
 
-      <ReactTable
-        columns={headers}
-        items={breakList}
-        // onSort={onSort}
-        // progressPending={userList.length <= 0 ? false : false}
-      />
-      <CustomModal
-        // size={actionType.rowData.size}
-        centered={true}
-        scrollable={true}
-        setShow={onSetShow}
-        show={props?.modalOpen}
-        heading={actionType?.rowData?.heading}
-      >
-        {actionType?.rowData?.for === action.Break ? (
-          <BreakModal data={actionType?.rowData} onHide={onSetShow} />
-        ) : actionType?.rowData?.action === action.Create ? (
-          <UserModal onHide={onSetShow} />
-        ) : (
-          <></>
-        )}
-      </CustomModal>
+          <div className="filter-container ">
+            <h4 className="mb-4">
+              FIlter <i class="fa-solid fa-filter"></i>
+            </h4>
+            <Form
+              noValidate
+              className="ViewUserContent  mt-3"
+              onSubmit={handleSubmit(onSubmit)}
+            >
+              <div className="row">
+                <div className="col-lg-6 col-md-6">
+                  <div class="field fieldSignup">
+                    <FormLabel>User Id</FormLabel>
+                    <Form.Control
+                      type="number"
+                      className={`rounded-0 light-black  `}
+                      {...register("_id", {
+                        pattern: {
+                          value: /^[^\s]+(?:$|.*[^\s]+$)/,
+                          message: "Enter a valid number",
+                        },
+                      })}
+                      placeholder="User Id"
+                    />
+                  </div>
+                </div>{" "}
+                {localUser.role === roleType.SUPER_ADMIN ? (
+                  <div className="col-lg-6 col-md-6 mt-3 mt-md-0">
+                    {" "}
+                    <div class="field fieldSignup ">
+                      <FormLabel>Floor</FormLabel>
+
+                      <Form.Select
+                        className={`rounded-0 light-black`}
+                        {...register("floorId")}
+                      >
+                        <option value="">Select Floor</option>
+
+                        {floorList?.map((item) => (
+                          <>
+                            {localUser._id === item._id ? (
+                              <></>
+                            ) : (
+                              <option key={item?._id} value={item?._id}>
+                                {item?.floorName}
+                              </option>
+                            )}
+                          </>
+                        ))}
+                      </Form.Select>
+                    </div>
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </div>
+
+              <div className="row mt-2 mb-3 search">
+                <div className="col">
+                  <FormLabel>Date</FormLabel>
+                  <div className="row">
+                    <div className="col">
+                      <Controller
+                        name="date"
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => (
+                          <DatePicker
+                            {...field}
+                            dateFormat="dd/MM/yyyy"
+                            onChange={(value) => field.onChange(value)}
+                            value={field.value}
+                            selected={field.value}
+                          />
+                        )}
+                      />{" "}
+                    </div>
+                  </div>
+                </div>
+                <div className="col"></div>
+              </div>
+              <button type="submit" class="btn btn-dark color-theme">
+                Search
+              </button>
+            </Form>
+          </div>
+          <h3>Breaks</h3>
+
+          <ReactTable
+            columns={headers}
+            items={breakList}
+            // onSort={onSort}
+            // progressPending={userList.length <= 0 ? false : false}
+          />
+          <CustomModal
+            // size={actionType.rowData.size}
+            centered={true}
+            scrollable={true}
+            setShow={onSetShow}
+            show={props?.modalOpen}
+            heading={actionType?.rowData?.heading}
+          >
+            {actionType?.rowData?.for === action.Break ? (
+              <BreakModal data={actionType?.rowData} onHide={onSetShow} />
+            ) : actionType?.rowData?.action === action.Create ? (
+              <UserModal onHide={onSetShow} />
+            ) : (
+              <div className="align-content-center align-items-center d-flex justify-content-center spinner-conteiner">
+                <HashLoader size={42} speedMultiplier={2} />
+              </div>
+            )}
+          </CustomModal>
+        </>
+      ) : (
+        <div className="align-content-center align-items-center d-flex justify-content-center spinner-conteiner">
+          <HashLoader size={42} speedMultiplier={2} />
+        </div>
+      )}
     </div>
   );
 };
@@ -401,6 +415,7 @@ const mapStateToProps = (state) => ({
   modalOpen: state?.modalReducer?.modalOpen,
   floorList: state?.authReducer?.floorList?.data?.floorList,
   breakList: state?.breakReducer?.breakList?.data,
+  loading: state?.breakReducer?.loading,
 });
 const mapDispatchToProps = (dispatch) => ({
   handleModal: () => dispatch(modalActions.handleModal()),

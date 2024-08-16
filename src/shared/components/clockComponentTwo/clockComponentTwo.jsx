@@ -10,6 +10,7 @@ import {
 import { formateTime } from "../../utilities/utilities";
 import moment from "moment-timezone";
 import { breakTypeCheck } from "../../../system/constants/globleConstants/globleConstants";
+import TimerComponent from "../timerComponent/timerComponent";
 
 const ClockComponentTwo = (props) => {
   console.log(props);
@@ -163,23 +164,29 @@ const ClockComponentTwo = (props) => {
 
   return (
     <div>
-      <div className="d-flex flex-column align-items-center">
-        <div className="clock-circle fw-semibold d-flex justify-content-center align-items-center mb-2">
-          {/* {startTimes} */}
-          {props?.strtTime}
+      {/* <div className="d-flex flex-column align-items-center"> */}
+      <div className="">
+        <div className="d-flex flex-column align-items-center">
+          <div className="clock-circle fw-semibold d-flex justify-content-center align-items-center mb-2">
+            {/* {startTimes} */}
+            {/* <TimerComponent seconds={Number(breakTimeValue * 60)} /> */}
+            {props?.strtTime}
+          </div>
         </div>
-        {/* {runing && ( */}
-        <button type="button" className="btn btn-danger" onClick={handleStop}>
-          Stop Clock
-        </button>
-        {/* // )} */}
-        <h6 className="fw-semibold mt-2">User Id:{user._id} </h6>
-        <h6 className="fw-semibold ">Name: {user.name}</h6>
-        {/* <h6 className="fw-semibold">Extra Time: 20 minutes</h6> */}
-        <h6 className="fw-semibold">
-          Break Time: {breakTimeValue === 21 ? 20 : breakTimeValue} minutes
-        </h6>{" "}
-        <h6 className="fw-semibold">Break Type: {breakType}</h6>
+        <div className="d-flex flex-column align-items-center pb-4">
+          <button type="button" className="btn btn-danger" onClick={handleStop}>
+            Stop Clock
+          </button>
+        </div>
+        <div className="d-flex flex-column justify-content-center align-items-center">
+          <h6 className="fw-semibold mt-2">User Id:{user._id} </h6>
+          <h6 className="fw-semibold">Floor Id:{user.floorId} </h6>
+          <h6 className="fw-semibold ">Name: {user.name}</h6>
+          <h6 className="fw-semibold">
+            Break Time: {breakTimeValue === 21 ? 20 : breakTimeValue} minutes
+          </h6>
+          <h6 className="fw-semibold">Break Type: {breakType}</h6>
+        </div>
       </div>
     </div>
   );
