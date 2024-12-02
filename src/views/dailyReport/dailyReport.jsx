@@ -29,7 +29,7 @@ import { breakActions } from "../../redux/actions/break,action/break.action";
 import { getCurrentUserLocalStorage } from "../../system/storageUtilites/storageUtilities";
 import { exportToExcelDaily } from "../../shared/utilities/utilities";
 import { HashLoader } from "react-spinners";
-
+import { totalTimeUsed } from "../../shared/utilities/utilities";
 const DailyReport = (props) => {
   const localUser = getCurrentUserLocalStorage();
   console.log(localUser);
@@ -104,16 +104,31 @@ const DailyReport = (props) => {
       reorder: true,
       sortable: true,
     },
+
     {
       id: "totalBreakTime",
       name: "Total Break Time",
-      selector: (row) => row.totalBreakTime,
+      selector: (row) => {
+        return (
+          <div
+            className={`m-1 ${
+              totalTimeUsed(row.shiftHours, row.totalBreakTime)
+                ? "bg-danger"
+                : "bg-success"
+            } p-2 text-bg-danger text-center`}
+            style={{ maxWidth:"fit-content", height: "32px" }}
+          >
+            {row.totalBreakTime}
+          </div>
+        );
+      },
       reorder: true,
       sortable: true,
     },
+
     {
       id: "fine",
-      name: "Fine",
+      name: "Total Fine",
       selector: (row) => row.fine,
       reorder: true,
       sortable: true,

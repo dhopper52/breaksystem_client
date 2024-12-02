@@ -2,6 +2,7 @@ import {
   START_CLOCK,
   STOP_CLOCK,
   GET_CLOCK,
+  GET_ADMIN_CLOCK,
 } from "../../actions/clock.actions/clock.action";
 import { clockConstants } from "../../../system/constants/globleConstants/globleConstants";
 

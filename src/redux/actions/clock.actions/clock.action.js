@@ -10,6 +10,7 @@ import {
 
 export const START_CLOCK = "START_CLOCK";
 export const GET_CLOCK = "GET_CLOCK";
+export const GET_ADMIN_CLOCK = "GET_ADMIN_CLOCK";
 export const STOP_CLOCK = "STOP_CLOCK";
 export const UPDATE_ELAPSED_TIME = "UPDATE_ELAPSED_TIME";
 
@@ -59,6 +60,25 @@ const getClock = (data) => {
   return async (dispatch) => {
     try {
       const response = await clockServices.getClocks(data);
+      console.log(response);
+      if (response?.status === authConstants.Success) {
+        dispatch({
+          type: GET_CLOCK,
+          payload: { data: response?.data },
+        });
+      } else {
+        ToastifyUtilities.showError(response?.message);
+      }
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+};
+
+const getAdminClock = () => {
+   return async (dispatch) => {
+    try {
+      const response = await clockServices.getAdminClocks();
       console.log(response);
       if (response?.status === authConstants.Success) {
         dispatch({
@@ -134,4 +154,5 @@ export const clockActions = {
   startClock,
   stopClock,
   getClock,
+  getAdminClock,
 };

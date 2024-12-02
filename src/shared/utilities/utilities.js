@@ -75,13 +75,28 @@ export const formateTime = (time) => {
   });
   return newTime;
 };
- export const formattedDate = (date) => {
-  console.log(date,"....../formatted date Function")
-  
-    date = new Date(date);
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
-  
-    return `${day}/${month}/${year}`;
+export const formattedDate = (date) => {
+  console.log(date, "....../formatted date Function");
+
+  date = new Date(date);
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
+
+  return `${day}/${month}/${year}`;
+};
+
+export const totalTimeUsed = (shiftHours, usedTime) => {
+  const allowedBreakTimes = {
+    "12 Hours": 70,
+    "10 Hours": 60,
+    "8 Hours": 50,
   };
+
+  const allowedTime = allowedBreakTimes[shiftHours];
+  if (usedTime > allowedTime) {
+    return true;
+  } else {
+    return false;
+  }
+};

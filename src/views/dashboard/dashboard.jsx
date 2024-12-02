@@ -51,25 +51,96 @@ const Dashboard = (props) => {
     formState: { errors },
   } = useForm();
 
+  // const onSubmit = (data) => {
+  //   // let dataObj = {};
+
+  //   // if (data._id === Number) {
+  //   //   dataObj = {
+  //   //     _id: Number(data._id),
+  //   //     floorId: localUser._id,
+  //   //   };
+  //   // } else {
+  //   //   dataObj = {
+  //   //     name: data._id,
+  //   //     floorId: localUser._id,
+  //   //   };
+  //   // }
+
+  //   const dataObj =
+  //     typeof data._id === "number"
+  //       ? { _id: data._id, floorId: localUser._id }
+  //       : { name: data._id, floorId: localUser._id };
+
+  //   props.getUser(dataObj);
+  // };
+
   const onSubmit = (data) => {
-    const dataObj = {
-      _id: Number(data._id),
-      floorId: localUser._id,
-    };
-    props.getUser(dataObj);
+    const query =
+      !isNaN(Number(data._id)) && data._id.trim() !== ""
+        ? { _id: Number(data._id), floorId: localUser._id } // Search by numeric ID
+        : { name: data._id.trim(), floorId: localUser._id }; // Search by name
+
+    props.getUser(query);
   };
 
+
+
+  // if (localUser.role === roleType.SUPERVISOR) {
+  //   props.getClocksFn(localUser);
+  // } else {
+  //   const interval = setInterval(() => {
+  //     props.getAdminClocksFn();
+  //   }, 10000);
+  //   return () => clearInterval(interval);
+  // }
+  // props.getUserList();
+  // props.getFloor();
+
+
+
+
+  // useEffect(() => {
+  //   if (localUser.role === roleType.SUPERVISOR) {
+  //     props.getClocksFn(localUser);
+  //   } else {
+  //     const interval = setInterval(() => {
+  //       props.getAdminClocksFn();
+  //     }, 10000);
+  //     return () => clearInterval(interval);
+  //     // props.getAdminClocksFn();
+  //   }
+  //   props.getUserList();
+  //   props.getFloor();
+  //   setBreakList(props.activeBreaks);
+  // }, [props.searchModal, props?.modalOpen === false]);
+
   useEffect(() => {
-    props.getClocksFn(localUser);
+    // Fetch data immediately on the first load
+    if (localUser.role === roleType.SUPERVISOR) {
+      props.getClocksFn(localUser);
+    } else {
+      props.getAdminClocksFn();
+    }
     props.getUserList();
     props.getFloor();
-    console.log("getClocksFn runs useffect");
     setBreakList(props.activeBreaks);
-  }, [
-    props.searchModal,
-    props?.modalOpen === false,
-    // props?.clockData
-  ]);
+  
+    // Set up interval for subsequent fetches
+    const interval = setInterval(() => {
+      if (localUser.role === roleType.SUPERVISOR) {
+        props.getClocksFn(localUser);
+      } else {
+        props.getAdminClocksFn();
+      }
+      props.getUserList();
+      props.getFloor();
+      setBreakList(props.activeBreaks);
+    }, 20000);
+  
+    // Cleanup the interval on component unmount
+    return () => clearInterval(interval);
+  }, [props.searchModal, props.modalOpen]);
+  
 
   console.log(props?.modalOpen, "props?.modalOpen");
 
@@ -144,7 +215,7 @@ const Dashboard = (props) => {
               >
                 <div class="field fieldSignup me-3">
                   <Form.Control
-                    type="number"
+                    // type="number"
                     className={`rounded-0 light-black ${
                       errors._id ? "error-border" : ""
                     }`}
@@ -190,28 +261,28 @@ const Dashboard = (props) => {
               </div>
             </div>
           </div>
-          {localUser.role === "superAdmin" ? (
+          {/* {localUser.role === "superAdmin" ? (
             <></>
-          ) : (
-            <div className=" mt-3">
-              <h3 className="mb-4">Active Breaks</h3>
-              <div className=" grid-container">
-                {breakList?.map((breakItem, index) => {
-                  return (
-                    <div className=" clock-outer" key={index}>
-                      <div className="clock-container">
-                        <ClockComponentTwo
-                          data={breakItem}
-                          strtTime={formateTime(breakItem?.startTime)}
-                        />
-                      </div>
+          ) : ( */}
+          <div className=" mt-3">
+            <h3 className="mb-4">Active Breaks ({breakList.length})</h3>
+            <div className=" grid-container">
+              {breakList?.map((breakItem, index) => {
+                return (
+                  <div className=" clock-outer" key={index}>
+                    <div className="clock-container">
+                      <ClockComponentTwo
+                        data={breakItem}
+                        strtTime={formateTime(breakItem?.startTime)}
+                      />
                     </div>
-                  );
-                })}
-              </div>
+                  </div>
+                );
+              })}
             </div>
-          )}   
-           <CustomModal
+          </div>
+          {/* // )} */}
+          <CustomModal
             centered={true}
             scrollable={true}
             setShow={onSetShow}
@@ -232,7 +303,7 @@ const Dashboard = (props) => {
             scrollable={true}
             setShow={onSetSearchShow}
             show={props.searchModal}
-            heading="Search User"
+            heading="Searched User"
           >
             <SearchModal onHide={onSetSearchShow} />
           </CustomModal>
@@ -263,5 +334,6 @@ const mapDispatchToProps = (dispatch) => ({
   getUser: (data) => dispatch(userActions.getUser(data)),
   getFloor: () => dispatch(authActions.getFloor()),
   getClocksFn: (data) => dispatch(clockActions.getClock(data)),
+  getAdminClocksFn: () => dispatch(clockActions.getAdminClock()),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

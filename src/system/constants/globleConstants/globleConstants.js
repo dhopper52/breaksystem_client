@@ -159,6 +159,8 @@ export const Url = {
   STOP_CLOCK: "stopClock",
   GET_CLOCK: "getClock",
   DELETE_CLOCK: "deleteClock",
+  GET_ADMIN_CLOCK: "getAdminClock",
+
 };
 export const authConstants = {
   Failed: "failed",

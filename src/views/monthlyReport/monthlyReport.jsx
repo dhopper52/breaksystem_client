@@ -30,6 +30,7 @@ import { exportToExcel } from "../../shared/utilities/utilities";
 import { exportToExcelDaily } from "../../shared/utilities/utilities";
 import { formattedDate } from "../../shared/utilities/utilities";
 import { HashLoader } from "react-spinners";
+import { totalTimeUsed } from "../../shared/utilities/utilities";
 
 const MonthlyReport = (props) => {
   const localUser = getCurrentUserLocalStorage();
@@ -219,7 +220,20 @@ const MonthlyReport = (props) => {
     {
       id: "totalBreakTime",
       name: "Total Break Time",
-      selector: (row) => row.totalBreakTime,
+      selector: (row) => {
+        return (
+          <div
+            className={`m-1 ${
+              totalTimeUsed(row.shiftHours, row.totalBreakTime)
+                ? "bg-danger"
+                : "bg-success"
+            } p-2 text-bg-danger text-center`}
+            style={{ maxWidth: "fit-content", height: "32px" }}
+          >
+            {row.totalBreakTime}
+          </div>
+        );
+      },
       reorder: true,
       sortable: true,
     },

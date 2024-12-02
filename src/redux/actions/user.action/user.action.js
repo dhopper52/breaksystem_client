@@ -18,6 +18,8 @@ import { handleSearchModal } from "../modal.actions/modal.actions";
 
 const getUser = (data) => {
   return async (dispatch) => {
+    console.log({ data }, "get user query");
+ 
     try {
       dispatch({
         type: userConstants.LOADING,
