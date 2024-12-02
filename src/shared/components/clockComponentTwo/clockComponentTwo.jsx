@@ -11,8 +11,10 @@ import { formateTime } from "../../utilities/utilities";
 import moment from "moment-timezone";
 import { breakTypeCheck } from "../../../system/constants/globleConstants/globleConstants";
 import TimerComponent from "../timerComponent/timerComponent";
-
+import { getCurrentUserLocalStorage } from "../../../system/storageUtilites/storageUtilities";
 const ClockComponentTwo = (props) => {
+  const localUser = getCurrentUserLocalStorage();
+
   console.log(props);
   const dispatch = useDispatch();
   const [startTimes, setStartTimes] = useState();
@@ -173,11 +175,20 @@ const ClockComponentTwo = (props) => {
             {props?.strtTime}
           </div>
         </div>
-        <div className="d-flex flex-column align-items-center pb-4">
-          <button type="button" className="btn btn-danger" onClick={handleStop}>
-            Stop Clock
-          </button>
-        </div>
+        {localUser.role === "superAdmin" ? (
+          <></>
+        ) : (
+          <div className="d-flex flex-column align-items-center pb-4">
+            <button
+              type="button"
+              className="btn btn-danger"
+              onClick={handleStop}
+            >
+              Stop Clock
+            </button>
+          </div>
+        )}
+
         <div className="d-flex flex-column justify-content-center align-items-center">
           <h6 className="fw-semibold mt-2">User Id:{user._id} </h6>
           <h6 className="fw-semibold">Floor Id:{user.floorId} </h6>
