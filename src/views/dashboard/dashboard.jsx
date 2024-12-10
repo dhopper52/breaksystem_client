@@ -26,7 +26,6 @@ import Spinner from "react-bootstrap/Spinner";
 import { HashLoader } from "react-spinners";
 
 const Dashboard = (props) => {
-  const dispatch = useDispatch();
   const localUser = getCurrentUserLocalStorage();
   const [breakList, setBreakList] = useState([]);
   const [actionType, setactionType] = useState({
@@ -51,68 +50,14 @@ const Dashboard = (props) => {
     formState: { errors },
   } = useForm();
 
-  // const onSubmit = (data) => {
-  //   // let dataObj = {};
-
-  //   // if (data._id === Number) {
-  //   //   dataObj = {
-  //   //     _id: Number(data._id),
-  //   //     floorId: localUser._id,
-  //   //   };
-  //   // } else {
-  //   //   dataObj = {
-  //   //     name: data._id,
-  //   //     floorId: localUser._id,
-  //   //   };
-  //   // }
-
-  //   const dataObj =
-  //     typeof data._id === "number"
-  //       ? { _id: data._id, floorId: localUser._id }
-  //       : { name: data._id, floorId: localUser._id };
-
-  //   props.getUser(dataObj);
-  // };
-
   const onSubmit = (data) => {
     const query =
       !isNaN(Number(data._id)) && data._id.trim() !== ""
-        ? { _id: Number(data._id), floorId: localUser._id } // Search by numeric ID
-        : { name: data._id.trim(), floorId: localUser._id }; // Search by name
+        ? { _id: Number(data._id), floorId: localUser._id }
+        : { name: data._id.trim(), floorId: localUser._id };
 
     props.getUser(query);
   };
-
-
-
-  // if (localUser.role === roleType.SUPERVISOR) {
-  //   props.getClocksFn(localUser);
-  // } else {
-  //   const interval = setInterval(() => {
-  //     props.getAdminClocksFn();
-  //   }, 10000);
-  //   return () => clearInterval(interval);
-  // }
-  // props.getUserList();
-  // props.getFloor();
-
-
-
-
-  // useEffect(() => {
-  //   if (localUser.role === roleType.SUPERVISOR) {
-  //     props.getClocksFn(localUser);
-  //   } else {
-  //     const interval = setInterval(() => {
-  //       props.getAdminClocksFn();
-  //     }, 10000);
-  //     return () => clearInterval(interval);
-  //     // props.getAdminClocksFn();
-  //   }
-  //   props.getUserList();
-  //   props.getFloor();
-  //   setBreakList(props.activeBreaks);
-  // }, [props.searchModal, props?.modalOpen === false]);
 
   useEffect(() => {
     // Fetch data immediately on the first load
@@ -124,23 +69,7 @@ const Dashboard = (props) => {
     props.getUserList();
     props.getFloor();
     setBreakList(props.activeBreaks);
-  
-    // Set up interval for subsequent fetches
-    const interval = setInterval(() => {
-      if (localUser.role === roleType.SUPERVISOR) {
-        props.getClocksFn(localUser);
-      } else {
-        props.getAdminClocksFn();
-      }
-      props.getUserList();
-      props.getFloor();
-      setBreakList(props.activeBreaks);
-    }, 20000);
-  
-    // Cleanup the interval on component unmount
-    return () => clearInterval(interval);
   }, [props.searchModal, props.modalOpen]);
-  
 
   console.log(props?.modalOpen, "props?.modalOpen");
 
@@ -222,7 +151,7 @@ const Dashboard = (props) => {
                     {...register("_id", {
                       required: "Please fill search field",
                     })}
-                    placeholder="User Id"
+                    placeholder="User Name"
                   />
                 </div>{" "}
                 <button type="submit" class="btn btn-dark color-theme">
