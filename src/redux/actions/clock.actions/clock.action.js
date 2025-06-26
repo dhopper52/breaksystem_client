@@ -105,12 +105,12 @@ export const stopClock = (data) => {
         type: clockConstants.LOADING,
         payload: true,
       });
-      const response =
-        data.count > 1
-          ? await breakServices.updateBreak(data)
-          : await breakServices.createBreak(data);
+      // const response =
+      //   data.count > 1
+      //     ? await breakServices.updateBreak(data)
+      //     : await breakServices.createBreak(data);
 
-      if (response?.status === authConstants.Success) {
+      // if (response?.status === authConstants.Success) {
         const deleteResponse = await clockServices.deleteClock(data);
         if (deleteResponse?.status === authConstants.Success) {
           const responseClock = await clockServices.getClocks(localUser);
@@ -122,7 +122,7 @@ export const stopClock = (data) => {
             type: clockConstants.LOADING,
             payload: false,
           });
-          ToastifyUtilities.showSuccess("Clock stopped  successfully");
+          ToastifyUtilities.showSuccess(deleteResponse?.message);
         } else {
           dispatch({
             type: clockConstants.LOADING,
@@ -130,13 +130,13 @@ export const stopClock = (data) => {
           });
           ToastifyUtilities.showError("Failed to stopped clock entry.");
         }
-      } else {
-        ToastifyUtilities.showError(response?.response?.data?.error);
-        dispatch({
-          type: clockConstants.LOADING,
-          payload: false,
-        });
-      }
+      // } else {
+      //   ToastifyUtilities.showError(response?.response?.data?.error);
+      //   dispatch({
+      //     type: clockConstants.LOADING,
+      //     payload: false,
+      //   });
+      // }
     } catch (error) {
       console.log({ error });
       dispatch({
