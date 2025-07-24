@@ -113,7 +113,7 @@ export const stopClock = (data) => {
       if (response?.status === authConstants.Success) {
         const deleteResponse = await clockServices.deleteClock(data);
         if (deleteResponse?.status === authConstants.Success) {
-          const responseClock = await clockServices.getClocks(localUser);
+          const responseClock = await  clockServices.getClocks(localUser);
           dispatch({
             type: GET_CLOCK,
             payload: { data: responseClock?.data },
@@ -124,7 +124,7 @@ export const stopClock = (data) => {
           });
           ToastifyUtilities.showSuccess("Clock stopped  successfully");
         } else {
-          dispatch({
+          dispatch({  
             type: clockConstants.LOADING,
             payload: false,
           });
