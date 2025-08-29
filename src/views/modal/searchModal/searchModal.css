@@ -1,0 +1,234 @@
+.search-modal-container {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 0;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  position: relative;
+  border: 1px solid #f0f0f0;
+  overflow: hidden;
+}
+
+.search-modal-header {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 1.5rem 2rem;
+  margin-bottom: 0;
+  position: relative;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.search-modal-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #3498db, #2980b9);
+}
+
+.search-modal-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.3px;
+  line-height: 1.2;
+}
+
+.search-modal-subtitle {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin: 0;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.search-modal-content {
+  padding: 2rem;
+}
+
+.user-info-section {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid #e9ecef;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  color: #495057;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.info-value {
+  color: #2c3e50;
+  font-weight: 600;
+  font-size: 0.95rem;
+  background: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.form-section {
+  position: relative;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  color: #495057;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+.form-select {
+  background: #ffffff !important;
+  border: 2px solid #e9ecef !important;
+  border-radius: 10px !important;
+  padding: 0.875rem 1rem !important;
+  font-size: 0.95rem !important;
+  font-weight: 500 !important;
+  color: #495057 !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+}
+
+.form-select:focus {
+  border-color: #3498db !important;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1) !important;
+  outline: none !important;
+}
+
+.form-select:hover {
+  border-color: #bdc3c7 !important;
+}
+
+.input-group-text {
+  background: #f8f9fa !important;
+  border: 2px solid #e9ecef !important;
+  border-right: none !important;
+  border-radius: 10px 0 0 10px !important;
+  color: #6c757d !important;
+  font-size: 1rem !important;
+  padding: 0.875rem 1rem !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+}
+
+.input-group .form-select {
+  border-left: none !important;
+  border-radius: 0 10px 10px 0 !important;
+}
+
+.error-border {
+  border-color: #e74c3c !important;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1) !important;
+}
+
+.error-text {
+  color: #e74c3c;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  font-weight: 500;
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.submit-btn {
+  background: #3498db !important;
+  border: none !important;
+  border-radius: 10px !important;
+  padding: 0.875rem 2rem !important;
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
+  color: #ffffff !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3) !important;
+  min-width: 140px !important;
+}
+
+.submit-btn:hover {
+  background: #2980b9 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4) !important;
+}
+
+.submit-btn:active {
+  transform: translateY(0) !important;
+}
+
+.cancel-btn {
+  background: #95a5a6 !important;
+  border: none !important;
+  border-radius: 10px !important;
+  padding: 0.875rem 2rem !important;
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
+  color: #ffffff !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 4px 12px rgba(149, 165, 166, 0.3) !important;
+  min-width: 140px !important;
+}
+
+.cancel-btn:hover {
+  background: #7f8c8d !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(149, 165, 166, 0.4) !important;
+}
+
+.cancel-btn:active {
+  transform: translateY(0) !important;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .search-modal-container {
+    margin: 1rem;
+  }
+  
+  .search-modal-header {
+    padding: 1.25rem 1.5rem;
+  }
+  
+  .search-modal-content {
+    padding: 1.5rem;
+  }
+  
+  .search-modal-title {
+    font-size: 1.3rem;
+  }
+  
+  .button-group {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .submit-btn,
+  .cancel-btn {
+    width: 100%;
+    max-width: 280px;
+  }
+}

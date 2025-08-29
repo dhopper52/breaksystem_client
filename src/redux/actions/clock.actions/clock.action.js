@@ -131,10 +131,16 @@ export const stopClock = (data) => {
           ToastifyUtilities.showError("Failed to stopped clock entry.");
         }
       } else {
-        ToastifyUtilities.showError(response?.response?.data?.error);
+        console.log(response , "response?.response?.data?")
+        ToastifyUtilities.showError(response?.error);
         dispatch({
           type: clockConstants.LOADING,
           payload: false,
+        });
+        const responseClock = await  clockServices.getClocks(localUser);
+        dispatch({
+          type: GET_CLOCK,
+          payload: { data: responseClock?.data },
         });
       }
     } catch (error) {

@@ -3,11 +3,11 @@ import { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import Form from "react-bootstrap/Form";
-// import InputGroup from "react-bootstrap/InputGroup";
 import { useForm, Controller } from "react-hook-form";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import DatePicker from "react-datepicker";
 import { format } from "date-fns";
+import "./dailyReport.css";
 
 import ReactTable from "../../shared/components/reactTable/reactTable";
 import CustomModal from "../../shared/components/Modal/Modal";
@@ -25,7 +25,7 @@ import ProjectModal from "../modal/projectModal/projectModal";
 import UserModal from "../modal/userModal/userModal";
 import BreakModal from "../modal/breakModal/breakModal";
 import { authActions } from "../../redux/actions/auth.action/auth.actions";
-import { breakActions } from "../../redux/actions/break,action/break.action";
+import { breakActions } from "../../redux/actions/break.actions/break.action";
 import { getCurrentUserLocalStorage } from "../../system/storageUtilites/storageUtilities";
 import { exportToExcelDaily } from "../../shared/utilities/utilities";
 import { HashLoader } from "react-spinners";
@@ -66,26 +66,19 @@ const DailyReport = (props) => {
       name: "Used Breaks",
       selector: (row) => {
         return (
-          <div className="d-flex flex-column mt-1 mb-1">
+          <div className="break-items-container">
             {row?.usedbreaks?.map((item, index) => (
-              <div className="d-flex">
-                {" "}
-                <div
-                  className="bg-dark m-1 p-2 text-bg-danger text-center"
-                  style={{ width: "36px", height: "32px" }}
-                  key={index}
-                >
+              <div className="break-item-row" key={index}>
+                <div className="break-key-pill">
                   {item.breakKey === 21 ? 20 : item.breakKey}
                 </div>
-                <div className="align-content-center">=</div>
+                <div className="break-equals">=</div>
                 <div
-                  className={`m-1 ${
+                  className={`break-value-pill ${
                     item.breakKey + 0.3 < item.breakValue
-                      ? "bg-danger"
-                      : "bg-success"
-                  } p-2 text-bg-danger text-center`}
-                  style={{ width: "45px", height: "32px" }}
-                  key={index}
+                      ? "break-overtime"
+                      : "break-ontime"
+                  }`}
                 >
                   {item.breakValue}
                 </div>
@@ -111,12 +104,11 @@ const DailyReport = (props) => {
       selector: (row) => {
         return (
           <div
-            className={`m-1 ${
+            className={`total-time-pill ${
               totalTimeUsed(row.shiftHours, row.totalBreakTime)
-                ? "bg-danger"
-                : "bg-success"
-            } p-2 text-bg-danger text-center`}
-            style={{ maxWidth:"fit-content", height: "32px" }}
+                ? "break-overtime"
+                : "break-ontime"
+            }`}
           >
             {row.totalBreakTime}
           </div>
@@ -133,59 +125,6 @@ const DailyReport = (props) => {
       reorder: true,
       sortable: true,
     },
-    // {
-    //   id: "actions",
-    //   name: "Actions",
-    //   cell: (row) => (
-    //     <div>
-    //       <i
-    //         class="fa-solid fa-eye pointer me-2 fs-12"
-    //         onClick={() => {
-    //           onSetShow();
-    //           setactionType({
-    //             rowData: {
-    //               row: row,
-    //               for: action.Break,
-    //               action: action.Details,
-    //               heading: "View Daily Break",
-    //               size: "lg",
-    //             },
-    //           });
-    //         }}
-    //       />{" "}
-    //       <i
-    //         className="fa-solid fa-trash pointer me-2 colorText  fs-12"
-    //         onClick={() => {
-    //           onSetShow();
-    //           setactionType({
-    //             rowData: {
-    //               row: row,
-    //               for: action.Break,
-    //               action: action.Delete,
-    //               heading: "Delete Daily Break",
-    //               size: "md",
-    //             },
-    //           });
-    //         }}
-    //       ></i>
-    //       <i
-    //         class="fa-solid fa-pen-to-square pointer fs-12"
-    //         onClick={() => {
-    //           onSetShow();
-    //           setactionType({
-    //             rowData: {
-    //               row: row,
-    //               for: action.Break,
-    //               action: action.Update,
-    //               heading: "Update Daily Break",
-    //               size: "lg",
-    //             },
-    //           });
-    //         }}
-    //       ></i>
-    //     </div>
-    //   ),
-    // },
   ];
 
   const [actionType, setactionType] = useState({
@@ -213,19 +152,14 @@ const DailyReport = (props) => {
   });
 
   const onSubmit = (data) => {
-    // const date = format(new Date(data.date), "dd/MM/yyyy");
-    // console.log("Formatted Start Date:", date);
     const dataObj = {
       ...data,
-      // date: data,
       _id: Number(data._id),
       floorId: Number(data.floorId),
     };
     console.log(dataObj);
     props.dailyBreaks(dataObj);
   };
-
-  const role = "supervir";
 
   useEffect(() => {
     props.getFloor();
@@ -247,97 +181,63 @@ const DailyReport = (props) => {
   }, []);
 
   return (
-    <div>
+    <div className="report-container">
       {!props.loading ? (
         <>
-          <h3>Daily Report</h3>
-
-          <div className="d-flex d-sm-flex flex-column flex-sm-row justify-content-end mt-5">
-            <div className="d-flex justify-content-end">
-              {/* {localUser.role === roleType.SUPERVISOR ? ( */}
-              {/* <Button
-              className="supervisor-btn border-0 btn btn-primary color-theme mt-3 mt-sm-0"
-              onClick={() => {
-                setactionType({
-                  rowData: {
-                    action: action.Create,
-                    heading: "Create User",
-                    size: "md",
-                  },
-                });
-                props.handleModal();
-              }}
-            >
-              Create User
-            </Button> */}
-              {/* // ) : ( */}
-              <ButtonGroup aria-label="Basic example" className="mt-3 mt-sm-0">
-                {/* <Button
-              variant="secondary color-theme"
-              onClick={() => {
-                setactionType({
-                  rowData: {
-                    action: action.Create,
-                    heading: "Create User",
-                    size: "md",
-                  },
-                });
-                props.handleModal();
-              }}
-            >
-              <i class="fa-solid fa-plus" /> Create User
-            </Button> */}
-                <Button
-                  variant="secondary color-theme"
-                  onClick={() => {
-                    exportToExcelDaily(
-                      breakList,
-                      exportHeader,
-                      `${localUser?.floorName} Daily Break Report`
-                    );
-                  }}
-                >
-                  <i class="fa-solid fa-download"></i> Export CSV
-                </Button>
-              </ButtonGroup>
-              {/* // )} */}
+          <div className="report-header">
+            <h3 className="page-title">Daily Report</h3>
+            <div className="report-actions">
+              <Button
+                className="export-button"
+                onClick={() => {
+                  exportToExcelDaily(
+                    breakList,
+                    exportHeader,
+                    `${localUser?.floorName} Daily Break Report`
+                  );
+                }}
+              >
+                <i className="fa-solid fa-download me-2"></i>
+                Export CSV
+              </Button>
             </div>
           </div>
 
-          <div className="filter-container ">
-            <h4 className="mb-4">
-              FIlter <i class="fa-solid fa-filter"></i>
-            </h4>
+          <div className="filter-card">
+            <div className="filter-header">
+              <h4 className="filter-title">
+                <i className="fa-solid fa-filter me-2"></i>
+                Filter
+              </h4>
+            </div>
             <Form
               noValidate
-              className="ViewUserContent  mt-3"
+              className="filter-form"
               onSubmit={handleSubmit(onSubmit)}
             >
               <div className="row">
                 <div className="col-lg-6 col-md-6">
-                  <div class="field fieldSignup">
-                    <FormLabel>User Id</FormLabel>
+                  <div className="form-group">
+                    <FormLabel>User ID</FormLabel>
                     <Form.Control
                       type="number"
-                      className={`rounded-0 light-black  `}
+                      className="form-control-modern"
                       {...register("_id", {
                         pattern: {
                           value: /^[^\s]+(?:$|.*[^\s]+$)/,
                           message: "Enter a valid number",
                         },
                       })}
-                      placeholder="User Id"
+                      placeholder="Enter User ID"
                     />
                   </div>
-                </div>{" "}
+                </div>
                 {localUser.role === roleType.SUPER_ADMIN ? (
                   <div className="col-lg-6 col-md-6 mt-3 mt-md-0">
-                    {" "}
-                    <div class="field fieldSignup ">
+                    <div className="form-group">
                       <FormLabel>Floor</FormLabel>
-
                       <Form.Select
-                        className={`rounded-0 light-black`}
+                        className="form-control-modern"
                         {...register("floorId")}
                       >
                         <option value="">Select Floor</option>
@@ -361,11 +261,11 @@ const DailyReport = (props) => {
                 )}
               </div>
 
-              <div className="row mt-2 mb-3 search">
-                <div className="col">
-                  <FormLabel>Date</FormLabel>
-                  <div className="row">
-                    <div className="col">
+              <div className="row mt-3 mb-3">
+                <div className="col-lg-6">
+                  <div className="form-group">
+                    <FormLabel>Date</FormLabel>
+                    <div className="date-picker-container">
                       <Controller
                         name="date"
                         control={control}
@@ -377,29 +277,40 @@ const DailyReport = (props) => {
                             onChange={(value) => field.onChange(value)}
                             value={field.value}
                             selected={field.value}
+                            className="date-picker-input"
                           />
                         )}
-                      />{" "}
+                      />
+                      <i className="fa-regular fa-calendar date-picker-icon"></i>
                     </div>
                   </div>
                 </div>
-                <div className="col"></div>
               </div>
-              <button type="submit" class="btn btn-dark color-theme">
-                Search
-              </button>
+              <div className="filter-actions">
+                <button type="submit" className="search-button">
+                  <i className="fas fa-search me-2"></i>
+                  Search
+                </button>
+              </div>
             </Form>
           </div>
-          <h3>Breaks</h3>
 
-          <ReactTable
-            columns={headers}
-            items={breakList}
-            // onSort={onSort}
-            // progressPending={userList.length <= 0 ? false : false}
-          />
+          <div className="data-section">
+            <div className="data-header">
+              <h3 className="section-title">
+                Breaks <span className="data-count">{breakList?.length || 0}</span>
+              </h3>
+            </div>
+
+            <div className="table-container">
+              <ReactTable
+                columns={headers}
+                items={breakList}
+              />
+            </div>
+          </div>
+
           <CustomModal
-            // size={actionType.rowData.size}
             centered={true}
             scrollable={true}
             setShow={onSetShow}
@@ -411,15 +322,15 @@ const DailyReport = (props) => {
             ) : actionType?.rowData?.action === action.Create ? (
               <UserModal onHide={onSetShow} />
             ) : (
-              <div className="align-content-center align-items-center d-flex justify-content-center spinner-conteiner">
-                <HashLoader size={42} speedMultiplier={2} />
+              <div className="modal-loading">
+                <HashLoader color="#4361ee" size={42} speedMultiplier={2} />
               </div>
             )}
           </CustomModal>
         </>
       ) : (
-        <div className="align-content-center align-items-center d-flex justify-content-center spinner-conteiner">
-          <HashLoader size={42} speedMultiplier={2} />
+        <div className="loading-container">
+          <HashLoader color="#4361ee" size={42} speedMultiplier={2} />
         </div>
       )}
     </div>

@@ -1,23 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch, connect } from "react-redux";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import {
   clockActions,
-  startClock,
-  stopClock,
-  updateElapsedTime,
 } from "../../../redux/actions/clock.actions/clock.action";
 
-import { formateTime } from "../../utilities/utilities";
 import moment from "moment-timezone";
 import { breakTypeCheck } from "../../../system/constants/globleConstants/globleConstants";
-import TimerComponent from "../timerComponent/timerComponent";
 import { getCurrentUserLocalStorage } from "../../../system/storageUtilites/storageUtilities";
+import "./clockComponentTwo.css";
 const ClockComponentTwo = (props) => {
   const localUser = getCurrentUserLocalStorage();
-
-  console.log(props);
-  const dispatch = useDispatch();
-  const [startTimes, setStartTimes] = useState();
   const {
     id,
     breakInfo,
@@ -29,28 +21,12 @@ const ClockComponentTwo = (props) => {
     breakKey,
     count,
   } = props?.data;
-  console.log({ props }, "ClockComponentTwo");
-  console.log(id, "id");
-  console.log(breakInfo, "breakInfo");
-  console.log(user, "user");
-  console.log(breakTimeValue, "breakTimeValue");
-  console.log(breakKey, "breakKey");
-  console.log(props?.strtTime, "strtTime");
 
   const handleStop = () => {
     let startPstTime = moment.utc(startTime).tz("Asia/Karachi").toISOString();
-    console.log({ startPstTime });
-
-    console.log(breakInfo, "breakInfo");
-    // const stopTime = new Date().toISOString();
     const stopTime = Date();
 
     let stopPstTime = moment.utc(stopTime).tz("Asia/Karachi").toISOString();
-    console.log({ stopPstTime });
-
-    console.log({ breakTimeValue });
-    // console.log({ stopTime });
-    // const newStartTime = new Date(startTime).toISOString();
     const startTimeInMilliseconds = new Date(startTime).getTime();
     const stopTimeInMilliseconds = new Date().getTime();
     const actualUsedTime = stopTimeInMilliseconds - startTimeInMilliseconds;
@@ -59,18 +35,9 @@ const ClockComponentTwo = (props) => {
     const actualUsedTimeMinutes = `${minutes}.${newSeconds
       .toString()
       .padStart(2, "0")}`;
-    console.log(actualUsedTimeMinutes, "actualUsedTimeMinutes");
-
-    // const seconds = actualUsedTime / 1000;
-    // const actualUsedTimeMinutes = seconds / 60;
-    // console.log(Math.floor(actualUsedTimeMinutes));
-    // const newBreakTime = breakTimeValue * 60 * 1000;
     const newBreakTime = new Date().getTime() - new Date(startTime).getTime();
 
     const relaxUsedTime = breakTimeValue * 60 * 1000 + 30 * 1000;
-
-    // const relaxUsedTime =
-    //   new Date().getTime() - new Date(startTime).getTime() + 30 * 1000;
 
     const breakTimingList = {
       startTime: startPstTime,
@@ -82,12 +49,7 @@ const ClockComponentTwo = (props) => {
       // breakValue: Math.floor(actualUsedTimeMinutes),
       breakValue: actualUsedTimeMinutes,
     };
-    console.log(
-      Math.floor(actualUsedTimeMinutes),
-      " Math.floor(actualUsedTimeMinutes) Math.floor(actualUsedTimeMinutes)"
-    );
     if (breakInfo) {
-      // dispatch(
       props.stopClockFn({
         userId: id,
         id: id,
@@ -122,9 +84,7 @@ const ClockComponentTwo = (props) => {
             : []),
         ],
       });
-      // );
     } else {
-      // dispatch(
       props.stopClockFn({
         userId: id,
         name: user?.name,
@@ -153,50 +113,51 @@ const ClockComponentTwo = (props) => {
           breakType !== breakTypeCheck?.EMERGENCY_BREAK ? usedBreaksList : [],
         ],
 
-        // [usedBreaksList],
       });
-      // );
     }
   };
 
-  useEffect(() => {
-    setStartTimes(formateTime(startTime));
-    console.log(startTime);
-  }, [id]);
+  useEffect(() => {}, [id]);
 
   return (
-    <div>
-      {/* <div className="d-flex flex-column align-items-center"> */}
-      <div className="">
-        <div className="d-flex flex-column align-items-center">
-          <div className="clock-circle fw-semibold d-flex justify-content-center align-items-center mb-2">
-            {/* {startTimes} */}
-            {/* <TimerComponent seconds={Number(breakTimeValue * 60)} /> */}
-            {props?.strtTime}
+    <div className="break-clock-card">
+      <div className="break-clock-container">
+        <div className="clock-wrapper">
+          <div className="clock-display">
+            <div className="clock-circle-modern">
+              <span className="clock-time">{props?.strtTime}</span>
+            </div>
           </div>
         </div>
-        {localUser.role === "superAdmin" ? (
-          <></>
-        ) : (
-          <div className="d-flex flex-column align-items-center pb-4">
-            <button
-              type="button"
-              className="btn btn-danger"
-              onClick={handleStop}
-            >
+        {localUser.role !== "superAdmin" && (
+          <div className="stop-button-container">
+            <button type="button" className="stop-clock-btn" onClick={handleStop}>
               Stop Clock
             </button>
           </div>
         )}
 
-        <div className="d-flex flex-column justify-content-center align-items-center">
-          <h6 className="fw-semibold mt-2">User Id:{user._id} </h6>
-          <h6 className="fw-semibold">Floor Id:{user.floorId} </h6>
-          <h6 className="fw-semibold ">Name: {user.name}</h6>
-          <h6 className="fw-semibold">
-            Break Time: {breakTimeValue === 21 ? 20 : breakTimeValue} minutes
-          </h6>
-          <h6 className="fw-semibold">Break Type: {breakType}</h6>
+        <div className="user-info-container">
+          <div className="user-info-item">
+            <span className="info-label">User Id</span>
+            <span className="info-value">{user._id}</span>
+          </div>
+          <div className="user-info-item">
+            <span className="info-label">Floor Id</span>
+            <span className="info-value">{user.floorId}</span>
+          </div>
+          <div className="user-info-item">
+            <span className="info-label">Name</span>
+            <span className="info-value">{user.name}</span>
+          </div>
+          <div className="user-info-item">
+            <span className="info-label">Break Time</span>
+            <span className="info-value">{breakTimeValue === 21 ? 20 : breakTimeValue} minutes</span>
+          </div>
+          <div className="user-info-item">
+            <span className="info-label">Break Type</span>
+            <span className="info-value"><span className="break-type-badge">{breakType}</span></span>
+          </div>
         </div>
       </div>
     </div>
