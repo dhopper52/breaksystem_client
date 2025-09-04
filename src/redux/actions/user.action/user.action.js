@@ -18,7 +18,7 @@ import { handleSearchModal } from "../modal.actions/modal.actions";
 
 const getUser = (data) => {
   return async (dispatch) => {
-    console.log({ data }, "get user query");
+    // console.log({ data }, "get user query");
  
     try {
       dispatch({
@@ -26,12 +26,12 @@ const getUser = (data) => {
         payload: true,
       });
       const response = await userServices.getUser(data);
-      console.log(response.data);
+      // console.log(response.data);
 
       if (response?.data?.status === authConstants.Success) {
         const breakResponse = await getCurrentBreak(response.data);
 
-        console.log(breakResponse);
+        // console.log(breakResponse);
         dispatch({
           type: userConstants.GET_USER,
           payload: { user: response?.data?.data, break: breakResponse?.data },
@@ -74,7 +74,7 @@ const getSearchUser = (data) => {
         payload: true,
       });
       const response = await userServices.getUser(data);
-      console.log(response?.data?.data);
+      // console.log(response?.data?.data);
 
       if (response.data.status === authConstants.Success) {
         dispatch({
@@ -112,7 +112,7 @@ const getUsersLength = (data) => {
         payload: true,
       });
       const response = await userServices.getUser(data);
-      console.log(response?.data);
+      // console.log(response?.data);
 
       if (response?.data?.status === authConstants.Success) {
         dispatch({
@@ -148,7 +148,7 @@ const getUsersList = (data) => {
         payload: true,
       });
       const response = await userServices.getUser(data);
-      console.log(response?.data);
+      // console.log(response?.data);
 
       if (response?.data?.status === authConstants.Success) {
         dispatch({
@@ -184,7 +184,7 @@ const createUser = (data) => {
         payload: true,
       });
       const response = await userServices.createUser(data);
-      console.log(response);
+      // console.log(response);
       if (response?.status === authConstants.Success) {
         dispatch({
           type: userConstants.USER_CREATED,
@@ -225,7 +225,7 @@ const deleteUser = (data) => {
         payload: true,
       });
       const response = await userServices.deleteUser(data);
-      console.log({ response });
+      // console.log({ response });
       if (response?.status === authConstants.Success) {
         ToastifyUtilities.showSuccess("User Deleted Successfully");
         dispatch({

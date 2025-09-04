@@ -22,9 +22,9 @@ import { saveAs } from "file-saver";
 //   });
 // };
 export const exportToExcel = (data, columns, filename) => {
-  console.log(data);
-  console.log(columns);
-  console.log(filename);
+  // console.log(data);
+  // console.log(columns);
+  // console.log(filename);
   const worksheetData = [
     columns.map((column) => column.label),
     ...data.map((row) => columns.map((column) => row[column.key])),
@@ -45,7 +45,7 @@ export const exportToExcelDaily = (data, columns, filename) => {
     ...data.map((row) =>
       columns.map((column) => {
         if (column.key === "usedbreaks") {
-          console.log(row);
+          // console.log(row);
           return row.usedbreaks
             .map((breakItem) => `${breakItem.breakKey}=${breakItem.breakValue}`)
             .join(", ");
@@ -76,7 +76,7 @@ export const formateTime = (time) => {
   return newTime;
 };
 export const formattedDate = (date) => {
-  console.log(date, "....../formatted date Function");
+  // console.log(date, "....../formatted date Function");
 
   date = new Date(date);
   const day = String(date.getDate()).padStart(2, "0");

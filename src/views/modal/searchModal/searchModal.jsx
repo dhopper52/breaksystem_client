@@ -54,7 +54,7 @@ const SearchModal = (props) => {
   const shift = "twelve";
 
   const onchange = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     e.target.value === breakTypeCheck.EMERGENCY_BREAK
       ? setEmergencyBreak(true)
       : setEmergencyBreak(false);
@@ -65,7 +65,7 @@ const SearchModal = (props) => {
   };
 
   const breakKeyFn = (e) => {
-    console.log(e);
+    // console.log(e);
     setBreakKeyValue(e.target.value);
   };
   const onSubmit = (data) => {
@@ -87,7 +87,7 @@ const SearchModal = (props) => {
           ? "120"
           : breakKeyValue,
     };
-    console.log(data);
+    // console.log(data);
     props.startclockFn(dataObj);
     // dispatch(
     //   startClock({
@@ -112,17 +112,17 @@ const SearchModal = (props) => {
   };
   const breakss = props?.userData?.break[0];
   const user = props?.userData?.user[0];
-  console.log(breakss, "breakss");
-  console.log(user, "userrr");
+  // console.log(breakss, "breakss");
+  // console.log(user, "userrr");
   useEffect(() => {
-    console.log(props.userData);
-    console.log(props.userData?.break);
+    // console.log(props.userData);
+    // console.log(props.userData?.break);
     if (props.userData?.break.length > 0) {
       setBreakState({ break: props.userData?.break[0] });
-      console.log("break is settttt");
+      // console.log("break is settttt");
     }
     setUserState({ user: props.userData?.user[0] });
-    console.log(props.userData?.user[0]);
+    // console.log(props.userData?.user[0]);
   }, []);
 
   return (

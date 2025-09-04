@@ -55,14 +55,14 @@ const UserrModal = (props) => {
           ? Number(data.floorId)
           : localUser?._id,
     };
-    console.log(dataObj);
+    // console.log(dataObj);
     props.createUser(dataObj);
   };
   const handleCancel = () => {
     props.onHide();
   };
   useEffect(() => {
-    console.log(props);
+    // console.log(props);
     // props.action === action.Details ? setisEdit(true) : setisEdit(false);
     setActionFor("create");
 

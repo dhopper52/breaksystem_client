@@ -18,7 +18,7 @@ const Profile = (props) => {
   const [selectedFloor, setSelectedFloor] = useState({});
 
   const localUser = getCurrentUserLocalStorage();
-  console.log({ localUser });
+  // console.log({ localUser });
 
   const {
     register,
@@ -28,7 +28,7 @@ const Profile = (props) => {
 
   const onSubmit = (data) => {
     if (localUser.role === roleType.SUPER_ADMIN) {
-      console.log(floorList);
+      // console.log(floorList);
       const selectedFlor = floorList.find((floor) => floor._id == data.floorId);
       const dataObj = {
         _id: selectedFlor._id,
@@ -36,7 +36,7 @@ const Profile = (props) => {
         role: selectedFlor.role,
         password: data.password,
       };
-      console.log(dataObj);
+      // console.log(dataObj);
       props.updateFloor(dataObj);
     } else {
       const dataObj = {

@@ -43,7 +43,7 @@ const FloorModal = (props) => {
   };
   useEffect(() => {
     // props.createFloor();
-    console.log(props.floorList);
+    // console.log(props.floorList);
     // props.action === action.Details ? setisEdit(true) : setisEdit(false);
 
     // if (

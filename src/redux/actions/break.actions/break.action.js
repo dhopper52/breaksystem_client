@@ -13,7 +13,7 @@ const getBreaksDaily = (data) => {
         payload: true,
       });
       const response = await breakServices.getDailyReport(data);
-      console.log(response);
+      // console.log(response);
       if (response?.status === authConstants.Success) {
         dispatch({
           type: breakConstants.BREAK_DAILY,
@@ -48,7 +48,7 @@ const getBreaksMonthly = (data) => {
         payload: true,
       });
       const response = await breakServices.getMonthlyReport(data);
-      console.log(response);
+      // console.log(response);
       if (response?.status === authConstants.Success) {
         dispatch({
           type: breakConstants.BREAK_MONTHLY,

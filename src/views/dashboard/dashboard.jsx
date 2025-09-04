@@ -72,15 +72,15 @@ const Dashboard = (props) => {
     setBreakList(props.activeBreaks);
   }, [props.searchModal, props.modalOpen]);
 
-  console.log(props?.modalOpen, "props?.modalOpen");
+  // console.log(props?.modalOpen, "props?.modalOpen");
 
   useEffect(() => {
-    console.log("activeBreaks runs useffect");
-    console.log(props.activeBreaks);
+    // console.log("activeBreaks runs useffect");
+    // console.log(props.activeBreaks);
     setBreakList(props.activeBreaks);
   }, [props.activeBreaks]);
 
-  console.log(props.loading, "loading");
+  // console.log(props.loading, "loading");
   return (
     <div className="dashboard-container">
       {!props.loading ? (

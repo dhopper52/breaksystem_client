@@ -23,7 +23,7 @@ const ImportUsersComponent = () => {
 
   const handleSubmit = () => {
     // Handle the submission of the users array to your backend or further processing
-    console.log("Imported Users:", users);
+    // console.log("Imported Users:", users);
   };
 
   return (

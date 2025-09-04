@@ -32,7 +32,7 @@ import { HashLoader } from "react-spinners";
 import { totalTimeUsed } from "../../shared/utilities/utilities";
 const DailyReport = (props) => {
   const localUser = getCurrentUserLocalStorage();
-  console.log(localUser);
+  // console.log(localUser);
   const [floorList, setfloorList] = useState([]);
   const [breakList, setbreakList] = useState([]);
   const [exportHeader, setExportHeaders] = useState([]);
@@ -157,7 +157,7 @@ const DailyReport = (props) => {
       _id: Number(data._id),
       floorId: Number(data.floorId),
     };
-    console.log(dataObj);
+    // console.log(dataObj);
     props.dailyBreaks(dataObj);
   };
 
@@ -169,7 +169,7 @@ const DailyReport = (props) => {
   useEffect(() => {
     setfloorList(props?.floorList);
     setbreakList(props?.breakList);
-    console.log(props?.breakList);
+    // console.log(props?.breakList);
   }, [props?.floorList, props?.breakList]);
 
   useEffect(() => {

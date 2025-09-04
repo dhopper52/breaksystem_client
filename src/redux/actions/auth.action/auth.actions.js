@@ -13,7 +13,7 @@ const signUp = (data) => {
   return async (dispatch) => {
     try {
       const response = await authServices.signUp(data);
-      console.log(response);
+      // console.log(response);
 
       if (response?.status === authConstants.Success) {
         dispatch({
@@ -44,7 +44,7 @@ const login = (data, navigate) => {
         payload: true,
       });
       const response = await authServices.login(data);
-      console.log(response);
+      // console.log(response);
       if (response?.status === authConstants.Success) {
         setCurrentUserLocalStorage(response?.data);
         const currentUser = getCurrentUserLocalStorage();
@@ -77,7 +77,7 @@ const getFloor = () => {
   return async (dispatch) => {
     try {
       const response = await authServices.getFloor();
-      console.log(response);
+      // console.log(response);
       if (response?.status === authConstants.Success) {
         dispatch({
           type: LoginConstants.GET_FLOOR,
@@ -95,7 +95,7 @@ const updateFloorAction = (data) => {
   return async (dispatch) => {
     try {
       const response = await authServices.updateFloor(data);
-      console.log(response);
+      // console.log(response);
 
       if (response?.status === authConstants.Success) {
         // dispatch({

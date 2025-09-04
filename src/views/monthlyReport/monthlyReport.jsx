@@ -36,7 +36,7 @@ import "./monthlyReport.css";
 
 const MonthlyReport = (props) => {
   const localUser = getCurrentUserLocalStorage();
-  console.log(localUser);
+  // console.log(localUser);
 
   const [reportTypeState, setreportTypeState] = useState(reportType.team);
   const [floorList, setfloorList] = useState([]);
@@ -236,7 +236,7 @@ const MonthlyReport = (props) => {
       _id: Number(data._id),
       floorId: data.floorId ? Number(data.floorId) : Number(localUser._id),
     };
-    console.log(dataObj);
+    // console.log(dataObj);
     props.monthlyBreaks(dataObj);
     setcolumnsList(
       data.reportType === reportType.SINGLE_USER ? dailyHeaders : monthlyHeaders
@@ -258,7 +258,7 @@ const MonthlyReport = (props) => {
       key: h.id,
       label: h.name,
     }));
-    console.log(updatedExportHeaders);
+    // console.log(updatedExportHeaders);
     setExportHeaders(updatedExportHeaders);
   }, [columnsList]);
 

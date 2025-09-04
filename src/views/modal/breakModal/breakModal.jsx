@@ -26,7 +26,7 @@ import {
 
 const BreakModal = (props) => {
   const {  fine, totalBreakTime, usedBreaks } = props?.data?.row;
-  console.log(props);
+  // console.log(props);
   const [isEdit, setisEdit] = useState(false);
   const {
     register,
@@ -37,7 +37,7 @@ const BreakModal = (props) => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
   };
   const handleCancel = () => {
     props.onHide();
@@ -55,7 +55,7 @@ const BreakModal = (props) => {
         // setValue("usedBreaks", props.usedBreaks);
       //   setValue("phoneNumber", props.row.phoneNumber);
       //   setValue("userGroupName", props.row.userGroupName);
-      console.log(props?.data?.action);
+      // console.log(props?.data?.action);
     }
   }, []);
   return (
