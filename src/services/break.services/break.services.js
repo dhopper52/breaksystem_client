@@ -1,7 +1,6 @@
-import axios from "axios";
+import axiosInstance from "../axiosInterceptor";
 import { Url } from "../../system/constants/globleConstants/globleConstants";
 import { getCurrentUserLocalStorage } from "../../system/storageUtilites/storageUtilities";
-const localUser = getCurrentUserLocalStorage();
 
 const {
   BASE_URL,
@@ -14,7 +13,7 @@ const {
 } = Url;
 
 export function getCurrentBreak(data) {
-  return axios
+  return axiosInstance
     .post(`${BASE_URL}/${BREAK}/${GET_CURRENT_BREAK}`, data)
     .then((response) => response.data)
     .catch((error) => {
@@ -24,12 +23,8 @@ export function getCurrentBreak(data) {
 }
 
 function createBreak(data) {
-  return axios
-    .post(`${BASE_URL}/${BREAK}/${CREATE_BREAK}`, data, {
-      headers: {
-        "auth-token": localUser.authToken,
-      },
-    })
+  return axiosInstance
+    .post(`${BASE_URL}/${BREAK}/${CREATE_BREAK}`, data)
     .then((response) => response.data)
     .catch((error) => {
       console.log(error);
@@ -38,12 +33,8 @@ function createBreak(data) {
 }
 
 function updateBreak(data) {
-  return axios
-    .put(`${BASE_URL}/${BREAK}/${UPDATE_BREAK}`, data, {
-      headers: {
-        "auth-token": localUser.authToken,
-      },
-    })
+  return axiosInstance
+    .put(`${BASE_URL}/${BREAK}/${UPDATE_BREAK}`, data)
     .then((response) => response.data)
     .catch((error) => {
       console.log(error);
@@ -52,7 +43,7 @@ function updateBreak(data) {
 }
 
 export function getDailyReport(data) {
-  return axios
+  return axiosInstance
     .post(`${BASE_URL}/${BREAK}/${GET_DAILY_BREAKS}`, data)
     .then((response) => response.data)
     .catch((error) => {
@@ -62,19 +53,8 @@ export function getDailyReport(data) {
 }
 
 function getMonthlyReport(data) {
-  const localUser = getCurrentUserLocalStorage();
-
-  console.log(localUser);
-  return axios
-    .post(
-      `${BASE_URL}/${BREAK}/${GET_MONTHLY_BREAKS}`,
-      data
-      //      {
-      //   headers: {
-      //     "auth-token": localUser.authToken,
-      //   },
-      // }
-    )
+  return axiosInstance
+    .post(`${BASE_URL}/${BREAK}/${GET_MONTHLY_BREAKS}`, data)
     .then((response) => response.data)
     .catch((error) => {
       console.log(error);

@@ -55,5 +55,8 @@
   width: 30rem;
 }
 .color-theme {
-  background-color: #063335;
+  background: linear-gradient(to right, #4361ee, #4895ef);
+}
+.btn-dark{
+  border: none !important;
 }

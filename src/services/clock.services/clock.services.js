@@ -1,7 +1,6 @@
-import axios from "axios";
+import axiosInstance from "../axiosInterceptor";
 import { Url } from "../../system/constants/globleConstants/globleConstants";
 import { getCurrentUserLocalStorage } from "../../system/storageUtilites/storageUtilities";
-const localUser = getCurrentUserLocalStorage();
 
 const {
   BASE_URL,
@@ -14,8 +13,8 @@ const {
 } = Url;
 
 function getClocks(data) {
-  console.log(data, "getClocks service");
-  return axios
+  // console.log(data, "getClocks service");
+  return axiosInstance
     .post(`${BASE_URL}/${CLOCK}/${GET_CLOCK}`, data)
     .then((response) => response.data)
     .catch((error) => {
@@ -25,8 +24,8 @@ function getClocks(data) {
 }
 
 function getAdminClocks(data) {
-  console.log(data, "getClocks service");
-  return axios
+  // console.log(data, "getClocks service");
+  return axiosInstance
     .post(`${BASE_URL}/${CLOCK}/${GET_ADMIN_CLOCK}`, data)
     .then((response) => response.data)
     .catch((error) => {
@@ -36,13 +35,9 @@ function getAdminClocks(data) {
 }
 
 function startClock(data) {
-  console.log(data, "service start clock");
-  return axios
-    .post(`${BASE_URL}/${CLOCK}/${START_CLOCK}`, data, {
-      headers: {
-        "auth-token": localUser.authToken,
-      },
-    })
+  // console.log(data, "service start clock");
+  return axiosInstance
+    .post(`${BASE_URL}/${CLOCK}/${START_CLOCK}`, data)
     .then((response) => response.data)
     .catch((error) => {
       console.log(error);
@@ -51,13 +46,10 @@ function startClock(data) {
 }
 
 function deleteClock(data) {
-  console.log(data, "deleteClock service");
-  return axios
+  // console.log(data, "deleteClock service");
+  return axiosInstance
     .delete(`${BASE_URL}/${CLOCK}/${DELETE_CLOCK}`, {
-      headers: {
-        "auth-token": localUser.authToken,
-      },
-      data: data,
+      data: data
     })
     .then((response) => response.data)
     .catch((error) => {

@@ -153,7 +153,7 @@ const User = (props) => {
       ),
     },
   ];
-  console.log(props.userData);
+  // console.log(props.userData);
 
   useEffect(() => {
     setUserListData(props?.userListcount?.data);

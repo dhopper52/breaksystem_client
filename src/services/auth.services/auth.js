@@ -1,10 +1,10 @@
-import axios from "axios";
+import axiosInstance from "../axiosInterceptor";
 import { Url } from "../../system/constants/globleConstants/globleConstants";
 
 const { BASE_URL, LOGIN, SIGNUP, GET_FLOOR, AUTH, UPDATE_FLOOR } = Url;
 
 function login(data) {
-  return axios
+  return axiosInstance
     .post(`${BASE_URL}/${AUTH}/${LOGIN}`, data)
     .then((response) => response.data)
     .catch((error) => {
@@ -14,7 +14,7 @@ function login(data) {
 }
 
 function signUp(data) {
-  return axios
+  return axiosInstance
     .post(`${BASE_URL}/${AUTH}/${SIGNUP}`, data)
     .then((response) => response.data)
     .catch((error) => {
@@ -24,8 +24,8 @@ function signUp(data) {
 }
 
 function updateFloor(data) {
-  console.log({data},"auth upfate floor service")
-  return axios
+  // console.log({data},"auth upfate floor service")
+  return axiosInstance
     .put(`${BASE_URL}/${AUTH}/${UPDATE_FLOOR}`, data)
     .then((response) => response.data)
     .catch((error) => {
@@ -35,7 +35,7 @@ function updateFloor(data) {
 }
 
 function getFloor() {
-  return axios
+  return axiosInstance
     .get(`${BASE_URL}/${AUTH}/${GET_FLOOR}`)
     .then((response) => response.data)
     .catch((error) => {

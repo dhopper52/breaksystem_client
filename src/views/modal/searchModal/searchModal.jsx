@@ -31,6 +31,7 @@ import {
 } from "../../../redux/actions/clock.actions/clock.action";
 import { modalActions } from "../../../redux/actions/modal.actions/modal.actions";
 import { clockServices } from "../../../services/clock.services/clock.services";
+import "./searchModal.css";
 
 const SearchModal = (props) => {
   const dispatch = useDispatch();
@@ -53,7 +54,7 @@ const SearchModal = (props) => {
   const shift = "twelve";
 
   const onchange = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     e.target.value === breakTypeCheck.EMERGENCY_BREAK
       ? setEmergencyBreak(true)
       : setEmergencyBreak(false);
@@ -64,7 +65,7 @@ const SearchModal = (props) => {
   };
 
   const breakKeyFn = (e) => {
-    console.log(e);
+    // console.log(e);
     setBreakKeyValue(e.target.value);
   };
   const onSubmit = (data) => {
@@ -86,7 +87,7 @@ const SearchModal = (props) => {
           ? "120"
           : breakKeyValue,
     };
-    console.log(data);
+    // console.log(data);
     props.startclockFn(dataObj);
     // dispatch(
     //   startClock({
@@ -111,164 +112,166 @@ const SearchModal = (props) => {
   };
   const breakss = props?.userData?.break[0];
   const user = props?.userData?.user[0];
-  console.log(breakss, "breakss");
-  console.log(user, "userrr");
+  // console.log(breakss, "breakss");
+  // console.log(user, "userrr");
   useEffect(() => {
-    console.log(props.userData);
-    console.log(props.userData?.break);
+    // console.log(props.userData);
+    // console.log(props.userData?.break);
     if (props.userData?.break.length > 0) {
       setBreakState({ break: props.userData?.break[0] });
-      console.log("break is settttt");
+      // console.log("break is settttt");
     }
     setUserState({ user: props.userData?.user[0] });
-    console.log(props.userData?.user[0]);
+    // console.log(props.userData?.user[0]);
   }, []);
 
   return (
-    <div>
-      <div className="d-flex justify-content-center fs-5 mt-1 fs-5 fw-semibold ">
-        "{userState?.user?.name}"
+    <div className="search-modal-container">
+      <div className="search-modal-header">
+        <h2 className="search-modal-title">Start Break Session</h2>
+        <p className="search-modal-subtitle">Configure break settings for {userState?.user?.name}</p>
       </div>
-      <div className="d-flex justify-content-between pb-3 pt-5">
-        <div className="key   py-1  ">Shift Starts</div>
-        <div className=" fw-semibold px-3 py-1 value">
-          {userState?.user?.shiftStarts}{" "}
-        </div>
-      </div>
-      <div className="d-flex justify-content-between">
-        <div className="key  py-1  ">Shift Ends</div>
-        <div className=" fw-semibold px-3 py-1 value">
-          {userState?.user?.shiftEnds}{" "}
-        </div>
-      </div>
-      <Form
-        noValidate
-        className="ViewUserContent"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <div className="">
-          <div className="col-lg-12 col-md-12">
-            {" "}
-            <div class="field fieldSignup mb-3 mt-3">
-              <FormLabel> Select Break Type</FormLabel>
-              <InputGroup>
-                <InputGrouptext>
-                  <i class="fa-solid fa-circle-dot"></i>
-                </InputGrouptext>
-                <Form.Select
-                  className={`rounded-0 light-black ${
-                    errors.breakType ? "error-border" : ""
-                  }`}
-                  {...register("breakType", {
-                    required: "Break Type is Required",
-                  })}
-                  aria-label="Default select example"
-                  onChange={onchange}
-                >
-                  <option value="">Select Type</option>
-                  {breakType.map((item) => (
-                    <option key={item?.id} value={item?.value}>
-                      {item?.label}
-                    </option>
-                  ))}
-                </Form.Select>
-              </InputGroup>
-              {errors.breakType && (
-                <p className="error-text ">{errors.breakType.message}</p>
-              )}
-            </div>
+      
+      <div className="search-modal-content">
+        <div className="user-info-section">
+          <div className="info-row">
+            <span className="info-label">Shift Starts</span>
+            <span className="info-value">{userState?.user?.shiftStarts}</span>
           </div>
-          <div className="col-lg-12 col-md-12">
-            {!emergencyBreak ? (
-              <div class="field fieldSignup mb-3 mt-4">
-                <FormLabel> Select Break Time</FormLabel>
-                <InputGroup>
-                  <InputGrouptext>
-                    <i class="fa-solid fa-clock"></i>{" "}
-                  </InputGrouptext>
-                  <Form.Select
-                    className={`rounded-0 light-black ${
-                      errors.breakTime ? "error-border" : ""
-                    }`}
-                    {...register("breakTime", {
-                      required: "Break Time is Required",
-                    })}
-                    aria-label="Default select example"
-                    onChange={breakKeyFn}
-                  >
-                    {userState?.user?.shiftHours === shiftHours.Ten ? (
-                      <>
-                        <option value="">Select Time</option>
-                        {breakListTen?.map((item) => {
-                          const isUsedBreak =
-                            breakState?.break?.usedbreaks.some(
-                              (breaks) => breaks?.breakKey === item?.id
-                            );
-                          if (!isUsedBreak) {
-                            return (
-                              <option key={item?.id} value={item?.id}>
-                                {item?.label}
-                              </option>
-                            );
-                          }
-                          return null;
-                        })}
-                      </>
-                    ) : userState?.user?.shiftHours === shiftHours.Twelve ? (
-                      <>
-                        <option value="">Select Time</option>
-                        {breakListTwelve?.map((item) => {
-                          const isUsedBreak =
-                            breakState?.break?.usedbreaks.some(
-                              (breaks) => breaks?.breakKey === item?.id
-                            );
-                          if (!isUsedBreak) {
-                            return (
-                              <option key={item?.id} value={item?.id}>
-                                {item?.label}
-                              </option>
-                            );
-                          }
-                          return null;
-                        })}
-                      </>
-                    ) : (
-                      <>
-                        <option value="">Select Time</option>
-                        {breakListEight?.map((item) => {
-                          const isUsedBreak =
-                            breakState?.break?.usedbreaks.some(
-                              (breaks) => breaks?.breakKey === item?.id
-                            );
-                          console.log(isUsedBreak);
-                          if (!isUsedBreak) {
-                            return (
-                              <option key={item?.id} value={item?.id}>
-                                {item?.label}
-                              </option>
-                            );
-                          }
-                          return null;
-                        })}
-                      </>
-                    )}
-                  </Form.Select>
-                </InputGroup>
+          <div className="info-row">
+            <span className="info-label">Shift Ends</span>
+            <span className="info-value">{userState?.user?.shiftEnds}</span>
+          </div>
+        </div>
 
-                {errors.breakTime && (
-                  <p className="error-text ">{errors.breakTime.message}</p>
-                )}
-              </div>
-            ) : (
-              <> </>
+        <Form
+          noValidate
+          className="form-section"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <div className="form-group">
+            <label className="form-label">Select Break Type</label>
+            <InputGroup>
+              <InputGrouptext>
+                <i className="fa-solid fa-circle-dot"></i>
+              </InputGrouptext>
+              <Form.Select
+                className={`form-select ${
+                  errors.breakType ? "error-border" : ""
+                }`}
+                {...register("breakType", {
+                  required: "Break Type is Required",
+                })}
+                aria-label="Default select example"
+                onChange={onchange}
+              >
+                <option value="">Select Type</option>
+                {breakType.map((item) => (
+                  <option key={item?.id} value={item?.value}>
+                    {item?.label}
+                  </option>
+                ))}
+              </Form.Select>
+            </InputGroup>
+            {errors.breakType && (
+              <p className="error-text">{errors.breakType.message}</p>
             )}
           </div>
-          <div className="d-flex justify-content-center mt-5 ">
-            <SubmitButton>Start Clock</SubmitButton>
-            <CancelButton onClick={handleCancel}> Cancel</CancelButton>
+
+          {!emergencyBreak && (
+            <div className="form-group">
+              <label className="form-label">Select Break Time</label>
+              <InputGroup>
+                <InputGrouptext>
+                  <i className="fa-solid fa-clock"></i>
+                </InputGrouptext>
+                <Form.Select
+                  className={`form-select ${
+                    errors.breakTime ? "error-border" : ""
+                  }`}
+                  {...register("breakTime", {
+                    required: "Break Time is Required",
+                  })}
+                  aria-label="Default select example"
+                  onChange={breakKeyFn}
+                >
+                  {userState?.user?.shiftHours === shiftHours.Ten ? (
+                    <>
+                      <option value="">Select Time</option>
+                      {breakListTen?.map((item) => {
+                        const isUsedBreak =
+                          breakState?.break?.usedbreaks.some(
+                            (breaks) => breaks?.breakKey === item?.id
+                          );
+                        if (!isUsedBreak) {
+                          return (
+                            <option key={item?.id} value={item?.id}>
+                              {item?.label}
+                            </option>
+                          );
+                        }
+                        return null;
+                      })}
+                    </>
+                  ) : userState?.user?.shiftHours === shiftHours.Twelve ? (
+                    <>
+                      <option value="">Select Time</option>
+                      {breakListTwelve?.map((item) => {
+                        const isUsedBreak =
+                          breakState?.break?.usedbreaks.some(
+                            (breaks) => breaks?.breakKey === item?.id
+                          );
+                        if (!isUsedBreak) {
+                          return (
+                            <option key={item?.id} value={item?.id}>
+                              {item?.label}
+                            </option>
+                          );
+                        }
+                        return null;
+                      })}
+                    </>
+                  ) : (
+                    <>
+                      <option value="">Select Time</option>
+                      {breakListEight?.map((item) => {
+                        const isUsedBreak =
+                          breakState?.break?.usedbreaks.some(
+                            (breaks) => breaks?.breakKey === item?.id
+                          );
+                        console.log(isUsedBreak);
+                        if (!isUsedBreak) {
+                          return (
+                            <option key={item?.id} value={item?.id}>
+                              {item?.label}
+                            </option>
+                          );
+                        }
+                        return null;
+                      })}
+                    </>
+                  )}
+                </Form.Select>
+              </InputGroup>
+
+              {errors.breakTime && (
+                <p className="error-text">{errors.breakTime.message}</p>
+              )}
+            </div>
+          )}
+
+          <div className="button-group">
+            <button type="submit" className="submit-btn">
+              <i className="fa-solid fa-play me-2"></i>
+              Start Clock
+            </button>
+            <button type="button" className="cancel-btn" onClick={handleCancel}>
+              <i className="fa-solid fa-times me-2"></i>
+              Cancel
+            </button>
           </div>
-        </div>
-      </Form>
+        </Form>
+      </div>
     </div>
   );
 };

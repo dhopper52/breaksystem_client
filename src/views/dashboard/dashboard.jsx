@@ -6,6 +6,7 @@ import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import { useDispatch } from "react-redux";
+import "./dashboard.css";
 
 import CustomModal from "../../shared/components/Modal/Modal";
 import {
@@ -71,42 +72,42 @@ const Dashboard = (props) => {
     setBreakList(props.activeBreaks);
   }, [props.searchModal, props.modalOpen]);
 
-  console.log(props?.modalOpen, "props?.modalOpen");
+  // console.log(props?.modalOpen, "props?.modalOpen");
 
   useEffect(() => {
-    console.log("activeBreaks runs useffect");
-    console.log(props.activeBreaks);
+    // console.log("activeBreaks runs useffect");
+    // console.log(props.activeBreaks);
     setBreakList(props.activeBreaks);
   }, [props.activeBreaks]);
 
-  console.log(props.loading, "loading");
+  // console.log(props.loading, "loading");
   return (
     <div className="dashboard-container">
       {!props.loading ? (
         <>
-          <h3>Dashboard</h3>
-          <div className="d-flex d-sm-flex flex-column flex-sm-row justify-content-end mt-5">
-            <div className="d-flex justify-content-end">
+          <h3 className="dashboard-title">Dashboard</h3>
+          <div className="dashboard-actions">
+            <div className="action-buttons">
               {localUser.role === roleType.SUPERVISOR ? (
                 <ButtonGroup
                   aria-label="Basic example"
                   className="mt-3 mt-sm-0"
                 >
                   <Button
-                    className="supervisor-btn border-0 btn btn-primary color-theme mt-3 mt-sm-0"
+                    className="action-button create-button"
                     onClick={() => {
                       setactionType({
                         rowData: {
                           action: action.User,
-                          heading: "Create User",
+                          // heading: "Create User",
                           size: "md",
                         },
                       });
                       props.handleModal();
                     }}
                   >
-                    <i class="fa-solid fa-plus" /> Create User
-                  </Button>{" "}
+                    <i className="fa-solid fa-plus" /> Create User
+                  </Button>
                 </ButtonGroup>
               ) : (
                 <ButtonGroup
@@ -114,7 +115,7 @@ const Dashboard = (props) => {
                   className="mt-3 mt-sm-0"
                 >
                   <Button
-                    variant="secondary color-theme"
+                    className="action-button create-button"
                     onClick={() => {
                       setactionType({
                         rowData: {
@@ -126,26 +127,24 @@ const Dashboard = (props) => {
                       props.handleModal();
                     }}
                   >
-                    <i class="fa-solid fa-plus" /> Create Floor
+                    <i className="fa-solid fa-plus" /> Create Floor
                   </Button>
                 </ButtonGroup>
               )}
             </div>
           </div>
           <>
-            {" "}
             {localUser.role === "superAdmin" ? (
               <></>
             ) : (
               <Form
                 noValidate
-                className="ViewUserContent  d-flex mt-3"
+                className="search-form"
                 onSubmit={handleSubmit(onSubmit)}
               >
-                <div class="field fieldSignup me-3">
+                <div className="search-field">
                   <Form.Control
-                    // type="number"
-                    className={`rounded-0 light-black ${
+                    className={`search-input ${
                       errors._id ? "error-border" : ""
                     }`}
                     {...register("_id", {
@@ -153,64 +152,59 @@ const Dashboard = (props) => {
                     })}
                     placeholder="User Name"
                   />
-                </div>{" "}
-                <button type="submit" class="btn btn-dark color-theme">
+                </div>
+                <button type="submit" className="search-button">
+                  <i className="fas fa-search me-2"></i>
                   Search
                 </button>
               </Form>
             )}
           </>
-          <div className="hero-banner-container">
-            <div className="row gx-3 justify-content-center">
-              <div className="col-md-4 mt-2 mb-2 col-sm-5">
-                <div className=" hero-banner p-4  d-flex  justify-content-evenly">
-                  <div className="icon-div user-color">
-                    <i class="fa-solid fa-user" />
+          <div className="stats-container">
+            <div className="row gx-4 justify-content-center">
+              <div className="col-md-4 mt-3 mb-2 col-sm-5">
+                <div className="stat-card floor-card">
+                  <div className="stat-icon">
+                    <i className="fa-solid fa-building"></i>
                   </div>
-                  <div>
-                    <p className="project-text ">Floor</p>
-                    <p className="project-quantity">
-                      {props?.floorListcount?.length}
-                    </p>
+                  <div className="stat-content">
+                    <p className="stat-label">Floor</p>
+                    <p className="stat-value">{props?.floorListcount?.length}</p>
                   </div>
                 </div>
               </div>
-              <div className="col-md-4 mt-2 mb-2 col-sm-5">
-                <div className=" hero-banner p-4  d-flex  justify-content-evenly">
-                  <div className="icon-div supervisor-color">
-                    <i class="fa-solid fa-file" />
+              <div className="col-md-4 mt-3 mb-2 col-sm-5">
+                <div className="stat-card user-card">
+                  <div className="stat-icon">
+                    <i className="fa-solid fa-users"></i>
                   </div>
-                  <div>
-                    <p className="project-text">Users</p>
-                    <p className="project-quantity">
-                      {props?.userListcount?.data?.length}
-                    </p>
+                  <div className="stat-content">
+                    <p className="stat-label">Users</p>
+                    <p className="stat-value">{props?.userListcount?.data?.length}</p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          {/* {localUser.role === "superAdmin" ? (
-            <></>
-          ) : ( */}
-          <div className=" mt-3">
-            <h3 className="mb-4">Active Breaks ({breakList.length})</h3>
-            <div className=" grid-container">
+          <div className="active-breaks-section">
+            <div className="section-header">
+              <h3 className="section-title">
+                Active Breaks <span className="break-count">{breakList.length}</span>
+              </h3>
+            </div>
+            <div className="breaks-grid">
               {breakList?.map((breakItem, index) => {
                 return (
-                  <div className=" clock-outer" key={index}>
-                    <div className="clock-container">
-                      <ClockComponentTwo
-                        data={breakItem}
-                        strtTime={formateTime(breakItem?.startTime)}
-                      />
-                    </div>
+                  <div className="break-item" key={index}>
+                    <ClockComponentTwo
+                      data={breakItem}
+                      strtTime={formateTime(breakItem?.startTime)}
+                    />
                   </div>
                 );
               })}
             </div>
           </div>
-          {/* // )} */}
           <CustomModal
             centered={true}
             scrollable={true}
@@ -232,14 +226,14 @@ const Dashboard = (props) => {
             scrollable={true}
             setShow={onSetSearchShow}
             show={props.searchModal}
-            heading="Searched User"
+            // heading="Searched User"
           >
             <SearchModal onHide={onSetSearchShow} />
           </CustomModal>
         </>
       ) : (
-        <div className="align-content-center align-items-center d-flex justify-content-center spinner-conteiner">
-          <HashLoader size={42} speedMultiplier={2} />
+        <div className="loading-container">
+          <HashLoader color="#4361ee" size={42} speedMultiplier={2} />
         </div>
       )}
     </div>
@@ -265,4 +259,5 @@ const mapDispatchToProps = (dispatch) => ({
   getClocksFn: (data) => dispatch(clockActions.getClock(data)),
   getAdminClocksFn: () => dispatch(clockActions.getAdminClock()),
 });
+
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

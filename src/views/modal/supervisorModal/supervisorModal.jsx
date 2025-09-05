@@ -33,7 +33,7 @@ const SupervisorModal = (props) => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     // const dataObject = {
     //   ...data,
     //   currentUserId: props.userData.data.id,

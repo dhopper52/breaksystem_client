@@ -1,13 +1,12 @@
-import axios from "axios";
+import axiosInstance from "../axiosInterceptor";
 
 import { Url } from "../../system/constants/globleConstants/globleConstants";
 import { getCurrentUserLocalStorage } from "../../system/storageUtilites/storageUtilities";
 import { getDailyReport } from "../break.services/break.services";
 const { BASE_URL, GET_USER, CREATE_USER, GET_USERS, USER, DELETE_USER } = Url;
-const localUser = getCurrentUserLocalStorage();
 
 function getUser(data) {
-  return axios
+  return axiosInstance
     .post(`${BASE_URL}/${USER}/${GET_USER}`, data)
     .then((response) => response)
     .catch((error) => {
@@ -17,7 +16,7 @@ function getUser(data) {
 }
 
 function getUsers(data) {
-  return axios
+  return axiosInstance
     .post(`${BASE_URL}/${USER}/${GET_USERS}`, data)
     .then((response) => response)
     .catch((error) => {
@@ -27,13 +26,8 @@ function getUsers(data) {
 }
 
 function createUser(data) {
-  console.log(localUser);
-  return axios
-    .post(`${BASE_URL}/${USER}/${CREATE_USER}`, data, {
-      headers: {
-        "auth-token": localUser.authToken,
-      },
-    })
+  return axiosInstance
+    .post(`${BASE_URL}/${USER}/${CREATE_USER}`, data)
     .then((response) => response.data)
     .catch((error) => {
       console.log(error);
@@ -42,16 +36,13 @@ function createUser(data) {
 }
 
 function deleteUser(data) {
-  console.log(data, "delete data");
-  return axios
+  // console.log(data, "delete data");
+  return axiosInstance
     .delete(`${BASE_URL}/${USER}/${DELETE_USER}`, {
-      data: data,
-      headers: {
-        "auth-token": localUser.authToken,
-      },
+      data: data
     })
     .then((response) => {
-      console.log(response.data);
+      // console.log(response.data);
       return response.data;
     })
     .catch((error) => {

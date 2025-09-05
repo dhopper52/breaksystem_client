@@ -1,5 +1,4 @@
 import React from "react";
-
 import { useNavigate } from "react-router-dom";
 import useicon from "../../../assets/images/useicon.png";
 import {
@@ -18,42 +17,56 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg z-index-1 fixed-top bg-body-tertiary  nav-color nav-style">
+    <nav className="navbar navbar-expand-lg z-index-1 fixed-top bg-body-tertiary nav-color nav-style">
       <div className="container-fluid">
-        <div class="btn-group right-align">
+        <div className="btn-group right-align">
           <button
             type="button"
-            class="btn btn-secondary dropdown-toggle custom-button"
+            className="btn dropdown-toggle custom-button"
             data-bs-toggle="dropdown"
             data-bs-display="static"
             aria-expanded="false"
           >
-            <img src={useicon} alt="" width="22px" height="26px" />
-            <span className="ms-1 color-black">
-              {" "}
-              {localUser.role === roleType.SUPER_ADMIN
+            <div className="user-avatar">
+              <img src={useicon} alt="User" />
+              <span className="status-indicator"></span>
+            </div>
+            <span>
+              {localUser?.role === roleType.SUPER_ADMIN
                 ? "Super Admin"
-                : "SuperVisor"}
+                : "Supervisor"}
             </span>
+            <i className="fa-solid fa-chevron-down ms-2"></i>
           </button>
-          <ul class="dropdown-menu dropdown-menu-end ">
+          <ul className="dropdown-menu dropdown-menu-end">
+            <div className="dropdown-header">
+              <div className="user-info">
+                <span className="user-name">{localUser?.floorName || "User"}</span>
+                <span className="user-role">
+                  {localUser?.role === roleType.SUPER_ADMIN
+                    ? "Super Admin"
+                    : "Supervisor"}
+                </span>
+              </div>
+            </div>
             <li>
               <button
-                class="dropdown-item"
+                className="dropdown-item"
                 type="button"
                 onClick={() => navigate("/profile")}
               >
-                <i class="fa-solid fa-unlock"></i> <span> Change Password</span>
+                <i className="fa-solid fa-user-gear"></i>
+                <span>Change Password</span>
               </button>
-            </li>{" "}
+            </li>
             <li>
               <button
-                class="dropdown-item"
+                className="dropdown-item"
                 type="button"
                 onClick={handleLogout}
               >
-                <i class="fa-solid fa-right-from-bracket" />
-                <span> Logout</span>
+                <i className="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
               </button>
             </li>
           </ul>

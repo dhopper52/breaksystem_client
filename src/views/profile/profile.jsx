@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { useForm } from "react-hook-form";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
+import Button from "react-bootstrap/Button";
+import { Spinner } from "react-bootstrap";
 
 import { modalActions } from "../../redux/actions/modal.actions/modal.actions";
 import { getCurrentUserLocalStorage } from "../../system/storageUtilites/storageUtilities";
@@ -12,13 +14,16 @@ import {
   FormLabel,
 } from "../../shared/components/wrapperComponent/wrapperComponent";
 import { roleType } from "../../system/constants/globleConstants/globleConstants";
+import "./profile.css";
 
 const Profile = (props) => {
   const [floorList, setfloorList] = useState([]);
   const [selectedFloor, setSelectedFloor] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState('idle'); // 'idle', 'loading', 'success'
 
   const localUser = getCurrentUserLocalStorage();
-  console.log({ localUser });
+  // console.log({ localUser });
 
   const {
     register,
@@ -26,27 +31,42 @@ const Profile = (props) => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    if (localUser.role === roleType.SUPER_ADMIN) {
-      console.log(floorList);
-      const selectedFlor = floorList.find((floor) => floor._id == data.floorId);
-      const dataObj = {
-        _id: selectedFlor._id,
-        floorName: selectedFlor.floorName,
-        role: selectedFlor.role,
-        password: data.password,
-      };
-      console.log(dataObj);
-      props.updateFloor(dataObj);
-    } else {
-      const dataObj = {
-        _id: localUser._id,
-        floorName: localUser.floorName,
-        role: localUser.role,
-        password: data.password,
-      };
+  const onSubmit = async (data) => {
+    setIsLoading(true);
+    setSubmitStatus('loading');
+    
+    try {
+      if (localUser.role === roleType.SUPER_ADMIN) {
+        // console.log(floorList);
+        const selectedFlor = floorList.find((floor) => floor._id == data.floorId);
+        const dataObj = {
+          _id: selectedFlor._id,
+          floorName: selectedFlor.floorName,
+          role: selectedFlor.role,
+          password: data.password,
+        };
+        // console.log(dataObj);
+        await props.updateFloor(dataObj);
+      } else {
+        const dataObj = {
+          _id: localUser._id,
+          floorName: localUser.floorName,
+          role: localUser.role,
+          password: data.password,
+        };
 
-      props.updateFloor(dataObj);
+        await props.updateFloor(dataObj);
+      }
+      
+      setSubmitStatus('success');
+      setTimeout(() => {
+        setSubmitStatus('idle');
+      }, 2000);
+    } catch (error) {
+      console.error('Error updating password:', error);
+      setSubmitStatus('idle');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -59,72 +79,107 @@ const Profile = (props) => {
   }, [props?.floorList]);
 
   return (
-    <div>
-      <h3>Profile</h3>
-      <div className="d-flex justify-content-center mt-5">
-        <div class="text-center">
-          <h4>Change Password</h4>
+    <div className="profile-container">
+      <div className="profile-header">
+        <h1 className="profile-title">Profile Settings</h1>
+        <p className="profile-subtitle">Manage your account and security preferences</p>
+      </div>
 
-          <Form
-            noValidate
-            className="ViewUserContent   mt-3"
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            {localUser.role === roleType.SUPER_ADMIN ? (
-              <div className="col-lg-12 col-md-12">
-                {" "}
-                <div class="field fieldSignup mb-3 mt-2">
-                  <FormLabel>Select Floor</FormLabel>
-                  <Form.Select
-                    className={`rounded-0 light-black ${
-                      errors.floorId ? "error-border" : ""
-                    }`}
-                    {...register("floorId", {
-                      required: "Floor is Required",
-                    })}
-                    aria-label="Default select example"
-                  >
-                    <option value="">Select Floor</option>
-                    {floorList?.map((item) => (
-                      <option key={item?._id} value={item?._id}>
-                        {item?.floorName}
-                      </option>
-                    ))}
-                  </Form.Select>
-                  {errors.floorId && (
-                    <p className="error-text ">{errors.floorId.message}</p>
-                  )}
-                </div>
-              </div>
-            ) : (
-              <></>
-            )}
-            <div className="field fieldSignup d-flex flex-column  align-items-center ">
-              <div className="field fieldSignup mt-4">
-                <Form.Label>New Password</Form.Label>
-                <Form.Control
-                  type="number"
-                  className={`rounded-0 light-black ${
-                    errors.password ? "error-border" : ""
-                  }`}
-                  {...register("password", {
-                    required: "Password is required",
-                  })}
-                  placeholder="Password"
-                />
-                {errors.password && (
-                  <p className="error-text ">{errors.password.message}</p>
-                )}
-              </div>
-              <div>
-                {" "}
-                <button type="submit" class="btn btn-dark color-theme mt-3">
-                  Submit
-                </button>
-              </div>
+      <div className="profile-card">
+        <div className="user-info">
+          <div className="user-info-header">
+            <div className="user-avatar">
+              {localUser?.floorName?.charAt(0)?.toUpperCase() || 'U'}
             </div>
-          </Form>
+            <div className="user-details">
+              <h4>{localUser?.floorName || 'User'}</h4>
+              <p>{localUser?.role === roleType.SUPER_ADMIN ? 'Super Administrator' : 'Supervisor'}</p>
+              <span className="role-badge">
+                {localUser?.role === roleType.SUPER_ADMIN ? 'Admin' : 'Supervisor'}
+              </span>
+            </div>
+          </div>
         </div>
+
+        <Form
+          noValidate
+          className="profile-form"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          {localUser.role === roleType.SUPER_ADMIN && (
+            <div className="form-group">
+              <label className="form-label">
+                <i className="fa-solid fa-building me-2"></i>
+                Select Floor
+              </label>
+              <Form.Select
+                className={`form-select ${
+                  errors.floorId ? "error-border" : ""
+                }`}
+                {...register("floorId", {
+                  required: "Floor is Required",
+                })}
+                aria-label="Select Floor"
+              >
+                <option value="">Choose a floor...</option>
+                {floorList?.map((item) => (
+                  <option key={item?._id} value={item?._id}>
+                    {item?.floorName}
+                  </option>
+                ))}
+              </Form.Select>
+              {errors.floorId && (
+                <p className="error-text">{errors.floorId.message}</p>
+              )}
+            </div>
+          )}
+
+          <div className="form-group">
+            <label className="form-label">
+              <i className="fa-solid fa-lock me-2"></i>
+              New Password
+            </label>
+            <Form.Control
+              type="password"
+              className={`form-control ${
+                errors.password ? "error-border" : ""
+              }`}
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 4,
+                  message: "Password must be at least 4 characters"
+                }
+              })}
+              placeholder="Enter your new password"
+            />
+            {errors.password && (
+              <p className="error-text">{errors.password.message}</p>
+            )}
+          </div>
+
+          <div className="submit-section">
+            <Button
+              type="submit"
+              className={`submit-button ${submitStatus}`}
+              disabled={isLoading}
+            >
+              {submitStatus === 'loading' ? (
+                <>
+                  <Spinner size="sm" className="me-2" />
+                  Updating...
+                </>
+              ) : submitStatus === 'success' ? (
+                'Password Updated!'
+              ) : (
+                <>
+                  <i className="fa-solid fa-save me-2"></i>
+                  Update Password
+                </>
+              )}
+            </Button>
+          </div>
+        </Form>
       </div>
     </div>
   );

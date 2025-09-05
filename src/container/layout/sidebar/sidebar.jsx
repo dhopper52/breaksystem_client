@@ -5,7 +5,6 @@ import { NavLink } from "react-router-dom";
 import { useScreenSize } from "../../../shared/hooks/hooks";
 import hungerRushLogo from "../../../assets/images/hungerRushLogo.webp";
 import NavBar from "../navBar/navBar";
-import sort from "../../../assets/images/sort.png";
 import { sidebarMenuItem } from "../../../system/constants/globleConstants/globleConstants";
 import { clearStorage } from "../../../system/storageUtilites/storageUtilities";
 
@@ -36,78 +35,63 @@ const Sidebar = ({ children, sidebar }) => {
     <div>
       <NavBar />
 
-      <div className={`sidebar ${isOpen ? "width-200" : "width-75"} `}>
-        <div
-          className={`bars ${
-            isOpen ? "bars-open-margin" : "bars-close-margin "
-          } `}
-        >
-          <img
-            className="pointer "
-            src={sort}
-            alt=""
-            width="30px"
-            height="30px"
-            onClick={toggle}
-          />
-        </div>
-        <div className="top_section margin-top-n13">
-          <h1 className="logo">
-            <img src={hungerRushLogo} alt="" width="50px" height="50px" />
-            <span
-              className={`logo-text   ${isOpen ? "d-block-inline" : "d-none"} `}
-            >
+      <div className={`sidebar ${isOpen ? "width-200" : "width-75"}`}>
+        <div className="top_section">
+          <div className="logo">
+            <img 
+              src={hungerRushLogo} 
+              alt="D-Hoppers Logo" 
+              className="logo-image"
+            />
+            <span className={`logo-text ${!isOpen ? "display-none" : ""}`}>
               D-Hoppers
             </span>
-          </h1>
+          </div>
+          <div className="bars" onClick={toggle}>
+            <i className={`fa-solid ${isOpen ? "fa-chevron-left" : "fa-chevron-right"}`}></i>
+          </div>
         </div>
 
         <ul className="nav-list">
           {sidebarMenuItem.map((item, index) => (
-            <NavLink
-              to={item.path}
-              key={index}
-              className="linknav mt-1"
-              activeclassName="active"
-            >
-              <div className="icon">{item.icon}</div>
-              <div
-                className={`link_text ${
-                  isOpen ? "display-block " : "display-none "
-                } `}
+            <li key={index}>
+              <NavLink
+                to={item.path}
+                className={({ isActive }) => 
+                  isActive ? "linknav active" : "linknav"
+                }
               >
-                {item.name}
-              </div>
-            </NavLink>
+                <div className="icon">
+                  {item.icon}
+                  {!isOpen && <div className="tooltip">{item.name}</div>}
+                </div>
+                <div className={`link_text ${!isOpen ? "display-none" : ""}`}>
+                  {item.name}
+                </div>
+              </NavLink>
+            </li>
           ))}
-          <li
-            className={`linknav fixed-bottom  ${
-              isOpen ? "bottom-open-width" : "bottom-close-width"
-            } `}
-          >
-            <div className="pointer" onClick={handleLogout}>
-              <i class="fa-solid fa-right-from-bracket" />
-              <span
-                className={`link_text ms-1 ${
-                  isOpen ? "d-block-inline" : "d-none"
-                } `}
-              >
-                Logout
-              </span>
-            </div>
-          </li>
         </ul>
+        
+        {/* <div className="fixed-bottom">
+          <div className="linknav logout-btn" onClick={handleLogout}>
+            <div className="icon">
+              <i className="fa-solid fa-right-from-bracket"></i>
+              {!isOpen && <div className="tooltip">Logout</div>}
+            </div>
+            <div className={`link_text ${!isOpen ? "display-none" : ""}`}>
+              Logout
+            </div>
+          </div>
+        </div> */}
       </div>
+      
       <main
-        className={`container-backGround-color mt-5 ${
-          screenWidth <= 768
-            ? isOpen
-              ? "margin-left-90 width-100-90"
-              : "margin-left-90 width-100-90"
-            : isOpen
-            ? "margin-left-220 width-100-220"
+        className={`container-backGround-color ${
+          isOpen 
+            ? "margin-left-220 width-100-220" 
             : "margin-left-90 width-100-90"
-        }`}
+        }`} style={{ marginTop: "55px" }}
       >
         {children}
       </main>

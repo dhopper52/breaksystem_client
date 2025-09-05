@@ -16,8 +16,8 @@ export const UPDATE_ELAPSED_TIME = "UPDATE_ELAPSED_TIME";
 
 const startClock = (data) => {
   const localUser = getCurrentUserLocalStorage();
-  console.log({ localUser });
-  console.log(data, "startClock");
+  // console.log({ localUser });
+  // console.log(data, "startClock");
   return async (dispatch) => {
     try {
       dispatch({
@@ -25,7 +25,7 @@ const startClock = (data) => {
         payload: true,
       });
       const response = await clockServices.startClock(data);
-      console.log(response);
+      // console.log(response);
       if (response?.status === authConstants.Success) {
         const responseClock = await clockServices.getClocks(localUser);
         dispatch({
@@ -56,11 +56,11 @@ const startClock = (data) => {
 };
 
 const getClock = (data) => {
-  console.log(data, "getClock");
+  // console.log(data, "getClock");
   return async (dispatch) => {
     try {
       const response = await clockServices.getClocks(data);
-      console.log(response);
+      // console.log(response);
       if (response?.status === authConstants.Success) {
         dispatch({
           type: GET_CLOCK,
@@ -79,7 +79,7 @@ const getAdminClock = () => {
    return async (dispatch) => {
     try {
       const response = await clockServices.getAdminClocks();
-      console.log(response);
+      // console.log(response);
       if (response?.status === authConstants.Success) {
         dispatch({
           type: GET_CLOCK,
@@ -97,7 +97,7 @@ const getAdminClock = () => {
 export const stopClock = (data) => {
   const localUser = getCurrentUserLocalStorage();
 
-  console.log(data, "..............stopclock");
+  // console.log(data, "..............stopclock");
 
   return async (dispatch) => {
     try {
@@ -131,10 +131,16 @@ export const stopClock = (data) => {
           ToastifyUtilities.showError("Failed to stopped clock entry.");
         }
       } else {
-        ToastifyUtilities.showError(response?.response?.data?.error);
+        console.log(response , "response?.response?.data?")
+        ToastifyUtilities.showError(response?.error);
         dispatch({
           type: clockConstants.LOADING,
           payload: false,
+        });
+        const responseClock = await  clockServices.getClocks(localUser);
+        dispatch({
+          type: GET_CLOCK,
+          payload: { data: responseClock?.data },
         });
       }
     } catch (error) {

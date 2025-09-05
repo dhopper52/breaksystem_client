@@ -13,7 +13,7 @@ const initialState = {
 const clockReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_CLOCK:
-      console.log(action.payload?.data, "clock reducer");
+      // console.log(action.payload?.data, "clock reducer");
       return {
         ...state,
         currentBreaks: action.payload?.data,
