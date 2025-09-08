@@ -113,7 +113,7 @@ export const stopClock = (data) => {
       if (response?.status === authConstants.Success) {
         const deleteResponse = await clockServices.deleteClock(data);
         console.log(deleteResponse, "deleteResponse");
-        if (deleteResponse?.status === authConstants.Success) {
+        // if (deleteResponse?.status === authConstants.Success) {
           const responseClock = await  clockServices.getClocks(localUser);
           dispatch({
             type: GET_CLOCK,
@@ -124,13 +124,13 @@ export const stopClock = (data) => {
             payload: false,
           });
           ToastifyUtilities.showSuccess("Clock stopped  successfully");
-        } else {
-          dispatch({  
-            type: clockConstants.LOADING,
-            payload: false,
-          });
-          ToastifyUtilities.showError("Failed to stopped clock entry.");
-        }
+        // } else {
+        //   dispatch({  
+        //     type: clockConstants.LOADING,
+        //     payload: false,
+        //   });
+        //   ToastifyUtilities.showError("Failed to stopped clock entry.");
+        // }
       } else {
         console.log(response , "response?.response?.data?")
         ToastifyUtilities.showError(response?.error);
