@@ -53,7 +53,7 @@ function deleteClock(data) {
     })
     .then((response) => {
       console.log(response, "response");
-      return response.data;
+      // return response.status;
     })
     .catch((error) => {
       console.log(error);
