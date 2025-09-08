@@ -51,7 +51,10 @@ function deleteClock(data) {
     .delete(`${BASE_URL}/${CLOCK}/${DELETE_CLOCK}`, {
       data: data
     })
-    .then((response) => response.data)
+    .then((response) => {
+      console.log(response, "response");
+      return response.data;
+    })
     .catch((error) => {
       console.log(error);
       return error;

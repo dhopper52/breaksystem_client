@@ -112,6 +112,7 @@ export const stopClock = (data) => {
 
       if (response?.status === authConstants.Success) {
         const deleteResponse = await clockServices.deleteClock(data);
+        console.log(deleteResponse, "deleteResponse");
         if (deleteResponse?.status === authConstants.Success) {
           const responseClock = await  clockServices.getClocks(localUser);
           dispatch({
